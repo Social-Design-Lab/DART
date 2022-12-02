@@ -14,6 +14,8 @@ block content
             .ui.header Need some help?
             p Scroll up and click "Next" to begin!
 
+
+
     #step1.ui.fluid.card.test       
       .content
         .right.floated.meta= "2:05pm"
@@ -29,17 +31,37 @@ block content
       .ui.centered.cards
         #step2.card
           #step3.content
-            img.right.floated.medium.ui.image(src='/images/harmony-pic.jpg')
+            img.right.floated.medium.ui.image(src='/images/chris-pic.jpg')
             .header
-              | Harmony Anderson
-            .meta
-              | 2 mutual friends
+              | Christopher Worrick
+            .meta#mutual
+              | 16 mutual friends
             .description
-              | Harmony has requested to be your friend
+              | Christopher Worrick has requested to be your friend 
           .extra.content
-            .ui.two.buttons
+            .ui.two.buttons.approveDeclineBtns
               .ui.basic.green.button Approve
               #decline.ui.basic.red.button Decline
+
+
+
+    //- #nextPage.ui.fluid.card.test       
+    //-   .content
+    //-     .right.floated.meta= "2:07pm"
+    //-     |
+    //-     a(href='')
+    //-       img.ui.avatar.image(src=cdn+'/profile_pictures/user55.jpg')
+    //-       span='Logged In'
+    //-     //- h1 Your Friend Requests
+    //-   .image
+    //-     img.post(src="/images/harmony-profile.png")
+    //-   #populated-data
+    //-   //- #harmony-pic
+    //-   #tweets-number
+    //-   #opinions
+    //-   #reactions
+
+    //- #nextPage.ui.fluid.card.test       
 
     #harmony-page.ui.fluid.card.dim(style = "margin-bottom:0px")
       #toploggedin.content
@@ -52,10 +74,10 @@ block content
         img(style='height:10%;width:100%; z-index: 0;position: relative;\
   top: 0;\
   left: 0;\
-  solid; z-index = -1' src='/profile_pictures/harmony-bg.jpg')
+  solid; z-index = -1' src='/images/chris-bg.png')
         #round-pic-container
           #pic-border
-            img(id="harmony-pic" src='/profile_pictures/user81.jpg')
+            img(id="harmony-pic" src='/images/chris-pic.jpg')
         //- #buttons-menu.four.ui.bottom.attached.icon.buttons
         //-       .ui.reply.button(tabindex='0')
         //-         | Blah
@@ -66,37 +88,22 @@ block content
         //-           | Likes
         //-       .ui.flag.button()
         //-         | Tweets&Replies
-        #buttons-menu.four.ui.bottom.attached.icon.buttons
-      .bio(style=' width:100%;\
+        #buttons-menu.elvisFixNav.four.ui.bottom.attached.icon.buttons
+      .bio.elvisBio(style=' width:100%;\
   padding-left: 25px; margin-top: 15%;z-index: 1')
         //- .ui.button(style='float: right;margin-right: 25px;')
         //-     | follow
-        #userName Harmony Anderson 
-        #profileAt  @HarmonyAnders
-        #userAbout  The college girl who managed to stay conservative <span class="hashtags">#prolife #truth</span>
-        | <span class="hashtags">#AmericaFirst</span> This is my 2nd account where I share my political and social views
+        #userName Christopher Worrick 
+        #profileAt  @ChristopherWorrick
+        #userAbout  king of rock 'n' roll! Visit <span class="hashtags">http://E1vis.com</span> 
+        |  for more about the king.
         .userDetails
           #location
             i.map.marker.alternate.icon
-            | Ankeny, Iowa
+            | Memphis, Tennessee
           #joined-date
             i.calendar.alternate.outline.icon
-            | Joined September 2019
-          
-      //- .three.ui.bottom.attached.icon.buttons
-      //-   .ui.reply.button(tabindex='0')
-      //-     | Tweets
-      //-   .ui.flag.button()
-      //-     | Tweets&Replies
-      //-   .ui.labeled.button(tabindex='0')
-      //-     .ui.like.button
-      //-       | Likes
-      //- .navbar 
-      //-   h3 Tweets
-      //-   h3 Following
-      //-   h3 Followers 
-      //-   h3 Likes
-
+            | Joined January 2022
       #twitterNav.ui.secondary.pointing.menu
         .right.menu
         a.item.active
@@ -106,10 +113,10 @@ block content
           | Messages <br/>
           | 3,162
         a.item
-          | Friends <br/>
-          | 4,216
+          | Following <br/>
+          | 8,216
         a.item
-          | Likes <br/>
+          | Followers <br/>
           | 393
       button.ui#followingbutton.button.primary.basic Follow
       
@@ -124,16 +131,16 @@ block content
           span#pinned Pinned Post
           p
           //- p Pinned Tweet
-          span#feedName Harmony Anderson 
+          span#feedName Christopher Worrick
             | 
-            span @HarmonyAnders 27 Nov 2022
+            span @Christopher Worrick 1 Dec 2022
           #opinion
-            #tweet-1 First we were called Deplorable...
-            | And now we are called a Cult. 
+            #tweet-1 Click the link below to enter in 'Elvis' #1 fan giveaway!'
+            | You’ll be able to enter to win some great exclusive Elvis merchandise! Good luck!
             #space 
             |  &nbsp;
-            #tweet-2 Yes, I'm in the cult. The Cult of Lower Taxes, Free Speech, Second Amendment, Powerful Military & Strong Borders!<span class="hashtags"> #Cult45</span> 
-          img(id="harmony-pic" src='/profile_pictures/user81.jpg')
+            #tweet-2  <span class="hashtags">http://sweepstakes/elvis.com</span> 
+          img(id="harmony-pic" src='/images/elvis-pic.jpeg')
           //- .feed-nav 
           //-   | 
           //-   <i class="comment outline icon">31</i>
@@ -333,7 +340,6 @@ block content
 block scripts
   script(src='/postFunctionalities.js')
   script(src="/module_js/cyberbullying/cyberbullying_tutorial.js")
-  script(src="/module_js/cyberbullying/cyberbullying_tutorial_elvis.js")
   script(src="/module_js/voiceover.js")
   script(src="/module_js/base_introSteps.js")
   script(src='/module_js/base_tutorial.js')
