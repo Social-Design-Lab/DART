@@ -1,9 +1,9 @@
 const nextPageURL = 'tut_guide';
 
-const stepsListSecond = [
+const stepsList = [
   {
     element: '#step1',
-    intro: `ANOTHER ONE: Click "Next" to begin!`,
+    intro: `Click "Next" to begin!`,
     position: 'right',
     scrollTo: 'tooltip',
     audioFile: ['']
@@ -13,7 +13,7 @@ const stepsListSecond = [
     // intro: `You have recently seen that some people keep saying mean
     // things about Dylan. A group of friends from school are bullying
     // Dylan on social media.`,
-    intro: `Blah You were looking through your friend requests on social media and came across a user named Harmony Anderson who has requested to be your friend.`,
+    intro: `You were looking through your friend requests on social media and came across a user named Harmony Anderson who has requested to be your friend.`,
     position: 'right',
     scrollTo: 'tooltip',
     audioFile: ['CUSML.6.3.1.mp3']

@@ -489,6 +489,10 @@ button,
     background-color: #e7edf0;
 }
 
+.elvisFixNav {
+    top: -64px !important;
+}
+
 #buttons-menu {
     background-color: white;
     height: 60px;
@@ -496,6 +500,8 @@ button,
     z-index: 0;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,.1);
 }
+
+
 
 #toploggedin {
     background-color: white;
@@ -535,6 +541,12 @@ button,
     /* background-color: pink; */
 }
 
+.elvisBio {
+    /* background-color: green !important; */
+    margin-top: -9.8vh !important;
+    z-index: 0;
+}
+
 #userName {
     font-size: 1.2em;
     font-weight: bold;
@@ -561,8 +573,7 @@ button,
 }
 
 .navbar {
-    /* background-color: rebeccapurple;
-    color: red; */
+    /* background-color: rebeccapurple; */
     font-size: 3em;
     display: inline;
     display:inline-block;
@@ -580,6 +591,10 @@ button,
     right: 200px;
     /* background-color: rebeccapurple; */
 
+}
+
+.ElvisWhiteFix {
+    background-color: pink !important;
 }
 
 #twitterNav .active {
