@@ -34,12 +34,12 @@ block content
             img.right.floated.medium.ui.image(src='/images/elvis-pic.jpeg')
             .header
               | Elvis Pres1ey
-            .meta
+            .meta#mutual
               | 0 mutual friends
             .description
               | Elvis Pres1ey has requested to be your friend 
           .extra.content
-            .ui.two.buttons
+            .ui.two.buttons.approveDeclineBtns
               .ui.basic.green.button Approve
               #decline.ui.basic.red.button Decline
 
@@ -106,7 +106,7 @@ block content
   padding-left: 25px; margin-top: 15%;z-index: 1')
         //- .ui.button(style='float: right;margin-right: 25px;')
         //-     | follow
-        #userName E1vis Pres1ey 
+        #userName Elvis Pres1ey 
         #profileAt  @TheRealElvisEstate
         #userAbout  king of rock 'n' roll! Visit <span class="hashtags">http://E1vis.com</span> 
         |  for more about the king.
@@ -126,33 +126,33 @@ block content
           | Messages <br/>
           | 3,162
         a.item
-          | Friends <br/>
-          | 4,216
+          | Following <br/>
+          | 8,216
         a.item
-          | Likes <br/>
+          | Followers <br/>
           | 393
       button.ui#followingbutton.button.primary.basic Follow
       
       #feed   
-        .feed-nav Tweets
+        .feed-nav Posts
           | 
-          span &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tweets & replies&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Media
+          span &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Posts & replies&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Media
         <hr> 
 
         #feedPinned 
           i.map.pin.icon
-          span#pinned Pinned Tweet
+          span#pinned Pinned Post
           p
           //- p Pinned Tweet
-          span#feedName Harmony Anderson 
+          span#feedName Elvis Pres1ey 
             | 
-            span @HarmonyAnders 15 Dec 2022
+            span @TheRealElvisEstate 1 Dec 2022
           #opinion
-            #tweet-1 Click the link below to enter in '12 Days of Elvis!'
-            | Each day, for the next 12 days, you’ll be able to enter a giveaway to win some great Elvis merchandise! Good luck!
+            #tweet-1 Click the link below to enter in 'Elvis' #1 fan giveaway!'
+            | You’ll be able to enter to win some great exclusive Elvis merchandise! Good luck!
             #space 
             |  &nbsp;
-            #tweet-2  <span class="hashtags">http://instagram.com/elvis/</span> 
+            #tweet-2  <span class="hashtags">http://sweepstakes/elvis.com</span> 
           img(id="harmony-pic" src='/images/elvis-pic.jpeg')
           //- .feed-nav 
           //-   | 

@@ -348,13 +348,25 @@ app.get('/intro/:modId', passportConfig.isAuthenticated, setHttpResponseHeaders,
     }
 });
 
-// Render new shopping page (specific to shopping module)
+// Render second learning page in cyberbullying 
 app.get('/tutorial/learn2', passportConfig.isAuthenticated, setHttpResponseHeaders, csrfProtection, addCsrf,  function(req, res) {
     if (req.params.modId === "delete") { // anticipating a specific user behavior that causes 500 errors
         res.redirect('/');
     } else {
         // use relative not absolute
         res.render('cyberbullying/cyberbullying_tutorial_2', {
+            title: 'My New Page'
+        });
+    }
+});
+
+// Render third learning page in cyberbullying 
+app.get('/tutorial/learn3', passportConfig.isAuthenticated, setHttpResponseHeaders, csrfProtection, addCsrf,  function(req, res) {
+    if (req.params.modId === "delete") { // anticipating a specific user behavior that causes 500 errors
+        res.redirect('/');
+    } else {
+        // use relative not absolute
+        res.render('cyberbullying/cyberbullying_tutorial_3', {
             title: 'My New Page'
         });
     }

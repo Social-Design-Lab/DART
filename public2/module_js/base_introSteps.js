@@ -18,36 +18,39 @@ const stepsListSecond = [
       // intro: `You have recently seen that some people keep saying mean
       // things about Dylan. A group of friends from school are bullying
       // Dylan on social media.`,
-      intro: `You were looking through your friend requests on social media and Woah! It looks like Elvis Pres1ey who has requested to be your friend!`,
+      intro: `You were looking through your friend requests on social media and Woah! It looks like Elvis Pres1ey has requested to be your friend!`,
       position: 'right',
       scrollTo: 'tooltip',
       audioFile: ['CUSML.6.3.1.mp3']
     },
     {
-      element: '#step3',
-      // intro: `<b>Cyberbullying</b> is when someone posts or shares
-      // negative things about someone else online. <br>The <b>bully</b> may
-      // use digital devices, sites, or apps. The bully often does this again
-      // and again to the same person.`,
-      intro: `You click on his account to learn more about him.`,
-      position: 'right',
-      scrollTo: 'tooltip',
-      audioFile: ['CUSML.6.3.2.mp3']
-    },
-    {
-      element: '#harmony-page',
+      element: '#step2',
       intro: `A <b>troll</b> is a fake social media account, often created to spread misleading information or scam people.`,
       position: 'right',
       scrollTo: 'tooltip',
       audioFile: ['CUSML.6.3.3.mp3']
     },
     {
-      element: '#harmony-page',
-      intro: `This Elvis account is an example of a <b>troll</b>.`,
+      element: '#step2',
+      intro: `This Elvis account is an example of a <b>troll</b>. Lets look at the red flags you should be aware of to help you identify him as a troll`,
       position: 'right',
       scrollTo: 'tooltip',
       audioFile: ['CUSML.6.3.3.mp3']
     },
+    {
+        element: '#mutual',
+        intro: `First notice that you have no <b>mutual friends</b>. You should be careful of accepting friend requests like this especially if you don't know them in real life as it is difficult to know what a random person's intention is in friending you.`,
+        position: 'right',
+        scrollTo: 'tooltip',
+        audioFile: ['CUSML.6.3.3.mp3']
+      },
+      {
+        element: '.approveDeclineBtns',
+        intro: `Accepting a friend request allows them to <b>access</b> more information about you and your current network of friends so it is important that you <b>look further</b> into these requests before making a decision about accepting them. Lets go to his public profile page and investigate!`,
+        position: 'right',
+        scrollTo: 'tooltip',
+        audioFile: ['CUSML.6.3.3.mp3']
+      },
     {
       element: '.bio',
       intro: `The troll’s account is <b>populated</b> with data that makes them look believable and fit the <b>narrative</b> that the malicious actor wants to push (e.g. a famous musician).`,
@@ -57,7 +60,7 @@ const stepsListSecond = [
     },
     {
         element: '#userName',
-        intro: `Paying attention to the the <b>spelling</b> throughout the profile can help you identify a troll. Here the number one is used instead of the letter "L".`,
+        intro: `Paying attention to the the <b>spelling</b> throughout the profile can help you identify a troll. The celebrity's real name is usually taken so trolls will use slight variations in the name to bypass this. Here the number one is used instead of the letter "L".`,
         position: 'right',
         scrollTo: 'tooltip',             
         audioFile: ['CUSML.6.3.4.mp3']
@@ -65,27 +68,27 @@ const stepsListSecond = [
     {
       element: '#harmony-pic',
       intro: `Like many trolls, they pose as a <b>celebrity</b>. This is a common tactic of internet charlatans; trolls and bots sell disinformation in the same way advertisers sell their products`,
-      position: 'top',
+      position: 'right',
       scrollTo: 'tooltip',
       audioFile: ['CUSML.6.3.5.mp3']
     },
     {
       element: '#twitterNav',
-      intro: `Notice Elvis' profile statistics. He has a lot of tweets for only being on Twitter since November! <b>Bots</b> are made to post regularly follow and like eachother's content.`,
+      intro: `Notice his profile statistics. He has a <b>lot of messages</b> for only being on Twitter for one months! Also, the <b>ratio</b> of following to followers is off. You would expect a celebrity to have more followers since they're famous. <b>Bots</b> are made to post regularly as well as follow and like eachother's content.`,
       position: 'right',
       scrollTo: 'tooltip',
       audioFile: ['CUSML.6.3.6.mp3']
     },
     {
       element: '#opinion',
-      intro: `She has very <b>strong political opinions</b> and sets herself up in direct <b>opposition</b> to an extreme version of people on the other side of the political divide. Harmony’s goal is to make us more disgusted with one another and make meaningful compromise more difficult.`,
+      intro: `He has very suspicious posts where he is trying to get people to click a link. You should <b>not click links</b> found on social media unless you're 100% sure they're safe as they can be malicious.`,
       position: 'right',
       scrollTo: 'tooltip',
       audioFile: ['CUSML.6.3.7.mp3']
     },
     {
       element: '#actionsOverlay',
-      intro: `Unwitting legitimate accounts react to the content posted by the troll accounts, e.g., re-sharing it or interacting directly with them. This will turn the <b>disinformation seeds planted</b> by the malicious actor into an <b>organic disinformation campaign</b> where content is shared by both troll accounts and legitimate users`,
+      intro: `Lastly, the message has few likes, reshares, and comments which is a sign that this isn't a real person with authentic connections as they have thousands of followers but very little <b>engagement</b>.`,
       position: 'right',
       scrollTo: 'tooltip',
       audioFile: ['CUSML.6.3.6.mp3']
@@ -96,6 +99,16 @@ const stepsListSecond = [
       position: 'right',
       scrollTo: 'tooltip',
       audioFile: ['CUSML.6.3.6.mp3']
+    }
+  ];
+
+  const stepsListThird = [
+    {
+      element: '#step1',
+      intro: `Looks like you have another friend request!`,
+      position: 'right',
+      scrollTo: 'tooltip',
+      audioFile: ['']
     }
   ];
 
@@ -116,6 +129,18 @@ function startIntro(enableDataCollection) {
             'doneLabel': 'Done &#10003'
         });
     } else if (subdirectory2 === "learn2") {
+        var intro = introJs().setOptions({
+            steps: stepsListThird,
+            'hidePrev': true,
+            'hideNext': true,
+            'exitOnOverlayClick': false,
+            'exitOnEsc': false,
+            'showStepNumbers': false,
+            'showBullets': false,
+            'scrollToElement': true,
+            'doneLabel': 'Done &#10003'
+        });
+    } else if (subdirectory2 === "learn3") {
         var intro = introJs().setOptions({
             steps: stepsList,
             'hidePrev': true,
@@ -214,9 +239,21 @@ function startIntro(enableDataCollection) {
 
         // Skip the remaining code in this function if data collection is disabled.
         if (!enableDataCollection) {
-            window.location.href='/tutorial/learn2';
-
-            // window.location.href = `/${nextPageURL}/${subdirectory2}`;
+            if(subdirectory2 === "cyberbullying"){
+                window.location.href='/tutorial/learn2';
+            } else if(subdirectory2 === "learn2") {
+                window.location.href='/tutorial/learn3';
+            }else {
+                let tempSub = "cyberbullying";
+                window.location.href = `/${nextPageURL}/${tempSub}`;
+            }
+            // if(subdirectory2 === "cyberbullying"){
+            //     window.location.href='/tutorial/learn2';
+            // } else if(subdirectory2 === "learn2")
+            //     window.location.href='/tutorial/learn3';
+            // } else {
+            //     window.location.href = `/${nextPageURL}/${subdirectory2}`;
+            // }
             return;
         }
         // Data collection is enabled:
