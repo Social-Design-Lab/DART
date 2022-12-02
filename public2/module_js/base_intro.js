@@ -17,6 +17,12 @@ function startIntro(){
       window.location.href='/start/' + pathArray[2];
     })
   } else {
+    // alert("Hello");
+    // console.log("Hello there");
+    // console.log(pathArray[2]);
+    // if(pathArray[2] == 'cyberbullying') {
+    //   window.location.href='/learn2';
+    // }
     window.location.href='/start/' + pathArray[2];
   }
 };

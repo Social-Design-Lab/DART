@@ -348,6 +348,18 @@ app.get('/intro/:modId', passportConfig.isAuthenticated, setHttpResponseHeaders,
     }
 });
 
+// Render new shopping page (specific to shopping module)
+app.get('/tutorial/learn2', passportConfig.isAuthenticated, setHttpResponseHeaders, csrfProtection, addCsrf,  function(req, res) {
+    if (req.params.modId === "delete") { // anticipating a specific user behavior that causes 500 errors
+        res.redirect('/');
+    } else {
+        // use relative not absolute
+        res.render('cyberbullying/cyberbullying_tutorial_2', {
+            title: 'My New Page'
+        });
+    }
+});
+
 // Render user's profile page, which is module-specific.
 app.get('/me/:modId', passportConfig.isAuthenticated, setHttpResponseHeaders, csrfProtection, addCsrf, isValidModId, userController.getMe);
 
@@ -476,6 +488,23 @@ app.get('/tutorial/:modId', passportConfig.isAuthenticated, setHttpResponseHeade
         });
     }
     res.render(req.params.modId + '/' + req.params.modId + '_tutorial', {
+        title: 'Tutorial'
+    });
+});
+
+// Second tutorial page
+app.get('/tutorial-2/:modId', passportConfig.isAuthenticated, setHttpResponseHeaders, csrfProtection, addCsrf, isValidModId, function(req, res) {
+    if (req.params.modId === 'safe-posting') {
+        res.set({
+            'Content-Security-Policy': "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://dhpd030vnpk29.cloudfront.net https://cdnjs.cloudflare.com/ http://cdnjs.cloudflare.com/ https://www.googletagmanager.com https://www.google-analytics.com;" +
+                "default-src 'self'  https://www.google-analytics.com;" +
+                "style-src 'self' 'unsafe-inline' https://dhpd030vnpk29.cloudfront.net https://cdnjs.cloudflare.com/ https://fonts.googleapis.com;" +
+                "img-src 'self' https://dhpd030vnpk29.cloudfront.net  https://www.googletagmanager.com https://www.google-analytics.com;" +
+                "media-src https://dhpd030vnpk29.cloudfront.net;" +
+                "font-src 'self' https://fonts.gstatic.com  https://cdnjs.cloudflare.com/ data:"
+        });
+    }
+    res.render(req.params.modId + '/' + req.params.modId + '_tutorial2', {
         title: 'Tutorial'
     });
 });

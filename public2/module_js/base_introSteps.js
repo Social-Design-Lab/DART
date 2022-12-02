@@ -101,7 +101,9 @@ function startIntro(enableDataCollection) {
 
         // Skip the remaining code in this function if data collection is disabled.
         if (!enableDataCollection) {
-            window.location.href = `/${nextPageURL}/${subdirectory2}`;
+            window.location.href='/tutorial/learn2';
+
+            // window.location.href = `/${nextPageURL}/${subdirectory2}`;
             return;
         }
         // Data collection is enabled:
@@ -124,7 +126,9 @@ function startIntro(enableDataCollection) {
         // are completed
         Promise.all(jqhxrArray).then(function() {
             // use the variable nextPageURL defined in the custom js file for the page
-            window.location.href = `/${nextPageURL}/${subdirectory2}`
+            window.location.href='/tutorial/learn2';
+
+            // window.location.href = `/${nextPageURL}/${subdirectory2}`
         });
     });
 
