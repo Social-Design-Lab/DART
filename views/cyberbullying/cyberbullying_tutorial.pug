@@ -124,51 +124,51 @@ block content
           .extra.content
             .ui.two.buttons
               .ui.basic.green.button Approve
-              .ui.basic.red.button Decline
-        .card
-          .content
-            img.right.floated.medium.ui.image(src='/images/elvis-pic.jpeg')
-            .header
-              | Elvis Pres1ey
-            .meta
-              | 0 mutual friends
-            .description
-              | Elvis Pres1ey has requested to be your friend 
-          .extra.content
-            .ui.two.buttons
-              .ui.basic.green.button Approve
-              .ui.basic.red.button Decline
+              #decline.ui.basic.red.button Decline
+        //- .card
+        //-   .content
+        //-     img.right.floated.medium.ui.image(src='/images/elvis-pic.jpeg')
+        //-     .header
+        //-       | Elvis Pres1ey
+        //-     .meta
+        //-       | 0 mutual friends
+        //-     .description
+        //-       | Elvis Pres1ey has requested to be your friend 
+        //-   .extra.content
+        //-     .ui.two.buttons
+        //-       .ui.basic.green.button Approve
+        //-       .ui.basic.red.button Decline
 
-        .card
-          .content
-            img.right.floated.medium.ui.image(src='/images/chris-pic.jpg')
-            .header
-              | Christopher Worrick
-            .meta
-              | 16 mutual friends
-            .description
-              | Christopher Worrick has requested to be your friend 
-          .extra.content
-            .ui.two.buttons
-              .ui.basic.green.button Approve
-              .ui.basic.red.button Decline
+        //- .card
+        //-   .content
+        //-     img.right.floated.medium.ui.image(src='/images/chris-pic.jpg')
+        //-     .header
+        //-       | Christopher Worrick
+        //-     .meta
+        //-       | 16 mutual friends
+        //-     .description
+        //-       | Christopher Worrick has requested to be your friend 
+        //-   .extra.content
+        //-     .ui.two.buttons
+        //-       .ui.basic.green.button Approve
+        //-       .ui.basic.red.button Decline
 
 
-    #nextPage.ui.fluid.card.test       
-      .content
-        .right.floated.meta= "2:07pm"
-        |
-        a(href='')
-          img.ui.avatar.image(src=cdn+'/profile_pictures/user55.jpg')
-          span='Logged In'
-        //- h1 Your Friend Requests
-      .image
-        img.post(src="/images/harmony-profile.png")
-      #populated-data
-      #harmony-pic
-      #tweets-number
-      #opinions
-      #reactions
+    //- #nextPage.ui.fluid.card.test       
+    //-   .content
+    //-     .right.floated.meta= "2:07pm"
+    //-     |
+    //-     a(href='')
+    //-       img.ui.avatar.image(src=cdn+'/profile_pictures/user55.jpg')
+    //-       span='Logged In'
+    //-     //- h1 Your Friend Requests
+    //-   .image
+    //-     img.post(src="/images/harmony-profile.png")
+    //-   #populated-data
+    //-   //- #harmony-pic
+    //-   #tweets-number
+    //-   #opinions
+    //-   #reactions
 
     //- #nextPage.ui.fluid.card.test       
 
@@ -242,7 +242,7 @@ block content
         a.item
           | Likes <br/>
           | 393
-          button.ui#followingbutton.button.primary.basic Follow
+      button.ui#followingbutton.button.primary.basic Follow
       
       #feed   
         .feed-nav Tweets
@@ -258,38 +258,41 @@ block content
           span#feedName Harmony Anderson 
             | 
             span @HarmonyAnders 27 Nov 2022
-          #tweet-1 First we were called Deplorable...
-          | And now we are called a Cult. 
-          #space 
-          |  &nbsp;
-          #tweet-2 Yes, I'm in the cult. The Cult of Lower Taxes, Free Speech, Second Amendment, Powerful Military & Strong Borders!<span class="hashtags"> #Cult45</span> 
+          #opinion
+            #tweet-1 First we were called Deplorable...
+            | And now we are called a Cult. 
+            #space 
+            |  &nbsp;
+            #tweet-2 Yes, I'm in the cult. The Cult of Lower Taxes, Free Speech, Second Amendment, Powerful Military & Strong Borders!<span class="hashtags"> #Cult45</span> 
           img(id="harmony-pic" src='/profile_pictures/user81.jpg')
           //- .feed-nav 
           //-   | 
           //-   <i class="comment outline icon">31</i>
           //-   <i class="share square outline icon">191</i>
           //-   <i class="heart outline icon">366</i>
-          #actions
-            .ui.labeled.button
-              .ui.button
-                i.comment.outline.icon
-                //- |  Comment
-              a.ui.basic.label
-                | 31
-            span.firstAction
+          #react
+            #actions
               .ui.labeled.button
                 .ui.button
-                  i.share.square.outline.icon
-                  //- |  Reshare
+                  i.comment.outline.icon
+                  //- |  Comment
                 a.ui.basic.label
-                  | 191
-            span.firstAction
-              .ui.labeled.button
-                .ui.button
-                  i.heart.outline.icon
-                  //- |  Like
-                a.ui.basic.label
-                  | 366
+                  | 31
+              span.firstAction
+                .ui.labeled.button
+                  .ui.button
+                    i.share.square.outline.icon
+                    //- |  Reshare
+                  a.ui.basic.label
+                    | 191
+              span.firstAction
+                .ui.labeled.button
+                  .ui.button
+                    i.heart.outline.icon
+                    //- |  Like
+                  a.ui.basic.label
+                    | 366
+          #actionsOverlay
 
 
 
