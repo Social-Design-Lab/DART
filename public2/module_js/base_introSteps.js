@@ -49,6 +49,13 @@ const stepsListSecond = [
         // audioFile: ['CUSML.6.3.3.mp3']
       },
     {
+    element: '#harmony-pic',
+    intro: `They pose as a well known <b>celebrity</b>. Scammers often pretend to be celebrities you look up to and trust in an attempt to manipulate you`,
+    position: 'right',
+    scrollTo: 'tooltip'
+    //   audioFile: ['CUSML.6.3.5.mp3']
+    },
+    {
       element: '.populatedBio',
       intro: `The troll’s account is <b>populated</b> with data that makes them look believable and fit the <b>narrative</b> that the malicious actor wants to push (e.g. a famous musician).`,
       position: 'right',
@@ -63,15 +70,8 @@ const stepsListSecond = [
         // audioFile: ['CUSML.6.3.4.mp3']
       },
     {
-      element: '#harmony-pic',
-      intro: `Like many trolls, they pose as a <b>celebrity</b>. This is a common tactic of internet charlatans; trolls and bots sell disinformation in the same way advertisers sell their products`,
-      position: 'right',
-      scrollTo: 'tooltip'
-    //   audioFile: ['CUSML.6.3.5.mp3']
-    },
-    {
       element: '#twitterNav',
-      intro: `Notice his profile statistics. He has a <b>lot of messages</b> for only being on Twitter for one months! Also, the <b>ratio</b> of following to followers is off. You would expect a celebrity to have more followers since they're famous. <b>Bots</b> are made to post regularly as well as follow and like eachother's content.`,
+      intro: `Notice his profile statistics. He has a <b>lot of messages</b> for only being on Twitter for one months! Also, the <b>ratio</b> of following to followers is off. You would expect a celebrity to have more followers since they're famous.`,
       position: 'right',
       scrollTo: 'tooltip'
     //   audioFile: ['CUSML.6.3.6.mp3']
@@ -92,7 +92,7 @@ const stepsListSecond = [
     },
     {
       element: '#decline',
-      intro: `This is a troll, you should decline their request.<br><br> <em>Press the <b>decline</b> button to continue</em>`,
+      intro: `This is a troll, you should decline this request.<br><br> <em>Press the <b>decline</b> button to continue</em>`,
       position: 'right',
       scrollTo: 'element',         
     }
@@ -121,68 +121,47 @@ const stepsListSecond = [
           audioFile: ['CUSML.6.3.3.mp3']
         },
         {
-            element: '#backgrounPic',
-            intro: `Picture of family`,
+            element: '.populatedBio',
+            intro: `Unlike Elvis, Chris isn't trying to get you to click a link in his bio. Instead, he is <b>sharing about his personal life</b>. The facts in his bio can be <b>easily confirmed</b> by looking at his feed and account statistics. Trolls avoid using identifying information that is easy to debunk.`,
+            position: 'right',
+            scrollTo: 'tooltip',             
+            audioFile: ['CUSML.6.3.4.mp3']
+          },
+          {
+            element: '#joined-date',
+            intro: `We can also see that he has been on the social media site of <b>many years</b>`,
+            position: 'right',
+            scrollTo: 'tooltip',             
+            audioFile: ['CUSML.6.3.4.mp3']
+          },
+        {
+            element: '#harmony-pic',
+            intro: `Chris shares nice pictures of him with his family. This helps show that he is a real person as well as give insight into one of his <b>motivations</b> for being on social media—connecting with family. This is something trolls aren't interested in.`,
             position: 'right',
             scrollTo: 'tooltip',
             audioFile: ['CUSML.6.3.3.mp3']
           },
-    //     {
-    //       element: '.approveDeclineBtns',
-    //       intro: `Accepting a friend request allows them to <b>access</b> more information about you and your current network of friends so it is important that you <b>look further</b> into these requests before making a decision about accepting them. Lets go to his public profile page and investigate!`,
-    //       position: 'right',
-    //       scrollTo: 'tooltip',
-    //       audioFile: ['CUSML.6.3.3.mp3']
-    //     },
-    //   {
-    //     element: '.bio',
-    //     intro: `The troll’s account is <b>populated</b> with data that makes them look believable and fit the <b>narrative</b> that the malicious actor wants to push (e.g. a famous musician).`,
-    //     position: 'right',
-    //     scrollTo: 'tooltip',             
-    //     audioFile: ['CUSML.6.3.4.mp3']
-    //   },
-    //   {
-    //       element: '#userName',
-    //       intro: `Paying attention to the the <b>spelling</b> throughout the profile can help you identify a troll. The celebrity's real name is usually taken so trolls will use slight variations in the name to bypass this. Here the number one is used instead of the letter "L".`,
-    //       position: 'right',
-    //       scrollTo: 'tooltip',             
-    //       audioFile: ['CUSML.6.3.4.mp3']
-    //     },
-    //   {
-    //     element: '#harmony-pic',
-    //     intro: `Like many trolls, they pose as a <b>celebrity</b>. This is a common tactic of internet charlatans; trolls and bots sell disinformation in the same way advertisers sell their products`,
-    //     position: 'right',
-    //     scrollTo: 'tooltip',
-    //     audioFile: ['CUSML.6.3.5.mp3']
-    //   },
-    //   {
-    //     element: '#twitterNav',
-    //     intro: `Notice his profile statistics. He has a <b>lot of messages</b> for only being on Twitter for one months! Also, the <b>ratio</b> of following to followers is off. You would expect a celebrity to have more followers since they're famous. <b>Bots</b> are made to post regularly as well as follow and like eachother's content.`,
-    //     position: 'right',
-    //     scrollTo: 'tooltip',
-    //     audioFile: ['CUSML.6.3.6.mp3']
-    //   },
-    //   {
-    //     element: '#opinion',
-    //     intro: `He has very suspicious posts where he is trying to get people to click a link. You should <b>not click links</b> found on social media unless you're 100% sure they're safe as they can be malicious.`,
-    //     position: 'right',
-    //     scrollTo: 'tooltip',
-    //     audioFile: ['CUSML.6.3.7.mp3']
-    //   },
-    //   {
-    //     element: '#actionsOverlay',
-    //     intro: `Lastly, the message has few likes, reshares, and comments which is a sign that this isn't a real person with authentic connections as they have thousands of followers but very little <b>engagement</b>.`,
-    //     position: 'right',
-    //     scrollTo: 'tooltip',
-    //     audioFile: ['CUSML.6.3.6.mp3']
-    //   },
-    //   {
-    //     element: '#decline',
-    //     intro: `This is a troll, you should decline their request`,
-    //     position: 'right',
-    //     scrollTo: 'tooltip',
-    //     audioFile: ['CUSML.6.3.6.mp3']
-    //   }
+          {
+            element: '#chrisFeed',
+            intro: `He posts about <b>places to eat in his hometown</b>. Professional trolls are speaking to a wide audience, not just their neighbors in Columbia City. They aren’t very likely to put research into where to find good brisket.`,
+            position: 'right',
+            scrollTo: 'tooltip',
+            audioFile: ['CUSML.6.3.3.mp3']
+          },
+          {
+            element: '#chrisFeed',
+            intro: `It is important to note that most social media accounts are indeed operated by <b>real people</b>. This is true with accounts that discuss politics, race, and culture (topics trolls focus on) the same as any other.`,
+            position: 'right',
+            scrollTo: 'tooltip',
+            audioFile: ['CUSML.6.3.3.mp3']
+          },
+      {
+        element: '#accept',
+        intro: `This is not a troll, you should accept this request`,
+        position: 'right',
+        scrollTo: 'tooltip',
+        audioFile: ['CUSML.6.3.6.mp3']
+      }
   ];
 
 function startIntro(enableDataCollection) {

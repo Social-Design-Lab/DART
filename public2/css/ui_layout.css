@@ -483,9 +483,9 @@ button,
 }
 
 #harmony-page {
+    margin-top: 50px;;
     width: 150% !important;
     margin-left: -132px;
-
     background-color: #e7edf0;
 }
 
@@ -652,6 +652,20 @@ button,
     right:40px;
 }
 
+#chrisFeed  {
+    background-color: white;
+    width: 465px;
+    height: 440px;
+    position: absolute;
+    top:340px;
+    right:40px;
+}
+
+.chrisPage {
+    /* background-color: blue !important; */
+    padding-bottom: 220px !important;
+}
+
 hr {
     height: 1px;
     /* background-color: rgb(213, 14, 14); */
@@ -756,6 +770,39 @@ hr {
     font-weight: lighter;
 }
 
+/* Chris feed */
+#chrisFeedPinned {
+    /* background-color: rgb(208, 255, 208);
+    height: 300px; */
+    width: 380px;
+    margin-left: 50px;
+    margin-top: -2px;
+    font-size: .8em;
+}
+
+#chrisFeedPinned #chrisFeedPic {
+    width: 36px;
+    height: 36px;
+    position: absolute;
+    top: 65px;
+    left: 10px;
+    border-radius: 50%;
+}
+
+#chrisFeedPinned p {
+    margin-bottom: -1px;
+}
+
+#chrisFeedPinned span {
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+#chrisFeedPinned span span{
+    font-weight: lighter;
+}
+
+
 #feedName {
     font-weight: bolder !important;
     font-size: 1.1em !important;
@@ -788,7 +835,7 @@ hr {
 
 #postButtons {
     /* background-color: red !important; */
-    width: 50%;
+    width: 57%;
     margin-left: -10px;
 }
 
@@ -846,6 +893,7 @@ a.item {
     background-color: white !important;
     width: 500px;
     padding-bottom: 15px !important;
+    z-index: 999999999 !important;
 }
 
 .exitButton {
