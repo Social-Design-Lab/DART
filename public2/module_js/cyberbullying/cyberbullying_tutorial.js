@@ -40,14 +40,14 @@ const stepsList = [
   {
     element: '#harmony-pic',
     intro: `Harmony poses as a <b>young woman</b>. This is a common tactic of internet trolls and bots. They sell disinformation in the same way advertisers sell their products`,
-    position: 'top',
+    position: 'left',
     scrollTo: 'tooltip',
     audioFile: ['CUSML.6.3.5.mp3']
   },
   {
     element: '#twitterNav',
     intro: `Notice harmony's profile statistics. Unlike Elvis, it seems like she actually has a lot of followers.`,
-    position: 'right',
+    position: 'top',
     scrollTo: 'tooltip',
     audioFile: ['CUSML.6.3.6.mp3']
   },

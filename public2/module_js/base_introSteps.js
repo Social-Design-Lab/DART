@@ -51,28 +51,28 @@ const stepsListSecond = [
     {
     element: '#harmony-pic',
     intro: `They pose as a well known <b>celebrity</b>. Scammers often pretend to be celebrities you look up to and trust in an attempt to manipulate you`,
-    position: 'right',
+    position: 'left',
     scrollTo: 'tooltip'
     //   audioFile: ['CUSML.6.3.5.mp3']
     },
     {
       element: '.populatedBio',
       intro: `The troll’s account is <b>populated</b> with data that makes them look believable and fit the <b>narrative</b> that the malicious actor wants to push (e.g. a famous musician).`,
-      position: 'right',
+      position: 'left',
       scrollTo: 'tooltip'             
     //   audioFile: ['CUSML.6.3.4.mp3']
     },
     {
         element: '#userName',
         intro: `Paying attention to the the <b>spelling</b> throughout the profile can help you identify a troll. The celebrity's real name is usually taken so trolls will use slight variations in the name to bypass this. Here the number one is used instead of the letter "L".`,
-        position: 'right',
+        position: 'left',
         scrollTo: 'tooltip',             
         // audioFile: ['CUSML.6.3.4.mp3']
       },
     {
       element: '#twitterNav',
       intro: `Notice his profile statistics. He has a <b>lot of messages</b> for only being on Twitter for one months! Also, the <b>ratio</b> of following to followers is off. You would expect a celebrity to have more followers since they're famous.`,
-      position: 'right',
+      position: 'top',
       scrollTo: 'tooltip'
     //   audioFile: ['CUSML.6.3.6.mp3']
     },
@@ -123,21 +123,21 @@ const stepsListSecond = [
         {
             element: '.populatedBio',
             intro: `Unlike Elvis, Chris isn't trying to get you to click a link in his bio. Instead, he is <b>sharing about his personal life</b>. The facts in his bio can be <b>easily confirmed</b> by looking at his feed and account statistics. Trolls avoid using identifying information that is easy to debunk.`,
-            position: 'right',
+            position: 'left',
             scrollTo: 'tooltip',             
             audioFile: ['CUSML.6.3.4.mp3']
           },
           {
             element: '#joined-date',
             intro: `We can also see that he has been on the social media site of <b>many years</b>`,
-            position: 'right',
+            position: 'left',
             scrollTo: 'tooltip',             
             audioFile: ['CUSML.6.3.4.mp3']
           },
         {
             element: '#harmony-pic',
             intro: `Chris shares nice pictures of him with his family. This helps show that he is a real person as well as give insight into one of his <b>motivations</b> for being on social media—connecting with family. This is something trolls aren't interested in.`,
-            position: 'right',
+            position: 'left',
             scrollTo: 'tooltip',
             audioFile: ['CUSML.6.3.3.mp3']
           },
