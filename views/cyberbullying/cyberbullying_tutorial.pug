@@ -13,13 +13,14 @@ block content
         //-   .content
         //-     .ui.header Need some help?
         //-     p Scroll up and click "Next" to begin!
-    #step1.ui.fluid.card.test       
+    #step1.ui.fluid.card.test.padBottom    
       .content
         .right.floated.meta= "2:05pm"
         |
         a(href='')
           img.ui.avatar.image(src=cdn+'/profile_pictures/user55.jpg')
           span='Logged In'
+        hr
         h1 Your Friend Requests
 
       .ui.centered.cards
@@ -35,7 +36,6 @@ block content
           .extra.content
             .ui.two.buttons.approveDeclineBtns
               button#accept.ui.basic.green.button Approve
-              //- #decline.ui.basic.red.button Decline
               button#decline.ui.basic.red.button(onclick='completeTutorial()') Decline  
           
     #harmony-page.ui.fluid.card.dim(style = "margin-bottom:0px")
@@ -71,18 +71,18 @@ block content
               | Joined January 2022
         #twitterNav.ui.secondary.pointing.menu
           .right.menu
+          //- a.item.active
+          //-   | Home <br/>
+          //-   | 688
           a.item.active
-            | Home <br/>
-            | 688
-          a.item
-            | Messages <br/>
+            | Posts <br/>
             | 3,162
           a.item
-            | Following <br/>
-            | 8,216
-          a.item#numFollowers
             | Followers <br/>
             | 393
+          a.item#numFollowers
+            | Following <br/>
+            | 8,216
         button#followingbutton.ui.button.primary.basic(onclick='updateFollow()') Follow
         
       #feed   
@@ -210,12 +210,3 @@ block scripts
         window.location.href="/tutorial/learn2";
       }
     }
-
-
-
-
-//-   script().
-//-     console.log("test");
-
-
-//- let elem = document.getElementById("followingbutton"); if(elem.innerHTML = "Follow"){console.log("num 11111");elem.style.cssText = "background-color:red !important; color: white !important"; elem.innerHTML = "Following"} else if(elem.innerHTML = "Following"){console.log("num 22222");elem.style.cssText = "background-color:green !important; color: blue !important"; elem.innerHTML = "Follow"}

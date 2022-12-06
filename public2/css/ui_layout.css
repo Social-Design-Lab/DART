@@ -527,7 +527,7 @@ button,
     border-radius: 50%;
     width: 100%;
     height: 100%;
-    z-index: 9999999;
+    z-index: 0;
 }
 
 .bio {
@@ -588,7 +588,7 @@ button,
     /* top: 36vh;
     right: 15vw; */
     top: 263px;
-    right: 200px;
+    right: 250px;
     /* background-color: rebeccapurple; */
 
 }
@@ -609,6 +609,17 @@ button,
     position: absolute;
     top: 280px;
     right: 40px;
+    z-index: 0;
+}
+
+#followingbuttonChris {
+    border-radius: 18px;
+    height: 40px;
+    margin-left: 100px;
+    width: 100px;
+    position: absolute;
+    top: 3px;
+    right: 200px;
     z-index: 99999;
 }
 
@@ -828,4 +839,34 @@ i.map.pin.icon {
 a.item {
     font-weight: bold !important;
     color: #6e7686 !important;
+}
+
+
+#FollowersMenu {
+    background-color: white !important;
+    width: 500px;
+    padding-bottom: 15px !important;
+}
+
+.exitButton {
+    background-color: white;
+    border: none;
+    margin-top: 1px;
+    /* margin-right: 1px; */
+}
+
+.followerHeader {
+    margin-top: 15px !important;
+}
+
+.followListBtn {
+    margin-right: 15px;
+}
+
+.item .ui.tiny.image {
+    margin-left: 15px;
+}
+
+.padBottom {
+    padding-bottom: 30px !important;
 }
