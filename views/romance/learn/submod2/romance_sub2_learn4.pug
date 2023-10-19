@@ -1,0 +1,51 @@
+extends ../../../module_layout
+
+block content
+
+  .ui.container#raised-container
+    .limit
+      h1.ui.header.large#learn-title
+        .content
+          | Recognizing the techniques of romance and friendship scammers
+      br
+      p 
+        strong Step 3: Examine closely the tone and overall behavior of the user 
+      .smartphone(style="height: 720px;") 
+        .content
+          .texter
+            i.user.circle.big.icon
+            p
+              | Justin 
+              span &gt;
+          .ios-time
+            p Today 12:57 PM
+          .ios-chat-container
+            .chat
+              .yours.messages 
+                .message.last please send me your number so that I could keep writing to you when my subscription is over 
+              .mine.messages 
+                .message.last Idk, we don't really know each other...
+              .yours.messages 
+                .message.last I'm already falling for you... I just don't want to lose the chance to talk to you in the future...
+      br
+      p Here are some questions to ask yourself regarding the tone of the message received and behavior of the user: 
+      ul 
+        li Is the tone urgent, as if an emergency is occurring?
+        li Is the tone “all-or-nothing,” in order to isolate me from my friends and family?
+        li Is the tone persistent and unrelenting? Is the user subborn with their requests from you?
+        li Is the user hesistant or against meeting up in person?
+        li Is the user avoiding to talk on the phone with you?
+        li Is the user pushing to move the relationship quickly?
+      
+    script.
+        var progress = #{user.moduleProgress.romance.percent}
+    script(src='/js/setProgressBar.js')  
+
+block append footer
+  .ui.container
+    +navButtons('romance', 'sub2_learn4', '/learn/submod2/3/romance', '/learn/submod2/5/romance', 78)  
+
+block scripts
+  //- script(src='/js/character.js')
+  script.
+    postStartTime("romance", "sub2_learn4");

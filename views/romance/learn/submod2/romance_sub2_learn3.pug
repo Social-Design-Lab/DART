@@ -1,0 +1,45 @@
+extends ../../../module_layout
+
+block content
+
+  .ui.container#raised-container
+    .limit
+      h1.ui.header.large#learn-title
+        .content
+          | Recognizing the techniques of romance and friendship scammers
+      br
+      p 
+        strong Step 2: Evaluate the validity, accuracy, and rationality behind the message’s content  
+      .smartphone(style="height: 720px;") 
+        .content
+          .texter
+            i.user.circle.big.icon
+            p
+              | John
+              span &gt;
+          .ios-time
+            p Today 12:57 PM
+          .ios-chat-container
+            .chat
+              .yours.messages 
+                .message.last I must admit, I'm currently stationed overseas with the military, and while the days can get pretty intense, your posts have been a breath of fresh air during the moments I get to unwind.  Seeing your updates and photos has been a real source of comfort in an otherwise challenging environment. 
+      br
+      p Here are some questions to ask yourself regarding the content of the message received:
+      ul 
+        li Is the user's story consistent and realistic? Are all the details matching up and making sense?
+        li Is the user saying that they live far away from you?
+        li Is the user asking for favors almost immediately?
+        li Is the user asking for your personal information, such as credit card number or address?
+        li Is the user love-bombing and/or guilt tripping you?
+
+    script.
+        var progress = #{user.moduleProgress.romance.percent}
+    script(src='/js/setProgressBar.js')  
+
+block append footer
+  .ui.container
+    +navButtons('romance', 'sub2_learn3', '/learn/submod2/2/romance', '/learn/submod2/4/romance', 14)  
+
+block scripts
+  script.
+    postStartTime("romance", "sub2_learn3");
