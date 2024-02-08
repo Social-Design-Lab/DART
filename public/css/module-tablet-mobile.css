@@ -4,7 +4,8 @@ body{
     margin:0; 
     background: white;   
     /* overflow-y: hidden !important; */
-    font-family: 'Inter', sans-serif;
+    font-size: 1.125rem;
+    line-height: 1.6;
 }
 
 #raised-container {
@@ -21,7 +22,7 @@ body{
 }
 
 #page-footer{ 
-    min-height:50px;
+    /* min-height:50px; */
 }
 
 /* The article fills all the space between header & footer */
@@ -36,17 +37,16 @@ body{
 } */
 
 
-#header-title {
+/* #header-title {
     display: inline-block;
     font-size: 2.25rem;
-    font-family: 'Inter', sans-serif; 
-}
+} */
 
-#theft-progress {
+/* #theft-progress {
     position: absolute; 
     top: 70px; 
     width: 100%;;
-}
+} */
 
 
 
@@ -63,3 +63,17 @@ body{
 #delete:hover::before {
     display: none;
 }
+
+/* @media screen and (max-width: 767px) {
+    #header-title {
+        font-size: 2rem;
+    }
+
+    #learn-title {
+        font-size: 1.25rem;
+    }
+
+    #mod-title {
+        font-size: 2rem;
+    }
+} */

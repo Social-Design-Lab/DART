@@ -170,7 +170,8 @@ exports.postSignup = async (req, res, next) => {
  */
 exports.getAccount = (req, res) => {
   res.render('account/profile', {
-    title: 'Account Management'
+    title: 'Account Management',
+    badges: req.user.badges 
   });
 };
 
@@ -236,32 +237,32 @@ exports.postUpdateProfile = async (req, res, next) => {
  * POST /account/newsletter
  * Update current newsletter consent value.
  */
-exports.postUpdateNewsletter = async (req, res, next) => {
-  try {
-    const user = await User.findOne({ email: req.user.email});
+// exports.postUpdateNewsletter = async (req, res, next) => {
+//   try {
+//     const user = await User.findOne({ email: req.user.email});
     
-    if (!user) {
-      // Handle the case where the user doesn't exist
-      req.flash('errors', { msg: 'User not found' });
-      return res.redirect('/account');
-    }
+//     if (!user) {
+//       // Handle the case where the user doesn't exist
+//       req.flash('errors', { msg: 'User not found' });
+//       return res.redirect('/account');
+//     }
 
-    user.newsletterConsent = req.body.newsletterConsent;
-    await user.save();
+//     user.newsletterConsent = req.body.newsletterConsent;
+//     await user.save();
 
-    // update the user in the session. Then flash message / redirect
-    req.login(user, (err) => {
-      if (err) {
-        return next(err);
-      }
+//     // update the user in the session. Then flash message / redirect
+//     req.login(user, (err) => {
+//       if (err) {
+//         return next(err);
+//       }
 
-      req.flash('success', { msg: 'Newsletter subscription has been changed.' });
-      res.redirect('/account');
-    });
-  } catch (err) {
-    next(err);
-  }
-};
+//       req.flash('success', { msg: 'Newsletter subscription has been changed.' });
+//       res.redirect('/account');
+//     });
+//   } catch (err) {
+//     next(err);
+//   }
+// };
 
 /**
  * POST /account/password
@@ -706,20 +707,24 @@ exports.postForgot = (req, res, next) => {
  */
 exports.postModuleProgress = async (req, res, next) => {
     try {
+      console.log("IN postModuleProgress***************************");
         const moduleToUpdate = req.body.modID;
+        const sectionToUpdate = req.body.currentSection;
 
-        const existingUser = await User.findOne({ username: req.user.username });
+        const existingUser = await User.findOne({ email: req.user.email });
 
         if (!existingUser) {
             return res.status(404).json({ message: 'User not found.' });
         }
 
-        existingUser.moduleProgress[moduleToUpdate].percent = req.body.percent;
+        // existingUser.moduleProgress[moduleToUpdate].percent = req.body.percent;
+        existingUser.moduleStatus[moduleToUpdate][sectionToUpdate] = req.body.percent;
         existingUser.moduleProgress[moduleToUpdate].link = req.body.link;
 
         await existingUser.save();
 
-        req.user.moduleProgress.identity.percent = req.body.percent;
+        // req.user.moduleProgress.identity.percent = req.body.percent;
+        req.user.moduleStatus[moduleToUpdate][sectionToUpdate] = req.body.percent;
         req.user.moduleProgress.identity.link = req.body.link;
 
         req.session.passport.user = req.user;
@@ -732,20 +737,23 @@ exports.postModuleProgress = async (req, res, next) => {
 };
 
 
-exports.postQuizScore = async (req, res, next) => { // response second
-  console.log("In POST quiz score request body***********************hiii****");
+exports.postQuizScore = async (req, res, next) => {
+  // console.log("In POST quiz score request body***********************hiii****");
 
-  const { modID, scoreTotal, selectedAnswer, questionScores, nextLink, currentSection } = req.body;
+  const { modID, scoreTotal, correctAnswers, selectedAnswer, questionScores, currentSection } = req.body;
+  console.log("*************In POST quiz score request body***********************hiii****");
+
   console.log("Module ID: " + modID);
   console.log("Score Total: " + scoreTotal);
+  console.log("Correct Answers: " + correctAnswers);
   console.log("Selected Answer: " + selectedAnswer);
   console.log("Question Scores: " + questionScores);
-  console.log("Next Link: " + nextLink);
+  // console.log("Next Link: " + nextLink);
   console.log("Current Section: " + currentSection);
 
   try {
     const existingUser = await User.findOne({
-      username: req.user.username
+      email: req.user.email
     });
 
     if (existingUser) {
@@ -753,6 +761,7 @@ exports.postQuizScore = async (req, res, next) => { // response second
       const attempt = {
         timestamp: new Date(),
         scoreTotal: scoreTotal,
+        correctAnswers: correctAnswers,
         questionScores: questionScores,
         questionChoices: selectedAnswer,
       };
@@ -762,16 +771,136 @@ exports.postQuizScore = async (req, res, next) => { // response second
       // Add the prequiz attempt to the challengeAttempts/submod1Attempts/etc array
       existingUser.moduleProgress[modID][sectionAttempts].push(attempt);
 
+      // let statusSection;
+      // if(currentSection === "challenge") {
+      //   statusSection = "challenge";
+      // } else if(currentSection === "submodOne") {
+      //   statusSection = "concepts";
+      // } else if(currentSection === "submodTwo") {
+      //   statusSection = "consequences";
+      // } else if(currentSection === "submodThree") {
+      //   statusSection = "techniques";
+      // } else if(currentSection === "submodFour") {
+      //   statusSection = "protection";
+      // } else {
+      //   statusSection = "evaluation";
+      // }
+
+      existingUser.moduleStatus[modID][currentSection] = 100;
+
       // save to mongodb database
       await existingUser.save();
+
+      // Manually update the session data
+      req.session.passport.user.moduleProgress[modID][sectionAttempts] = existingUser.moduleProgress[modID][sectionAttempts];
+      req.session.passport.user.moduleStatus[modID][currentSection] = 100;
+      
+      // Save the session
+      req.session.save((err) => {
+        if (err) {
+          return next(err);
+        }
+
+        // Redirect or send a success response
+        res.status(200).send('Quiz score updated successfully');
+        // res.redirect(nextLink);
+      });
+
+      // Update the user in the session - need to do this so can return to quiz results page in same session
+      // req.login(existingUser, (err) => {
+      //   if (err) {
+      //     return next(err);
+      //   }
+
+      //   return res.redirect(nextLink);
+      // });
+    } else {
+      res.status(404).send('User not found while posting quiz score');
     }
 
-    // console.log("about to redirect in post quiz score")
-    res.redirect(nextLink);
   } catch (err) {
     next(err);
   }
 };
+
+// get the latest quiz attempt
+exports.getLatestQuizScore = async (req, res, next) => {
+  const { modID, currentSection } = req.query;
+
+  console.log("In GET latest quiz score request body***********************hiii****");
+  console.log("Module ID: " + modID);
+  console.log("Current Section: " + currentSection);
+
+  try {
+    const existingUser = await User.findOne({
+      email: req.user.email
+    });
+
+    if (existingUser) {
+      let sectionAttempts = currentSection + "Attempts";
+
+      console.log("Section Attempts: " + sectionAttempts);
+      
+      let quizAttempts = existingUser.moduleProgress[modID][sectionAttempts];
+
+      // Send the latest quiz attempt 
+      res.status(200).json(quizAttempts.length > 0 ? quizAttempts[quizAttempts.length - 1] : []);
+
+      // send all quiz attempts
+      // res.status(200).json(quizAttempts);
+    } else {
+      res.status(404).send('User not found while retrieving quiz score');
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.postAvatar = async (req, res, next) => {
+  const { avatar, avatarImg } = req.body;
+
+  try {
+    const existingUser = await User.findOne({ email: req.user.email });
+
+    if (existingUser) {
+      // Update the user's avatar
+      existingUser.avatar = avatar;
+      existingUser.avatarImg = avatarImg;
+
+      // Save to MongoDB database
+      await existingUser.save();
+
+      // Manually update the user object in the session
+      req.session.passport.user.avatar = avatar;
+      req.session.passport.user.avatarImg = avatarImg;
+      
+      // Save the session
+      req.session.save((err) => {
+        if (err) {
+          return next(err);
+        }
+
+        // Redirect or send a success response
+        res.status(200).send('Avatar updated successfully');
+      });
+
+      // Update the user in the session
+      // req.login(existingUser, (err) => {
+      //   if (err) {
+      //     return next(err);
+      //   }
+  
+      //   // Redirect or send a success response
+      //   res.status(200).send('Avatar updated successfully');
+      // });
+    } else {
+      res.status(404).send('User not found while updating avatar');
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
 
 /**
  * POST /postStartTime
@@ -783,7 +912,7 @@ exports.postStartTime = async (req, res, next) => {
         // console.log("In backend POST start time request body***************************");
         // console.log("Module ID: " + modID);
         // console.log("The Page Name: " + page);
-        const existingUser = await User.findOne({ username: req.user.username });
+        const existingUser = await User.findOne({ email: req.user.email });
 
         if (!existingUser) {
             return res.status(404).json({ message: 'User not found.' });
@@ -822,7 +951,7 @@ exports.postEndTime = async (req, res, next) => {
     console.log("In user.js POST end time***************************");
     try {
         const { modID, page } = req.body;
-        const existingUser = await User.findOne({ username: req.user.username });
+        const existingUser = await User.findOne({ email: req.user.email });
 
         if (existingUser) {
             const pageID = page + "_Times";
@@ -869,7 +998,7 @@ exports.postGuestLogin = (req, res, next) => {
   function(req, res) {
     let user = "";
     if (req.user) {
-      user = req.user.username
+      user = req.user.email
       //res.json({ name: req.user.username });
     } else {
       user = 'anonymous'
@@ -943,3 +1072,100 @@ function makeid(length) {
   }
   return result;
 }
+
+
+
+/**
+ * POST /postBadge
+ * Put badges into DB 
+ * 
+ */
+exports.postBadge = async (req, res, next) => {
+  
+  // Extract what was sent over from the front end POST request (postBadge.js)
+  const badge_module = req.body.module;
+  const badge_section = req.body.section;
+  const badge_type = req.body.type;
+  const badge_name = req.body.name;
+  const badge_url = req.body.imageUrl;
+
+  try {
+    // Find an existing user 
+    const existingUser = await User.findOne({ email: req.user.email });
+
+    if (existingUser) {
+      // Check if the badge with the same properties already exists
+      const duplicateBadge = existingUser.badges.find(badge => 
+        badge.module === badge_module &&
+        badge.section === badge_section &&
+        badge.type === badge_type &&
+        badge.name === badge_name &&
+        badge.imageUrl === badge_url
+      );
+
+      if (!duplicateBadge) {
+        // Add the new badge to the array
+        const newBadge = {
+          module: badge_module, // Assuming badge_module is defined somewhere in your code
+          section: badge_section,
+          type: badge_type,
+          name: badge_name,
+          imageUrl: badge_url
+        };
+
+        existingUser.badges.push(newBadge);
+
+        // Save to the MongoDB database
+        await existingUser.save();
+
+        // Manually update the session data
+        req.session.passport.user.badges = existingUser.badges;
+
+        // Save the session
+        req.session.save((err) => {
+          if (err) {
+            return next(err);
+          }
+        });
+
+        // Send an OK response back to the front end 
+        res.status(200).json({ message: "Badge updated successfully." });
+      } else {
+        // Send a response indicating that the badge already exists
+        res.status(200).json({ message: "Badge already earned. Not adding." });
+      }
+    } else {
+      // Send a 404 response back to the front end if the user is not found
+      res.status(404).send('User not found while updating badge');
+    }
+
+  } catch (err) {
+    next(err);
+  }
+};
+
+/**
+ * GET /getBadges
+ */
+exports.getBadges = async (req, res, next) => {
+  console.log("get badges back end"); 
+  // We need to find an existing user 
+  try {
+    const existingUser = await User.findOne({
+      email: req.user.email
+    });
+
+    if (existingUser) {
+      // console.log("the badges are " + JSON.stringify(existingUser.badges));
+
+      // Send back the badges of the existing user
+      res.status(200).json(existingUser.badges);
+    } else {
+      // Send a 404 response back to the front end if this fails
+      res.status(404).send('User not found while fetching badges');
+    }
+
+  } catch (err) {
+    next(err);
+  }
+};

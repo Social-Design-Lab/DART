@@ -1,0 +1,123 @@
+body {
+    background-color: #F9FCFF;
+}
+
+.ui.grid>.row {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.four.wide.column .ui.card {
+    max-height: 550px;
+}
+
+
+#avatarContainer .ui.medium.image,
+#avatarContainer .ui.small.image {
+    min-height: 300px; 
+    display: flex;
+    align-items: flex-end;
+    justify-content: center; 
+    height: 100%;
+}
+
+#avatarContainer .ui.card:hover {
+    box-shadow: 0 0 11px rgba(33, 101, 174, 0.5);
+    cursor: pointer;
+}
+
+#avatarContainer .ui.medium.image {
+    padding-bottom: 3px;
+    min-height: 300px; 
+    display: flex;
+    align-items: flex-end;
+    justify-content: center; 
+    height: 100%;
+}
+
+#avatarContainer h1.ui.header{
+    color: #285362;
+    font-family: stolzl, helvetica nueue, heltvetica, sans-serif !important;
+    font-weight: 500;
+    font-size: 2.25rem;
+}
+
+#avatarContainer .content{
+    text-align: center;
+    font-family: stolzl, helvetica nueue, heltvetica, sans-serif !important;
+}
+
+#avatarContainer h2 {
+    font-family: stolzl, helvetica nueue, heltvetica, sans-serif !important;
+}
+
+span.target {
+    font-weight: 400;
+    font-size: 1.75rem;
+    font-family: stolzl, helvetica nueue, heltvetica, sans-serif !important;
+}
+
+#avatarContainer .smallTitle{
+    font-family: stolzl, helvetica nueue, heltvetica, sans-serif !important;
+    font-size: 1.5rem;
+}
+
+#avatarContainer p.descriptors{
+    color: #2165AE;
+    line-height: 1.5rem;
+    margin-top: 20px;
+}
+
+#avatarContainer .ui.card{
+    border-radius: 10px;
+    border: 3px solid #2165AE;
+    background-color: #F9FCFF;
+}
+
+#avatarContainer button.ui.blue.button{
+    border-radius: 20px;
+    margin-top: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    /* background: white; */
+}
+
+.ui.stackable.three.column.grid button.ui.fluid.blue.huge.button {
+    font-weight: 800;
+}
+
+#avatarContainer .ui.card .content {
+    background-color: white;
+}
+
+#avatarContainer button.ui.blue.huge.basic.button {
+    background-color: white;
+}
+
+#avatarContainer button.ui.blue.huge.basic.button:hover {
+    background-color: rgba(245, 245, 245, 0.579)
+}
+
+#avatarContainer .userTitle{
+    font-size: 2rem;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#avatarContainer .image{
+    background-color: #F9FCFF; 
+}
+
+#avatarContainer .ui.card .image {
+    background-color: #F9FCFF; 
+    border: none;
+}
+
+/* make the cards fill the complete width given to them by the grid structure */
+#avatarContainer .ui.card {
+    width: 100%;
+}
+
+#avatarContainer .ui.grid.buttonGrid{
+    border-radius: 20px;
+    text-align: center;
+}
+

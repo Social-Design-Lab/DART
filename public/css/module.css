@@ -13,11 +13,101 @@ footer {
     z-index: 9999999999 !important;
 }
 
+#page-article .pusher { 
+    background-color: white !important;
+}
+
+#module-header {
+    background-color: #F5F8FA !important;
+}
+
+.page-container {
+    position: relative;
+    transition: opacity 0.3s ease-in-out; /* Apply transition to the container */
+}
+
+.page-visible {
+    opacity: 1; /* Show the visible page */
+}
 
 /* page loader */
 .hidden {
     display: none !important; 
 }
+
+#theft-progress {
+    border-radius: 0px !important;
+    margin: 0px !important;
+    padding: 0px !important;
+
+}
+/* progress bar */
+#theft-progress .bar {
+    border-radius: 0px !important;
+    max-height: 15px !important;
+    transition: width 0.3s ease-in-out !important; /* Transition property */
+    /* position: absolute; 
+    top: 70px; 
+    width: 100%;; */
+} 
+
+
+
+.progress-bar__wrapper {
+position: relative;
+}
+.progress-bar__value {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+progress {
+    width: 100%;
+    height: 20px;
+    /* border-radius: 50px; */
+    background-color: #E0E0E0;
+    transition: width 300ms ease;
+}
+progress[value]::-webkit-progress-bar {
+    width: 100%;
+    height: 20px;
+    /* border-radius: 50px; */
+    background-color: #ddd;
+    transition: width 300ms ease;
+}
+progress[value]::-webkit-progress-value {
+    width: 0;
+    /* border-radius: 50px; */
+    background-color: #7AC4E0;
+    transition: width 300ms ease;
+}
+
+
+
+
+
+
+.ui.breadcrumb {
+    font-size: 1.4rem;
+}
+
+.ui.breadcrumb a.section {
+    color: #3757A7 !important;
+}
+
+.ui.breadcrumb a.section:hover {
+    color: #2a4380 !important;
+}
+
+.ui.breadcrumb .active.section {
+    color: #0C2746 !important;
+}
+
 
 #loadingScreen {
     display: flex; 
@@ -43,8 +133,8 @@ body{
     /* margin:0;  */
     background: white;   
     /* fix so that the whole page doesn't shift on the "short" pages due to scroll bar being absent */
-    overflow-y: scroll !important;
-    font-family: 'Inter', sans-serif;
+    /* overflow-y: scroll !important; */
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 #page-header{ 
@@ -53,7 +143,8 @@ body{
 }
 
 #page-footer{ 
-    min-height: 50px;
+    /* min-height: 50px; */
+    z-index: 999999;
 }
 
 /* The article fills all the space between header & footer */
@@ -65,15 +156,40 @@ body{
 /*  flex 1 to grow and shrink as necessary to fill available space in the flex container */
 #page-article{ 
     flex:1; 
+    overflow-y: scroll;
+
 
     /* padding to stop it from clipping under the header progress bar */
-    padding-top: 20px;
+    /* padding-top: 20px; */
 
 }
 
-#raised-content {
-    font-size: 1.5rem;
+#page-article {
+    scrollbar-width: thin; /* For Firefox */
+    scrollbar-color: white; /* For Firefox */
+} 
+
+#page-article::-webkit-scrollbar {
+    width: 1rem;
 }
+   
+#page-article.scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+}
+
+/* color of the tracking area */
+#page-article::-webkit-scrollbar-track {
+    background: white;        
+}
+
+#page-article.gray-scrollbar::-webkit-scrollbar-track {
+    background: rgb(150,151,151);        
+}
+
+/* color of the scroll thumb */
+/* #page-article::-webkit-scrollbar-thumb {
+    background-color: blue;   
+} */
 
 #raised-container { 
     /* background: yellow;  */
@@ -119,7 +235,7 @@ body{
 
 #module-footer {
     background: #F5F8FA;
-    padding-top: 10px;
+    /* padding-top: 10px; */
 }
 
 header {
@@ -136,21 +252,23 @@ header {
 }
 
 /* inline so the bubbles like 100 learners today will show up next to it */
-#mod-title {
+/* #mod-title {
     display: inline-block;
-    font-size: 2.15rem;
-    font-weight: 600;
-    font-family: 'Inter', sans-serif; 
-}
+    font-size: 2rem;
+    font-weight: bold;
+    font-family: stolzl, helvetica nueue, heltvetica, sans-serif !important;
+} */
 
 li strong, li u {
     font-weight: 600;
 }
 
-#learn-title {
-    font-size: 2.25rem;
-    margin-top: 15px;
-}
+/* #learn-title {
+    font-size: 2rem;
+    color: #285362;
+    font-weight: bold;
+    font-family: stolzl, helvetica nueue, heltvetica, sans-serif !important;
+} */
 
 /* semantic ui ordered lists don't have dots after numbers, so I'm using the normal lists but imported the needed semantic ui styles here*/
 .learning-objectives {
@@ -161,11 +279,9 @@ li strong, li u {
     padding: 0em 0em;
 }
 
-/* from sementic ui, see note above in .learning-objectives comment */
-li {
+/* li {
     display: list-item;
     table-layout: fixed;
-    /* list-style-type: none; */
     list-style-position: outside;
     padding: 0.21428571em 0em;
     line-height: 1.14285714em;
@@ -173,10 +289,9 @@ li {
 
 
 .ui.bulleted.list .item {
-    font-size: 1.5rem !important;
-    /* A line height of 1.5 times the font size is a good place to start from */
-    line-height: 2.25rem !important;
-}
+    font-size: 1.25rem;
+    line-height: 1.6rem;
+} */
 
 /* .learning-objectives li { 
     margin-top: 20px;
@@ -276,8 +391,8 @@ a.ui.fluid.labeled.icon.button {
 }
 
 #earned_badge {
-    width: 75px;
-    margin-bottom: 10px;
+    /* width: 75px;
+    margin-bottom: 10px; */
 }
 
 #badgesGrid .one.column.row strong {
@@ -329,7 +444,7 @@ u {
 }
 
 .ui.large.left.pointing.label {
-    background: #2165AE;
+    background: #3757A6;
     color: white;
 }
 
@@ -346,9 +461,9 @@ u {
     width: 100%;
 }
 
-.chat-container p {
-    font-size: 1.5rem;
-}
+/* .chat-container p {
+    font-size: 1.25rem;
+} */
 
 #encounter_container,
 #final_container {
@@ -384,8 +499,8 @@ u {
 
 .ui.huge.label.lockContainer {
     text-align: center;
-    background: #2165AE;
-    border: 3px solid #2165AE; 
+    background: #3757A6;
+    border: 3px solid #3757A6; 
     border-radius: 10px; 
     padding: 40px 80px;
 }
@@ -405,35 +520,6 @@ i.big.unlock.icon {
 }
 
 
-
-/* Avatar Call Out Important Notes / Admonitions CSS */
-.ui.icon.blue.message {
-    padding-top: 2px;
-    padding-bottom: 2px;
-    padding-right: 2px;
-    padding-left: 0;
-    margin-left: 0;
-}
-
-.ui.icon.blue.message .icon {
-    height: 125px !important;
-    width: 175px;
-    overflow: hidden;
-}
-
-.ui.icon.blue.message .icon img {
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
-    object-position: top center;
-}
-
-.ui.icon.blue.message .content {
-    background: white;
-    height: 100%;
-    padding: 10px;
-    padding-left: 15px;
-}
 /* OLD CSS From Truman  Start Pages Below */
 /* 
 .ui.warning.message {
@@ -477,7 +563,7 @@ i.big.unlock.icon {
 
 
 .limit {
-    font-size: 1.5rem;
+    /* font-size: 1.25rem; */
     position: relative;
     padding-left: 9rem; 
     padding-right: 9rem;
@@ -498,7 +584,7 @@ i.big.unlock.icon {
 
     #page-article{ 
         /* padding to stop it from clipping under the header progress bar */
-        padding-top: 50px;
+        /* padding-top: 50px; */
         /* background-color: green; */
     }
     
@@ -513,7 +599,7 @@ i.big.unlock.icon {
 
     #page-article{ 
         /* padding to stop it from clipping under the header progress bar */
-        padding-top: 60px;
+        /* padding-top: 60px; */
         /* background-color: orange; */
 
     }
@@ -652,7 +738,7 @@ i.big.unlock.icon {
   .mine .message {
     color: white;
     margin-left: 25%;
-    background: linear-gradient(to bottom, #00D0EA 0%, #2165AE 100%);
+    background: linear-gradient(to bottom, #00D0EA 0%, #3757A6 100%);
     background-attachment: fixed;
     position: relative;
   }
@@ -665,7 +751,7 @@ i.big.unlock.icon {
     right: -8px;
     height: 20px;
     width: 20px;
-    background: linear-gradient(to bottom, #00D0EA 0%, #2165AE 100%);
+    background: linear-gradient(to bottom, #00D0EA 0%, #3757A6 100%);
     background-attachment: fixed;
     border-bottom-left-radius: 15px;
   }
@@ -693,7 +779,8 @@ i.big.unlock.icon {
   .smartphone {
     position: relative;
     width: 360px;
-    height: 640px;
+    height: 500px;
+    /* height: 640px; */
     margin: auto;
     border: 16px black solid;
     border-top-width: 60px;
@@ -733,6 +820,7 @@ i.big.unlock.icon {
   .smartphone .content {
     width: 360px;
     height: 640px;
+    font-size: 1.25rem;
     /* background: white; */
   }
   
@@ -823,8 +911,184 @@ i.big.unlock.icon {
     opacity: 100% !important;
 }
 
-.ui.vertical.segment {
-    font-size: 1.5rem;
+/* .ui.vertical.segment {
+    font-size: 1.25rem;
+} */
+
+.ui.small.progress {
+    margin-bottom: 0px;
+}
+
+/* polaroid picture */
+
+.polaroid {
+    width: 100%;
+    max-width: 400px;
+    background-color: white;
+    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); */
+    box-shadow: 0 0.2rem 0.5rem rgba(0,0,0,0.2);
+    margin-bottom: 25px;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 0 auto;
+    /* border: 1px solid black; */
+}
+
+.polaroid img {
+    border-radius: 5px;
+}
+
+.polaroid p {
+    font-size: 1rem;
+    font-style: italic;
+    margin-top: 20px;
+    margin-bottom: 10px;
+
+}
+
+.polaroid::after {
+    content: '';
+    position: absolute;
+    top: -1%;
+    left: 52%; /* Center the image horizontally */
+    transform: translateX(-50%); /* Center the image horizontally */
+    width: 50px; /* Adjust the width as needed */
+    height: 50px; /* Adjust the height as needed */
+    background-image: url('/images/tack.png');
+    background-size: cover; /* Adjust the background size */
+}
+
+/* module slider identity theft consequences types */
+
+.slick-dots {
+    text-align: center;
+    font-size: 2rem;
+    margin: 20px;
+}
+
+.slick-dots > li {
+    /* display: inline-block; */
+    /* margin: 12px; */
+    /* margin-right: 50px;    */
+}
+
+ul.slick-dots li {
+    margin-right: 35px; /* Adjust margin as needed */
+}
+
+.slick-prev:before,
+.slick-next:before {
+    color: #3757A6 !important; 
+    font-size: 3rem !important;
+}
+
+.slick-prev:before {
+    margin-left: -25px;
+}
+
+#steps-slider {
+    /* padding-left: 25px !important; */
+    /* background-color: red; */
+    /* width: 50% !important; */
+    margin-left: 25px;
 }
 
 
+#steps-slider .ui.bulleted.list {
+    margin-left: 50px;
+}
+
+
+.dot {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px; /* Doubled width */
+    height: 40px; /* Doubled height */
+    border-radius: 50%;
+    /* background-color: #3757A6; */
+    /* color: white; */
+    text-align: center;
+    font-size: 1.75rem;
+    /* box-shadow: inset 0 0 2px #3757A6; */
+    border: 2px solid #3757A6;  
+    margin-top:10px;
+}
+
+.slick-dots > .slick-active {
+    font-weight: bold;
+    color: white;
+}
+
+.slick-dots > .slick-active .dot {
+    border: 2px solid #7AC4E0;  
+    background-color: #3757A6;
+}
+
+
+/* #steps-container {
+    background: #0b2645; 
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100vw; 
+    z-index: 100; 
+}
+
+#steps .content {
+    padding: 0px;
+    margin: 0px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#steps .ui.card p span {
+color: #79c4e0;
+} */
+
+
+/* identity theft protection thumbs activity */
+
+.dosContainer .content,
+.dontsContainer .content {
+    padding-left: 4px !important;
+}
+
+.dosContainer .check.icon {
+    padding-top: 1.5px !important;
+}
+
+#activity .ui.circular.small.basic.icon.button {
+    font-size: 1.2rem !important;
+}
+
+#activity .ui.circular.small.basic.icon.button:first-child {
+    margin-right: 0px !important;
+}
+
+#activity .ui.grid .two.wide:nth-of-type(2) {
+        padding-left: 0;        
+}
+
+@media (max-width: 1400px) {
+    #activity .ui.circular.small.basic.icon.button {
+        font-size: 1rem !important;
+    }
+
+    #activity .ui.grid .two.wide:nth-of-type(2) {
+        padding-left: 5px;        
+    }
+} 
+
+@media (max-width: 900px) {
+    #activity .ui.grid .two.wide:nth-of-type(2) {
+        padding-left: 10px;        
+    }
+} 
+
+
+img.ui.small.centered.image#earned_badge {
+    filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.4));
+}

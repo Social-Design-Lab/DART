@@ -1,17 +1,24 @@
 /* html {
 font-size: 1rem;
 } */
+
 #page-article {
-    background: linear-gradient(to bottom, #2165ae, #091d32);
+    /* background: linear-gradient(to bottom, #3757A6, #091d32); */
+    background-color: #0C2746;
+}
+
+.ui.middle.aligned.center.aligned.grid {
+    height: 100%;
 }
 
 
 h1, h2, h3, h4, h5, h6, p, span, div {
-    font-family: 'Armata', sans-serif;
+    /* font-family: 'Armata', sans-serif; */
+    font-family: stolzl, helvetica nueue, heltvetica, sans-serif !important;
 }
 
 a {
-    font-weight: bold;
+    font-weight: 600;
 }
 
 a:hover {
@@ -19,8 +26,10 @@ a:hover {
 }
 
 .ui.form label{
-    font-size: 1.5rem !important;
-    margin-bottom: 5px !important;
+    font-size: 1.6rem !important;
+    margin-bottom: 7px !important;
+    font-weight: 400 !important;
+    color: #1B1B1B !important;
 }
 
 .ui.form .field{
@@ -28,7 +37,7 @@ a:hover {
 }
 
 input {
-    font-size: 1.5rem !important;
+    font-size: 1.25rem !important;
     /* make padding half as much to look better with larger font */
     /* default padding: .67857143em 1em; */
     padding: .33928571em 0.5em !important;
@@ -37,14 +46,19 @@ input {
 
 #welcome {
     font-size: 2rem;
+    font-weight: 600;
+    color: #1B1B1B;
 }
 
 .small-text {
     font-size: 1.25rem;
+    font-weight: 400;
 }
 
 #inform-terms {
-    font-size: 1rem;
+    font-size: 1.2rem;
+    font-weight: regular;
+    font-family: Arial, Helvetica, sans-serif !important;
 }
 
 /* .limit {
@@ -92,20 +106,20 @@ h2 {
 
 .blue {
     background-color: black;
-    /* background-color: #2864ac; */
+    /* background-color: #3757A6; */
 }
 
 .ui.button {
     background: white;
-    /* color: #2864ac; */
-    border: 1px solid #2864ac;
+    /* color: #3757A6; */
+    border: 1px solid #3757A6;
     border-radius: 20px;
     margin: 0.75em 0 0.75em;
     padding: 0.4em 1.5em 0.4em;
 }
 
 /* .ui.button:hover {
-    background: #2864ac;
+    background: #3757A6;
     color: white;
 } */
 
@@ -130,8 +144,9 @@ h2 {
 
 #google-text {
     vertical-align: middle;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     margin-bottom: 15px;
+    font-weight: 400;
 }
 
 .ui.basic.red.pointing.prompt.label {
@@ -162,12 +177,14 @@ h2 {
     color: gray;
     position: absolute;
     cursor: pointer;
+    /* margin-top: 1px; */
     top: 13%;
     right: 2%;
 }
 
 .password-text {
-    font-weight: bold;
+    font-weight: 400;
+    margin-top: -3px;
 }
 
 input:focus {
@@ -189,14 +206,27 @@ input#password {
     left: -10%; 
     margin-top:-3px;
 }
+@media (max-width: 920px) {
+    .help-container {
+        margin-top:5px;
+    }
+
+    .password-toggle {
+        top: 3.5%;
+    }
+
+    .password-text {
+        margin-top: -8px;
+    }
+}
 
 i.icon.large.info.circle.blue.link {
     background: white !important;
 }
 
 #subscribe-label {
-    font-size:1.25rem !important;
-    color: black;
+    font-size:1.125rem !important;
+    color: #1B1B1B;
     font-weight: bold;
 }
 

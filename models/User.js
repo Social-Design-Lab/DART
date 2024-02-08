@@ -6,12 +6,24 @@ const Schema = mongoose.Schema;
 const userSchema = new mongoose.Schema({
   name: String,
   email: { type: String, unique: true },
+  avatar: String,
+  avatarImg: String,
   password: String,
   passwordResetToken: String,
   passwordResetExpires: Date,
   emailVerificationToken: String,
   emailVerified: { type: Boolean, default: false },
-  newsletterConsent: { type: Boolean, default: false },
+//   newsletterConsent: { type: Boolean, default: false },
+  badges: [
+    {
+      module: { type: String, required: true },
+      section: { type: String, required: true },
+      type: { type: String, required: true },
+      name: { type: String, required: true },
+      imageUrl: { type: String, required: true },
+      earnedAt: { type: Date, required: true, default: Date.now },
+    } 
+  ],
 
   // snapchat: String,
   // facebook: String,
@@ -28,41 +40,60 @@ const userSchema = new mongoose.Schema({
   moduleProgress: { // marks the progress of each module
     identity: {
         percent: { type: Number, default: 0 }, // percent complete
-        link: { type: String, default: '/intro/identity' }, // link to the last page the user was on in module
+        link: { type: String, default: '/course-player?module=identity&section=challenge&page=intro' }, // link to the last page the user was on in module
         challengeAttempts: [{
             timestamp: { type: Date, default: Date.now },
             scoreTotal: { type: Number, default: 0 },
+            correctAnswers: { type: Number, default: 0 },
             questionScores: [{ type: Number }],
             questionChoices: Schema.Types.Mixed,
         }],
-        submodOneAttempts: [{
+        conceptsAttempts: [{
             timestamp: { type: Date, default: Date.now },
             scoreTotal: { type: Number, default: 0 },
+            correctAnswers: { type: Number, default: 0 },
             questionScores: [{ type: Number }],
             questionChoices: Schema.Types.Mixed,
         }],
-        submodTwoAttempts: [{
+        consequencesAttempts: [{
             timestamp: { type: Date, default: Date.now },
             scoreTotal: { type: Number, default: 0 },
+            correctAnswers: { type: Number, default: 0 },
             questionScores: [{ type: Number }],
             questionChoices: Schema.Types.Mixed,
         }],
-        submodThreeAttempts: [{
+        techniquesAttempts: [{
             timestamp: { type: Date, default: Date.now },
             scoreTotal: { type: Number, default: 0 },
+            correctAnswers: { type: Number, default: 0 },
             questionScores: [{ type: Number }],
             questionChoices: Schema.Types.Mixed,
         }],
-        evaluateAttempts: [{
+        protectionAttempts: [{
             timestamp: { type: Date, default: Date.now },
             scoreTotal: { type: Number, default: 0 },
+            correctAnswers: { type: Number, default: 0 },
+            questionScores: [{ type: Number }],
+            questionChoices: Schema.Types.Mixed,
+        }],
+        reportingAttempts: [{
+            timestamp: { type: Date, default: Date.now },
+            scoreTotal: { type: Number, default: 0 },
+            correctAnswers: { type: Number, default: 0 },
+            questionScores: [{ type: Number }],
+            questionChoices: Schema.Types.Mixed,
+        }],
+        evaluationAttempts: [{
+            timestamp: { type: Date, default: Date.now },
+            scoreTotal: { type: Number, default: 0 },
+            correctAnswers: { type: Number, default: 0 },
             questionScores: [{ type: Number }],
             questionChoices: Schema.Types.Mixed,
         }],
     },       
     romance: {
         percent: { type: Number, default: 0 }, // percent complete
-        link: { type: String, default: '/intro/romance' }, // link to the last page the user was on in module
+        link: { type: String, default: '/course-player?module=romance&section=challenge&page=intro' }, // link to the last page the user was on in module
         prequiz: { type: Number, default: 0},
         submodOne: { type: Number, default: 0 },
         submodTwo: { type: Number, default: 0 },
@@ -71,7 +102,7 @@ const userSchema = new mongoose.Schema({
     },       
     phishing: {
         percent: { type: Number, default: 0 }, // percent complete
-        link: { type: String, default: '/intro/phishing' }, // link to the last page the user was on in module
+        link: { type: String, default: '/course-player?module=phishing&section=challenge&page=intro' }, // link to the last page the user was on in module
         prequiz: { type: Number, default: 0},
         submodOne: { type: Number, default: 0 },
         submodTwo: { type: Number, default: 0 },
@@ -80,7 +111,7 @@ const userSchema = new mongoose.Schema({
     },       
     grandparent: {
         percent: { type: Number, default: 0 }, // percent complete
-        link: { type: String, default: '/intro/grandparent' }, // link to the last page the user was on in module
+        link: { type: String, default: '/course-player?module=grandparent&section=challenge&page=intro' }, // link to the last page the user was on in module
         prequiz: { type: Number, default: 0},
         submodOne: { type: Number, default: 0 },
         submodTwo: { type: Number, default: 0 },
@@ -89,7 +120,7 @@ const userSchema = new mongoose.Schema({
     },       
     sales: {
         percent: { type: Number, default: 0 }, // percent complete
-        link: { type: String, default: '/intro/sales' }, // link to the last page the user was on in module
+        link: { type: String, default: '/course-player?module=sales&section=challenge&page=intro' }, // link to the last page the user was on in module
         prequiz: { type: Number, default: 0},
         submodOne: { type: Number, default: 0 },
         submodTwo: { type: Number, default: 0 },
@@ -97,9 +128,32 @@ const userSchema = new mongoose.Schema({
         postquiz: { type: Number, default: 0 },
     },          
   },
-  modulePageAccessLog: [{
+  modulePageAccessLog: [{   
       type: String,
   }],
+  moduleStatus: {
+    identity: {
+        intro: { type: Number, default: 0 }, 
+        challenge: { type: Number, default: 0 },  
+        concepts: { type: Number, default: 0 }, 
+        consequences: { type: Number, default: 0 }, 
+        techniques: { type: Number, default: 0 }, 
+        protection: { type: Number, default: 0 }, 
+        reporting: { type: Number, default: 0 }, 
+        practice: { type: Number, default: 0 }, 
+        evaluation: { type: Number, default: 0 }, 
+    },     
+    romance: {
+        intro: { type: Number, default: 0 }, 
+        challenge: { type: Number, default: 0 },  
+        concepts: { type: Number, default: 0 }, 
+        consequences: { type: Number, default: 0 }, 
+        techniques: { type: Number, default: 0 }, 
+        protection: { type: Number, default: 0 }, 
+        practice: { type: Number, default: 0 }, 
+        evaluation: { type: Number, default: 0 }, 
+    },      
+  },
   modulePageTimes: { // marks the progress of each module
     identity: {
         intro_Times: [{
@@ -431,14 +485,14 @@ const userSchema = new mongoose.Schema({
             durationMilliseconds: Number,
             durationFormatted: String
         }],
-        evaluate_Times: [{
+        evaluation_Times: [{
             page: String, 
             startTime: Date, 
             endTime: Date, 
             durationMilliseconds: Number,
             durationFormatted: String
         }],
-        evaluate2_Times: [{
+        evaluation2_Times: [{
             page: String, 
             startTime: Date, 
             endTime: Date, 

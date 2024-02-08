@@ -2,14 +2,24 @@
 
 .blue.message {
     background: #E1F2F4 !important;
-    color: black !important;
-    /* color: #5A6162 !important; */
+    /* color: black; */
+    color: #5A6162 !important;
     /* box-shadow: #6BBCC7 0px 0px 0px 1px inset, transparent 0px 0px 0px 0px !important; */
 }
 
-.blue.message .header, i.exclamation.triangle.icon, i.info.circle.icon,  i.pen.icon {
+.blue.message .content p {
+    color: #5A6162 !important;
+}
+
+.ui.label {
+    color: #3B4545;
+}
+
+.blue.message .header, .blue.message i.exclamation.triangle.icon, .blue.message i.info.circle.icon,  .blue.message i.pen.icon {
     color: #235799 !important;
 }
+
+
 
 /* old avatar with speech bubble styles */
 #avatarGrid {
@@ -24,27 +34,253 @@
     float: left;
     width:50%;
     background-color: #E1F2F4;
-    border: 1px solid #6BBCC7;
+    border: 3px solid #6BBCC7;
+    border-radius: 15px; /* Rounded corners, can be adjusted */
 }
 
 #speechText {
-    padding: 0px; 
-    text-align: center; 
-    margin: 0;
-    font-size: 1.2rem;
     font-weight: normal;
+    /* padding: 0; 
+    text-align: center; 
+    margin: 0; */
+    /* font-size: 1.2rem;
+    font-weight: normal; */
 }
 
-/* .avatar {
-    width: 50px;
-    height: 50px;
+.blue-pointing {
+    position: relative;
+}
+
+.blue-pointing::after {
+    content: "";
+    position: absolute;
+    right: 0; /* Align to the right */
+    bottom: -125px; /* Align to the bottom */
+    z-index: 999;
+    width: 125px; /* Width of the SVG */
+    height: 125px; /* Height of the SVG */
+    background-image: url('/images/speech-pointer.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+/* pointer speech bubble on mobile */
+.ui[class*="bottom pointing"].label::before, .ui[class*="pointing below"].label::before {
+    border-width: 0 3px 3px 0;
+    right: auto;
+    transform: translateX(-50%) translateY(-50%) rotate(45deg);
+    top: 100.43%;
+    left: 50%;
+}
+
+
+
+
+/* Avatar Call Out Important Notes / Admonitions CSS */
+.ui.icon.blue.message {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-right: 2px;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.ui.icon.blue.message .icon {
+    height: 135px !important;
+    /* width: 170px; */
+    min-width: 110px;
+    overflow: hidden;
+}
+
+.ui.icon.blue.message .icon img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    object-position: top center;
+}
+
+.ui.icon.blue.message .content {
+    background: white;
+    height: 100%;
+    padding: 10px;
+    padding-left: 15px;
+}
+
+.ui.icon.fluid.blue.message.shorter {
+    /* height: 113px; */
+}
+
+.ui.icon.blue.message.shorter .icon img {
+    width: 100px;
+    height: 300px;
+}
+
+
+
+/* Add your styling for the callout elements */
+.callout {
+    display: flex;
+    border: 1px solid #2185d0;
+    border-radius: 10px;
+    z-index: 999;
+    /* box-shadow: 0 0 0 1px #2185d0 inset, 0 0 0 0 transparent; */
+}
+
+.callout h3.call-header {
+    color: #235799 !important;
+    font-size: 1.5rem;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+.callout .dark-blue-square {
+    flex: 0 0 20%; 
+    /* Adjust the width of the dark-blue square as needed */
+    width: 155px;
     overflow: hidden;
     position: relative;
+    background-color: #E1F2F4; 
+    z-index: -1;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
   }
+  
+.callout .dark-blue-square img {
+    object-fit: cover;
+    object-position: center center;
+    width: 215px;
+    /* height: 120px; */
+    position: absolute;
+    top: -21px;
+    left: -34px;
+}
+  
+.callout .light-blue-content {
+    flex: 0 0 80%; 
+    padding: 20px; 
+    padding-bottom: 5px;
+    padding-top: 5px;
+    background-color: white; 
+    color:#555;
+    z-index: -1;
+}
+  
+.callout .light-blue-content h2 {
+    color: #333; 
+    font-size: 1.5em; 
+}
+  
+.callout .light-blue-content p {
+    color: #555; 
+    font-size: 1em; 
+}
+  
 
-.avatar img {
-    object-fit: none;
-    object-position: top center;
-    width: 100%;
+/* avatar score for identity theft concepts activity */
+
+
+.callout-score {
+    display: flex;
+    border: 1px solid #2185d0;
+    /* border-radius: 10px; */
+    z-index: 999;
+    position: relative;
+    /* box-shadow: 0 0 0 1px #2185d0 inset, 0 0 0 0 transparent; */
+}
+
+.callout-score h3.call-header {
+    color: white !important;
+    font-size: 1.5rem;
+    margin-bottom: 6px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.callout-score .score-box {
+    background: white;
+    margin: 0;
+    padding: 5px;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+}
+  
+.callout-score .dark-blue-square {
+    flex: 0 0 40%; 
+    /* Adjust the width of the dark-blue square as needed */
+    width: 155px;
+    overflow: hidden;
+    position: relative;
+    background-color: #E1F2F4; 
+    z-index: -1;
+    /* border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px; */
+  }
+  
+.callout-score .dark-blue-square img {
+    object-fit: cover;
+    object-position: center center;
+    width: 215px;
+    /* height: 120px; */
+    position: absolute;
+    top: -21px;
+    left: -34px;
+}
+  
+.callout-score .light-blue-content {
+    flex: 0 0 60%; 
+    padding: 5px;
+    background-color: #3757A7;
+    color:#555;
+    z-index: -1;
+
+}
+  
+.callout-score .light-blue-content h2 {
+    color: #333;
+    font-size: 1.5em;
+}
+  
+.callout-score .light-blue-content p {
+    color: #555;
+    font-size: 1em; 
+}
+
+#identity-concept-activity .ui.fluid.button {
+    background-color: #3757A7;
+    color: white;
+    font-weight: bold;
+    font-size: 1.3rem;
+    position: absolute;
+    bottom: 16px;
+}
+
+#identity-concept-activity .ui.fluid.button:hover {
+    background-color: #2e498c;
+    border-radius: 0;
+}
+
+#identity-concept-activity .instructions {
     height: 100%;
-} */
+}
+
+.highlightable:hover {
+    cursor: pointer;
+    background-color: #D6E040;
+    border-radius: 10px;
+}
+
+.clickHere:after { 
+    content: '';
+    display: inline-block;
+    width: 32px; 
+    height: 32px;
+    background: url('/images/clickHere.png') no-repeat; 
+    background-size: 100% 100%;
+    position: absolute;
+    /* top: 43%; */
+    /* left: 100%;  */
+    transform: translateY(-50%);
+    margin-left: 5px; 
+    margin-top: 15px;
+}

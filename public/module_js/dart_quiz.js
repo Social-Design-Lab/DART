@@ -1,9 +1,13 @@
 // Sources referenced: https://codepen.io/boopalan002/pen/yKZVGa and https://codepen.io/harunpehlivan/pen/bGeOPye and https://www.sitepoint.com/simple-javascript-quiz/
 let currentQuestion = 1;
+let pastAttempts = false;
+let revisitShowFooter = false;
+let hideTryAgainNext = false;
 let viewingAnswer = false;
 let correctAnswers = 0;
 let quizOver = false;
 let numQuestions = Object.keys(questionData).length;
+let cleanScore = 0;
 // stores selected answers for each question, indexed by the question number ie index.
 let selectedAnswer = [];
 let questionScores = [];
@@ -15,10 +19,10 @@ let page = this_js_script.attr('page');
 let currentSection = this_js_script.attr('current-section');   
 let nextLink = this_js_script.attr('next-link');  
 let modID = this_js_script.attr('mod-id');  
-console.log("page: " + page);
-console.log("currentSection: " + currentSection);
-console.log("nextLink: " + nextLink);   
-console.log("modID: " + modID);
+// console.log("page: " + page);
+// console.log("currentSection: " + currentSection);
+// console.log("nextLink: " + nextLink);   
+// console.log("modID: " + modID);
 
 
 // let progress = this_js_script.attr('progress');   
@@ -27,6 +31,9 @@ console.log("modID: " + modID);
 // console.log("**nextLink: " + nextLink);
 
 $(document).ready(function() {    
+    $('.bar').css('width', current_percent + '%');
+    $('.bar').css('background', '#7AC4E0');
+
     // console.log("In dart_quiz.js");
     // console.log("explanation data example:" + questionData[1].choices[3].explanation);
     // console.log("Question Data: " + questionData);
@@ -35,33 +42,96 @@ $(document).ready(function() {
     // console.log("Solange Data: " + questionData);
     // console.log("after");
 
-    // Display the first question
-    displayCurrentQuestion();
+    // console.log("USER");
+    // console.log(userDBAttempts);
 
-    // hide warning and next nav button and disable previous quiz nav button
-    $(".viewAnswers").hide();
-    $(".quizMessage").hide();
-    $(".explanationCorrectMulti").hide();
-    $(".explanationIncorrectMulti").hide();
-    $(".explanationCorrectYesNo").hide();
-    $(".explanationIncorrectYesNo").hide();
+    // First check if there's previous quiz results from past attempts. Load them in and display results if so. If not, display first question
+    let sectionAttempts = currentSection + "Attempts";
+    // console.log("sectionAttempts: " + sectionAttempts);
+    // console.log("mod id:  " + modID);
+
+
+    fetch(`/getLatestQuizScore?modID=${modID}&currentSection=${currentSection}`)
+        .then(response => response.json())
+        .then(userDBAttempts => {
+            console.log("Hello in here")
+            // Handle the received data (the latest quiz attempt)
+            // console.log("**the fetch quiz score data is:")
+            // console.log(userDBAttempts);
+
+            if(userDBAttempts.length != 0) { // attempted before so show restults page
+                console.log("attempted before so show restults page");
+
+                $(".choiceList").empty();
+                $(".fourChoices").empty();
+                $(".checkboxChoices").empty();
+                $(".question").empty();
+                $(".explanationCorrectMulti").hide();
+                $(".explanationIncorrectMulti").hide();
+                $(".explanationCorrectYesNo").hide();
+                $(".explanationIncorrectYesNo").hide();
+                $(".quizMessage").hide();
+                $(".htmlImage").hide();
+                // $(".preButton").css('visibility', 'hidden');
+                $(".nextButton").css('visibility', 'hidden');
+        
+                // console.log("We have previous attempts!");
+                pastAttempts = true;
+                $('.bar').css('width', '100%');
+                $('.bar').css('background', '#3757A7');
+
+                revisitShowFooter = true;
+                // hideTryAgainNext = true;
     
-    $(".result").hide();
-    $(".avatar-container").hide();
-    $("#nextButton").hide();
-    $("#backButton").hide();
-    $("#module-footer").hide();
+        
+                cleanScore = userDBAttempts.correctAnswers;
+                correctAnswers = userDBAttempts.correctAnswers;
+                selectedAnswer = userDBAttempts.questionChoices;
+                questionScores = userDBAttempts.questionScores;
+        
+        
+        
+                displayScore();
+                $(".preButton").text("Try Again");
+                $(".nextButton").text("Next");
+        
+                // $(".nextButton").text("View Answers");
+                quizOver = true;
+        
+            } else {
+                console.log("!!!never attempted before so show first question");
+
+                // Display the first question
+                displayCurrentQuestion();
+        
+                // hide warning and next nav button and disable previous quiz nav button
+                $(".viewAnswers").hide();
+                $(".quizMessage").hide();
+                $(".explanationCorrectMulti").hide();
+                $(".explanationIncorrectMulti").hide();
+                $(".explanationCorrectYesNo").hide();
+                $(".explanationIncorrectYesNo").hide();
+                
+                $(".result").hide();
+                $(".avatar-container").hide();
+                $("#nextButton").hide();
+                $("#backButton").hide();
+                $("#module-footer").hide();
+            }
+        
 
 
-    // $("#nextButton").css("filter", "grayscale(100%)");
-    // $("#nextButton").prop("disabled", true);    
-
-    // $(".preButton").css("filter", "grayscale(100%)");
-    // $(".preButton").addClass("disabled");
-    // $(this).find(".preButton").attr('disabled', 'disabled');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 
 
-	$(this).find(".preButton").on("click", function () {		
+
+
+	$(this).find(".preButton").on("click", function () {
+        $("#page-article").scrollTop(0);
+		
         if (!quizOver) {
 			if(currentQuestion == 0) { return false; }
 	
@@ -78,6 +148,7 @@ $(document).ready(function() {
             // quiz is over and clicked the previous button (which is now the try again button)
             attempts++;
             viewingAnswer = false;
+            revisitShowFooter = false;
             resetQuiz();
 		}
 
@@ -92,6 +163,13 @@ $(document).ready(function() {
 
 	// On clicking next, display the next question
     $(this).find(".nextButton").on("click", function () {
+        console.log("currentQuestion: " + currentQuestion);
+        console.log("numQuestions: " + numQuestions);
+        console.log("viewingAnswer: " + viewingAnswer);
+        console.log("pastAttempts: " + pastAttempts);
+
+        $("#page-article").scrollTop(0);
+
         if (!quizOver) {
             // let val = $("input[type='radio']:checked").val();
             // console.log("Val: " + val);
@@ -105,6 +183,9 @@ $(document).ready(function() {
                     $(".nextButton").text("Submit Quiz");
                 }
             }
+
+
+    
 
             let val;
 
@@ -202,6 +283,11 @@ $(document).ready(function() {
 				} 
 				else 
 				{
+                    if(revisitShowFooter) {
+                        // show bottom footer hide next / quiz submit button
+                        $(".nextButton").css('visibility', 'hidden');
+                        $("#module-footer").show();
+                    }
                     $(".choiceList").empty();
                     $(".fourChoices").empty();
                     $(".checkboxChoices").empty();
@@ -215,28 +301,45 @@ $(document).ready(function() {
 					displayScore();
 					$(".preButton").text("Try Again");
                     $(".nextButton").text("Next");
-
+                    // if return to results when revisiting quiz hide the try again and next buttons on results page
+                    if(hideTryAgainNext === true) {
+                        // $(".preButton").css('visibility', 'hidden');
+                        $(".nextButton").css('visibility', 'hidden');    
+                    }
 					// $(".nextButton").text("View Answers");
 					quizOver = true;
 					return false;
 				}
 			}
-					
+				
+            //  on last question, show page footer and hide next button
+            if(currentQuestion === numQuestions && viewingAnswer === true) {
+                console.log("IN HERREEEE BEYONCE 1") 
+                viewingAnswer = false;
+                // show bottom footer hide next / quiz submit button
+                if(pastAttempts === true) {
+                    console.log("IN HERREEEE BEYONCE 2") 
+
+                    $(".nextButton").css('visibility', 'hidden');
+                    $("#module-footer").show();
+                }        
+            }
 		}	
-		else { // quiz is over and clicked the next button (which now displays 'Submit Quiz')
+		else { // quiz is over and clicked the next button (which now displays 'Next' instead of 'Next Question")
             // save info into database
             // window.location.href = "/challenge3/identity";
             // let correctAnswers = 0;
             // let scoreTotal = 40;
             // let selectedAnswer = ['yes', 'no', 'yes', 'no', [1,2,3,4]];
             // let questionScores = [0, 0, 1, 1, 0];
+            
+            // current_percent = 100
+            // set status to 100
 
-            //  ****FIX / Generalize THIS LATER
-            // let modID = "identity";
 
-            postModuleProgress(modID, page, nextLink, progress, current_percent);
-            console.log("Posting quiz attempt to database!");
-            console.log("ScoreTotal is: " + scoreTotal);
+            // postModuleProgress(modID, page, nextLink, progress, 100);
+            // console.log("Posting quiz attempt to database!");
+            // console.log("ScoreTotal is: " + scoreTotal);
             // const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
             fetch('/postQuizScore', {
@@ -248,18 +351,19 @@ $(document).ready(function() {
                 body: JSON.stringify({
                     "modID": modID,
                     "scoreTotal": scoreTotal,
+                    "correctAnswers": correctAnswers,
                     "selectedAnswer": selectedAnswer,
                     "questionScores": questionScores,
-                    "nextLink": nextLink,
                     "currentSection": currentSection,
                 })
             })
             .then(response => {
                 if (response.ok) {
+
                     // Request was successful
-                    // console.log('Quiz attempt posted successfully!');
+                    console.log('Quiz attempt posted successfully!');
                     // Now can navigate to the next page
-                    window.location.href = nextLink;
+                    // window.location.href = nextLink;
                 } else {
                     // Handle error response
                     console.error('Failed to post quiz attempt');
@@ -283,6 +387,12 @@ $(document).ready(function() {
 	$(this).find(".viewAnswers").on("click", function () {
         // console.log("View Answers Clicked!");
         viewingAnswer = true;
+
+        // if past attempt and click view answers we need to make previous and next buttons visible again
+        if(pastAttempts === true) {
+            // $(".preButton").css('visibility', 'visible');
+            $(".nextButton").css('visibility', 'visible');
+        }
 
         $(".htmlImage").show();
         // disable ability to change selectedAnswers
@@ -362,7 +472,18 @@ $(document).ready(function() {
 });
 
 function displayCurrentQuestion() 
-{
+{   
+    console.log("In display current Question");
+    // console.log("currentSection: " + currentSection);
+    // console.log("currentQuestion: " + currentQuestion);
+    // console.log("viewingAnswer: " + viewingAnswer);
+    // console.log("selectedAnswer: " + selectedAnswer);
+    // console.log("questionScores: " + questionScores);
+    // console.log("attempts: " + attempts);
+    // console.log("scoreTotal: " + scoreTotal);
+    // console.log("correctAnswers: " + correctAnswers);
+    // console.log("numQuestions: " + numQuestions);
+    
     if(currentSection === "challenge") {
         $(".explainButtonIncorrect").hide();
         $(".explainButtonCorrect").hide();
@@ -385,6 +506,8 @@ function displayCurrentQuestion()
     // let numChoices = Object.keys(questionData[currentQuestion].choices).length;
     // console.log("Num Choices: " + numChoices);
 
+
+
     const htmlImageContainer = $(".htmlImage");
     const checkBoxesContainer = $(".checkboxChoices");
 
@@ -392,6 +515,10 @@ function displayCurrentQuestion()
     // current question we want to display
     const question = questionData[currentQuestion];
 
+    if(!pastAttempts && !viewingAnswer) {
+        $('.bar').css('width', question.progress + '%');
+        // console.log("question.progress: " + question.progress);
+    }
     // Remove all previous question content so we can display the needed question (whether it be a previous one or new one)
     $(".choiceList").empty();
     $(".fourChoices").empty();
@@ -711,29 +838,33 @@ function convertSelectedAnswerToLetters(userAnswersObj) {
 
 
 function displayScore() {
-    // add up scores
-    for (const score of questionScores) {
-        correctAnswers += score;
-    }
+    if(pastAttempts === false) {
+        // add up scores
+        for (const score of questionScores) {
+            correctAnswers += score;
+        }
 
 
-    let cleanScore = 0;
+        
 
-    // only show 2 decimal places if the score is a decimal
-    if(correctAnswers % 1 === 0) {
-        cleanScore = correctAnswers;
-    } else {
-        cleanScore = (correctAnswers).toFixed(2)
+        // only show 2 decimal places if the score is a decimal
+        if(correctAnswers % 1 === 0) {
+            cleanScore = correctAnswers;
+        } else {
+            cleanScore = (correctAnswers).toFixed(2)
+        }
     }
 
     $(".resultText").text("You got " + cleanScore + " out of " + numQuestions + " questions correct!");
 
+    // console.log(correctAnswers + " correct out of " + numQuestions + " questions")
     scoreTotal = (correctAnswers / numQuestions).toFixed(2);
+    // console.log("scoreTotal is: " + scoreTotal);
     // fill: { gradient: ["#32C38B", "#B8E2B6"] } 
 
     $('.circleResults').circleProgress({
         value: scoreTotal,
-        size: 300,
+        size: 200,
         fill: "#32C38B"
         }).on('circle-animation-progress', function(event, progress) {
         $(this).find('strong').html(Math.round(100 * scoreTotal) + '<i>%</i>');
@@ -761,10 +892,14 @@ function resetQuiz() {
     $(".preButton").text("Previous Question");
     $(".nextButton").text("Next Question");
     $(".htmlImage").show();
+    $(".nextButton").css('visibility', 'visible');
+    $("#module-footer").hide();
+
 
     currentQuestion = 1;
     correctAnswers = 0;
     quizOver = false;
+    pastAttempts = false;
 
     // only clear selectedAnswer if not viewing answers
     if(viewingAnswer === false) {
@@ -773,6 +908,7 @@ function resetQuiz() {
         $(".choiceList").css("pointer-events", "auto");
         $(".fourChoices").css("pointer-events", "auto");
         $(".checkboxChoices").css("pointer-events", "auto");
+        $('.bar').css('background', '#7AC4E0');
     }
 
     // viewingAnswer = false;

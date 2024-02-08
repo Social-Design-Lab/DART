@@ -1,0 +1,41 @@
+/* oct demo */
+/* Style for the bullseye icon color */
+#mod-title {
+    /* color: #3D7E97; */
+    /* color: #3757A7; */
+
+}
+
+
+
+/* Remove default bullet points */
+#learn-target ul.no-bullets {
+    list-style: none;
+}
+  
+/* Add some spacing for the custom bullseye list icon */
+#learn-target li img {
+    margin-right: 10px;
+    width: 50px;
+}
+
+/* Add space between bullets */
+#learn-target li img:not(:last-child) {
+    margin-bottom: 20px;
+}
+
+#learn-target ul li { 
+    padding: 20px 0px !important; 
+}
+
+#villain-container {
+    position: relative;
+}
+  
+  /* #villain-image, #villain-reveal {
+    position: absolute;
+    top: 0;
+    left: 0;
+  } */
+
+

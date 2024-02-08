@@ -1,0 +1,11 @@
+#page-article .pusher {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background-color: rgba(21, 28, 34, 0.02);
+}
+
+#page-article .ui.visible.left.overlay.sidebar {
+    background-color: #151C22 !important;
+}

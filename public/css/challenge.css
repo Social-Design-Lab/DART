@@ -1,6 +1,6 @@
-#great-job, #text, #badgesGrid {
+/* #great-job, #text, #badgesGrid {
     visibility: hidden;
-}
+} */
 
 #text {
     text-align: left;
@@ -43,7 +43,7 @@
 .ui.raised.segments,
 .ui.segment,
 label {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
 }
 
 .purple-text {

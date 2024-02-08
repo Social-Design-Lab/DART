@@ -1,88 +1,121 @@
 extends ../ui_layout
 
 block content
-  -var user_post = []
-  -var user_info = [{profile_pic : "/profile_pictures/amy.jpg",background_pic : "/profile_pictures/blueToWhite.png",user_name : "Amy G",user_id : "@amyg__g",bio : "Daughter. Sister. Proud Black American. I tend to get political.",location : "New York, NY",join_date : "Joined January 2019"}]
-  -var cdn = "https://dhpd030vnpk29.cloudfront.net";
-  .ui.container#raised-container(style="padding-bottom: 50px;")
-    .ui.raised.segment
+  .ui.container#raised-container
+    .ui.basic.segment#avatarContainer
       #raised-content
-        .twelve.wide.computer.fourteen.wide.tablet.sixteen.wide.mobile.column.centered( style="margin-bottom:5%")
-          .ui.one.column.grid.feedbackMessagesGrid
-            h1.ui.header.large#mod-title(style="font-size: 2.5rem; margin: 20px;")
-              | Character Select
-            h4.ui.header.large#mod-title(style="font-size: 1.5rem; margin: 20px; margin-top: -5px;")
-              | Before starting, would you like to select one of our agents to learn with you?
-            //- span(style="font-size: 25px; margin-left: 5%; margin-top: 5%; font-weight: bold;") Hello #{user.profile.name},
-            //- span(style="font-size: 18px; margin-left: 5%; margin-top: 3%; font-weight: bold; margin-bottom: 3%") Before starting, would you like to select one of our agents to learn with you?
-            
-            .ui.grid(style="margin:30px;")
-              .four.wide.column(style="display: flex; flex-direction: column; align-items: center; justify-content: center; ")
-                      .ui.radio.checkbox
-                            img.lazy(style='border: 2px solid  #2884d4 !important; border-radius: 15px;' src="/profile_pictures/Daring_PT_Determined2.png" data-src="/profile_pictures/Daring_PT_Determined.png")
-                            button.ui.primary.basic.button(style="border-radius: 15px; background:white !important;position: absolute; bottom: 20%; left: 48%; transform: translateX(-50%);", onclick="saveButton1()") Select
-                            button.ui.inverted.basic.button(style=" cursor: default; color: black !important; border-radius: 15px; position: absolute; bottom: -7%; left: 48%; transform: translateX(-50%);") Daring
+        h1.ui.header.large#mod-title(style="margin-top: -20px;")
+          i.secret.user.icon
+          .content
+            | Welcome aboard, Agent!
+        .mission-info
+          //- h2 Your Target: 
+          .ui.stackable.grid 
+            .row.middle.aligned
+              .ten.wide.column
+                img(src="/images/dart-bullet.svg", alt="Bullet Point")
+                span.target  Your Target: 
+                p
+                p(style="margin-left: 65px;") The Society for Covert Attacks and Mass Manipulation (SCAMM), a notorious group of scammers led by Walter Fang.
+              .six.wide.center.aligned.column
+                img(src="/images/scamm.png", alt="Group of Scammers" style="width: 225px;")
+            .row.middle.aligned
+              .ten.wide.column
+                img(src="/images/dart-bullet.svg", alt="Bullet Point")
+                span.target  Mission Brief: 
+                p
+                p(style="margin-left: 65px;") Learn how SCAMM works by going "deep cover." This means you'll work hands-on to uncover their tricks.
+              .six.wide.center.aligned.column
+                img(src="/images/deepcover.png", alt="Deepcover mission badge labeled: exposing scam and protecting the people" style="width: 175px;")
+            .row.middle.aligned
+              .sixteen.wide.column
+                img(src="/images/dart-bullet.svg", alt="Bullet Point")
+                span.target  Your Team: 
+                p
+                p(style="margin-left: 65px;") Choose from Valiant, Daring, Intrepid, and Dartie — skilled agents ready to assist you!
 
-              .four.wide.column(style="display: flex; flex-direction: column; align-items: center; justify-content: center;")
-                      .ui.radio.checkbox
-                            img.lazy(style=' border: 2px solid  #2884d4 !important; border-radius: 15px;' src="/profile_pictures/Valiant_PT_Determined2.png" data-src="/profile_pictures/Valiant_PT_Determined.png")
-                            button.ui.primary.basic.button(style="border-radius: 15px; background:white !important;position: absolute; bottom: 20%; left: 48%; transform: translateX(-50%);", onclick="saveButton4()") Select
-                            button.ui.inverted.basic.button(style=" cursor: default; color: black !important; border-radius: 15px; position: absolute; bottom: -7%; left: 48%; transform: translateX(-50%);") Valiant
+          //- h2 Your Team:
+          //- img(src="/images/dart-bullet.svg", alt="Bullet Point")
+          //- p Choose from Valiant, Daring, Intrepid, and Dartie — skilled agents ready to assist in this operation.
+        br
+        h1 Choose Your Guide:
+        .ui.stackable.three.column.grid
+            .column
+                .ui.card(onclick='updateAvatar("Daring", "/images/agent-daring.png")')
+                    .ui.small.centered.image
+                        img.daring(src='/images/agent-daring.png')
+                    .content
+                        a.header Daring
+                        .meta
+                          p.descriptors Bold, Fearless, Confident
+                    button.ui.fluid.blue.huge.button Select
+            .column
+                .ui.card(onclick='updateAvatar("Valiant", "/images/agent-valiant.png")') 
+                    .ui.small.centered.image
+                        img.valiant(src='/images/agent-valiant.png')
+                    .content
+                        a.header Valiant
+                        .meta
+                          p.descriptors Courageous, Heroic, Noble &nbsp;
+                    button.ui.fluid.blue.huge.button Select
+            .column
+                .ui.card(onclick='updateAvatar("Intrepid", "/images/agent-intrepid.png")')
+                    .ui.small.centered.image
+                        img.intrepid(src='/images/agent-intrepid.png')
+                    .content
+                        a.header Intrepid
+                        .meta
+                          p.descriptors Clever, Energetic, Resilient
+                    button.ui.fluid.blue.huge.button Select
+            //- .four.wide.column
+            //-     .ui.card(onclick='updateAvatar("Dartie", "/images/agent-dartie.png")')
+            //-         .ui.medium.centered.image
+            //-             img.dartie(src='/images/agent-dartie.png' style="width: 200px;")
+            //-         .content
+            //-             a.header Dartie
+            //-             .meta
+            //-               p.descriptors Playful, Energetic, Loyal
+            //-         button.ui.fluid.blue.huge.button Select
 
-              .four.wide.column(style="display: flex; flex-direction: column; align-items: center; justify-content: center;")
-                      .ui.radio.checkbox
-                            img.lazy(style=' border: 2px solid  #2884d4 !important; border-radius: 15px;' src="/profile_pictures/"+"Intrepid_PT_Determined2.png"  data-src="/profile_pictures/Intrepid_PT_Determined.png")
-                            button.ui.primary.basic.button(style="border-radius: 15px; background:white !important;position: absolute; bottom: 20%; left: 48%; transform: translateX(-50%);", onclick="saveButton3()") Select
-                            button.ui.inverted.basic.button(style=" cursor: default; color: black !important; border-radius: 15px; position: absolute; bottom: -7%; left: 48%; transform: translateX(-50%);") Intrepid
-              .four.wide.column(style="display: flex; flex-direction: column; align-items: center; justify-content: center;")
-                      .ui.radio.checkbox
-                            img.lazy(style=' border: 2px solid  #2884d4 !important; border-radius: 15px;' src="/profile_pictures/"+"Dartie_Happy_32.png" data-src="/profile_pictures/Dartie_Happy_3.png")
-                            button.ui.primary.basic.button(style="border-radius: 15px; background:white !important;position: absolute; bottom: 20%; left: 48%; transform: translateX(-50%);", onclick="saveButton2()") Select
-                            button.ui.inverted.basic.button(style=" cursor: default; color: black !important; border-radius: 15px; position: absolute; bottom: -7%; left: 48%; transform: translateX(-50%);") Dartie
-
-            button.ui.primary.basic.button(style="margin: auto; margin-bottom:50px; width:50%; border-radius: 15px !important; margin-top: 1%" onclick="saveButton5()" ) I prefer to learn on my own
+        //- .ui.grid.buttonGrid
+        //-     .column.center.aligned
+        //-         button.ui.blue.huge.basic.button I prefer to learn on my own
+        br
+        br
 
 block scripts
   script.
-    function saveButton1() {
-      localStorage.setItem('character', 'Daring_PT_Determined.png');
-      location.reload();
-      window.location.href = '/character';
-    }
-    function saveButton2() {
-      localStorage.setItem('character', 'Dartie_Happy_3.png');
-      location.reload();
-      window.location.href = '/character';
+    function updateAvatar(avatarName, avatarImg) {
+      var userData = {
+        avatar: avatarName,
+        avatarImg: avatarImg
+      };
+      
+      fetch('/postAvatar', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // Include other headers as needed
+        },
+        body: JSON.stringify(userData)
+      })
+      .then(response => {
+        if (response.ok) {
+          console.log('Avatar updated successfully');
+          window.location.href = '/character';
+          // Handle success
+        } else {
+          console.error('Failed to update avatar');
+          // Handle errors
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        // Handle network errors
+      });
     }
 
-    function saveButton3() {
-      localStorage.setItem('character', 'Intrepid_PT_Determined.png');
-      location.reload();
-      window.location.href = '/character';
-    }
-
-    function saveButton4() {
-      localStorage.setItem('character', 'Valiant_PT_Determined.png');
-      location.reload();
-      window.location.href = '/character';
-    }
-
-    function saveButton5() {
-      localStorage.setItem('character', 'info-icon.png');
-      location.reload();
-      window.location.href = '/character';
-    }
 
 
 block styles
-  style(type='text/css').
-    .lazy {
-      width: 90%;
-      height: 90%;
-    }
-
-    .profilePictureModal {
-    height: calc(100% - 50px);
-    margin-top: 30px !important;
-    margin-bottom: 30px !important;
-    }
+  link(rel='stylesheet', href='/css/character-selection.css') 

@@ -1,22 +1,24 @@
 .emailHeader {
     background-color: #F5F5F5;
-    color: #2165AE;
-    border-bottom: 4px solid #2165AE;
+    color: #3757A6;
+    border-bottom: 4px solid #3757A6;
     padding: 20px;
     margin: 0;
 }
 
 i.user.circle.icon {
-    color: #2165AE;
+    color: #3757A6;
 }
 
-p, h3, span {
+.openEmailContainer p, 
+.openEmailContainer h3,
+.openEmailContainer span {
     font-family: Arial, sans-serif;
-    font-size: 1.5rem;
+    /* font-size: 1.25rem; */
 }
 
 #subjectLine {
-    font-size: 1.6rem;
+    font-size: 1.35rem;
     /* margin-left: 100px; */
     font-weight: bold;
 }
@@ -28,17 +30,17 @@ span.subject {
 
 
 .senderInfo {
-    font-size: 1.5rem;
+    /* font-size: 1.25rem; */
 }
 
 .senderInfo span {
-    font-size: 1.5rem;
+    /* font-size: 1.25rem; */
 }
 
 .fromEmail {
     color: #747471;
     font-weight: lighter;
-    font-size: 1.5rem;
+    /* font-size: 1.25rem; */
     margin-left: 10px;
 }
 
@@ -75,24 +77,25 @@ span.subject {
     padding: 6px;
     background: #EEEEEE;
     border: 1px solid black;
-    /* font-size: 1.5rem; */
+    /* font-size: 1.25rem; */
 }
 
 i.exclamation.circle.icon  {
     color: #666666;
+    font-size: 1.75rem !important;
 }
 
 span.pageNum {
     position: relative;
     top: 5px;
-    font-size: 1.5rem;
+    /* font-size: 1.25rem; */
     /* margin-top: 100px;
     background-color: red;
     padding-top: 50px; */
 
 }
 
-.ui.icon.message {
+.htmlImageExample .ui.icon.message {
     background-color: white !important;
     box-shadow: none !important;
 }
@@ -153,7 +156,7 @@ button.ui.circular.icon.button:hover {
     color: #C62D2D !important;
 }
 /* .content {
-    font-size: 1.5rem !important;
+    font-size: 1.25rem !important;
 } */
 
 /* introjs styles copied from ui_layout.css */
@@ -195,16 +198,17 @@ button.ui.circular.icon.button:hover {
 }
 
 .introjs-button {
-    font-size: 1.5rem;
+    /* font-size: 1.25rem; */
     background: #6BBCC7 !important;
     color: white;
     text-shadow: none;
     padding-left: 30px;
     padding-right: 30px;
+    font-size: 1.5rem;
 }
 
 .introjs-button:hover {
-    font-size: 1.5rem;
+    /* font-size: 1.25rem; */
     background: #6BBCC7 !important;
     color: white;
     text-shadow: none;
@@ -224,10 +228,70 @@ button.ui.circular.icon.button:hover {
 }
 
 
-#spam-warning {
+/* #spam-warning {
     margin-top: -15px;
-}
+} */
 
 .center-phone {
     text-align: center;
+}
+
+#trust-wallet .inboxLabel.ui.label {
+    margin-bottom: 15px;
+}
+
+#trust-wallet .ui.small.message p {
+    font-size: 1rem;
+}
+
+#trust-wallet #trust-text {
+    font-size: 1rem !important;
+}
+
+#iphone-email-eval {
+    border: 5px solid #fd0068;
+    border-radius: 10px;
+}
+
+.font {
+    font-family: Arial, Helvetica, sans-serif;
+    /* font-size: 1.25rem; */
+}
+
+#iphone-email-eval .iphone-header {
+    color: #fd0068;
+    font-size: 1.75rem;
+    font-weight: 900;
+    margin-bottom: -15px;
+}
+
+#iphone-email-eval .pink-text {
+    color: #FD0068;
+}
+
+#iphone-email-eval #congrats{
+    background-color: #FD0068;
+    color: white;
+    padding: 0.5rem;
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+#iphone-email-eval #confirmButton{
+    background-color: #FD4319;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#iphone-email-eval .ui.basic.huge.segment#title,
+#iphone-email-eval .ui.basic.segment#continue {
+    padding-left: 0; 
+    padding-right: 0;
+}
+
+#iphone-email-eval .ui.segment {
+    padding-left: 0;
+    padding-right: 0;
 }

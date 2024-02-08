@@ -58,6 +58,7 @@ if (secureTransfer) numberOfProxies = 1; else numberOfProxies = 0;
  * Controllers (route handlers).
  */
 const homeController = require('./controllers/home');
+const moduleController = require('./controllers/modules');
 const coursesController = require('./controllers/courses');
 const userController = require('./controllers/user');
 const apiController = require('./controllers/api');
@@ -160,17 +161,20 @@ app.use('/webfonts', express.static(path.join(__dirname, 'node_modules/@fortawes
 /**
  * Primary app routes.
  */
-// app.get('/', homeController.index);
-app.get('/', (req, res, next) => {
-  if (req.isAuthenticated()) {
-    // If the user is authenticated, redirect to the '/courses' page
-    res.redirect('/courses');
-  } else {
-    // If not authenticated, continue to the homeController.index route
-    homeController.index(req, res, next);
-  }
-});
+app.get('/', homeController.index);
+// app.get('/', (req, res, next) => {
+//   if (req.isAuthenticated()) {
+//     // If the user is authenticated, redirect to the '/courses' page
+//     res.redirect('/courses');
+//   } else {
+//     // If not authenticated, continue to the homeController.index route
+//     homeController.index(req, res, next);
+//   }
+// });
 app.get('/courses', coursesController.index);
+app.get('/about/:modId', isValidModId, moduleController.getAbout);
+app.get('/course-player', moduleController.getModule);
+app.post('/completeModuleStatus', moduleController.completeModuleStatus);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);
@@ -187,13 +191,18 @@ app.get('/account/verify/:token', passportConfig.isAuthenticated, userController
 app.get('/account', passportConfig.isAuthenticated, userController.getAccount);
 app.post('/account/profile', passportConfig.isAuthenticated, userController.postUpdateProfile);
 app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);
-app.post('/account/newsletter', passportConfig.isAuthenticated, userController.postUpdateNewsletter);
+// app.post('/account/newsletter', passportConfig.isAuthenticated, userController.postUpdateNewsletter);
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
-
+app.post('/postBadge', userController.postBadge); 
+app.get('/getBadges', userController.getBadges); 
 app.post('/guestLogin', userController.postGuestLogin);
 app.get('/getGuest', userController.getGuest);
 
+//Route added by liv to take you to the tutorial
+app.get('/tutorial', (req, res) => {
+  res.render('tutorial');
+});
 
 
 // Render privacy policy page.
@@ -240,6 +249,9 @@ app.get('/accessibility', passportConfig.isAuthenticated, function(req, res) {
 });
 
 
+
+
+
 /**
  * Module Routes
  */
@@ -247,11 +259,9 @@ app.get('/intro/:page?/:modId', isValidModId, coursesController.getIntro);
 app.get('/challenge/:page?/:modId', isValidModId, coursesController.getChallenge);
 app.get('/learn/:submod(submod|submod2|submod3)/:page?/:modId', isValidModId, coursesController.getLearn);
 app.get('/explore/:page?/:modId', isValidModId, coursesController.getExplore);
-app.get('/evaluate/:page?/:modId', isValidModId, coursesController.getEvaluate);
+app.get('/evaluation/:page?/:modId', isValidModId, coursesController.getEvaluation);
 app.get('/reflect/:page?/:modId', isValidModId, coursesController.getReflect);
 app.get('/certificate/:modId', isValidModId, coursesController.getCertificate);
-
-
 
 
 
@@ -260,6 +270,8 @@ app.post('/postStartTime', userController.postStartTime);
 app.post('/postEndTime', userController.postEndTime);
 app.post('/postModuleProgress', userController.postModuleProgress);
 app.post('/postQuizScore', userController.postQuizScore);
+app.get('/getLatestQuizScore', userController.getLatestQuizScore);
+app.post('/postAvatar', userController.postAvatar);
 
 
 
