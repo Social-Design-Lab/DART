@@ -1,0 +1,30 @@
+extends ../../../module_layout
+
+block content
+
+  .ui.container#raised-container.top-padding
+    .limit
+      h1.ui.header.large#learn-title
+        .content
+          | How can you protect yourself before being contacted by scammers?
+      .dosContainer
+        .ui.large.blue.fluid.label
+          i.thumbs.up.icon 
+          | Do's
+      .ui.bulleted.list 
+        .item Search for the person’s name, information, and messages to see if it has been used in scams before.
+      img.ui.centered.fluid.image(src='/images/romance-submod3learn4.jpg' alt="example text messages from lucy")
+      p This person received a message they were suspicious of, so they copied and pasted the text into a search engine. It turns this person sent the same text to a lot of other people, so they are a scammer! Asking loved ones if they got the same message works well too! You can also search the person’s name or other information surrounding them using this same process.
+    
+    script.
+        var progress = #{user.moduleProgress.romance.percent}
+    script(src='/js/setProgressBar.js')  
+
+block append footer
+  .ui.container
+    +navButtons('romance', 'sub3_learn4', '/learn/submod3/3/romance', '/learn/submod3/5/romance', 84, 'Back', 'Next')  
+
+block scripts
+  script(src='/js/update_character_name.js')
+  script.
+    postStartTime("romance", "sub3_learn3");  

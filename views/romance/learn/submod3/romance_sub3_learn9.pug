@@ -1,0 +1,31 @@
+extends ../../../module_layout
+
+block content
+
+  .ui.container#raised-container.top-padding
+    .limit
+      h1.ui.header.large#learn-title
+        .content
+          | How can you protect yourself after being contacted by scammers?
+      .dosContainer
+        .ui.large.blue.fluid.label
+          i.thumbs.up.icon 
+          | Do's
+      .ui.bulleted.list 
+        .item 
+          b Immediately end all contact with the scammer and block their phone number, email address, and/or social media accounts to prevent them further reaching out to you.
+      img.ui.medium.right.floated.image(src='/images/romance-submod3learn9.jpg' alt="picture of the buttons on where to block someone")
+      p To prevent future contact with someone on most platforms, you can click on their profile until you find a “Block” button, as the green arrow indicates. The pictures to my left is one example on a social media application. For help on specific apps, look on their help or Frequently Asked Questions page, or search on an engine how to block someone on that app.
+
+    script.
+        var progress = #{user.moduleProgress.romance.percent}
+    script(src='/js/setProgressBar.js')  
+
+block append footer
+  .ui.container
+    +navButtons('romance', 'sub3_learn9', '/learn/submod3/8/romance', '/learn/submod3/10/romance', 84, 'Back', 'Next')  
+
+block scripts
+  script(src='/js/update_character_name.js')
+  script.
+    postStartTime("romance", "sub3_learn8");
