@@ -1,0 +1,29 @@
+extends ../../../module_layout
+
+block content
+
+  .ui.container#raised-container.top-padding
+    .limit
+      h1.ui.header.large#learn-title
+        .content
+          | How can you protect yourself after being contacted by scammers?
+      .dosContainer
+        .ui.large.blue.fluid.label
+          i.thumbs.up.icon 
+          | Do's
+      .ui.bulleted.list 
+        .item Immediately end all contact with the scammer and block their phone number, email address, and/or social media accounts to prevent them further reaching out to you.
+
+
+    script.
+        var progress = #{user.moduleProgress.romance.percent}
+    script(src='/js/setProgressBar.js')  
+
+block append footer
+  .ui.container
+    +navButtons('romance', 'sub3_learn8', '/learn/submod3/7/romance', '/learn/submod3/9/romance', 84, 'Back', 'Next')  
+
+block scripts
+  script(src='/js/update_character_name.js')
+  script.
+    postStartTime("romance", "sub3_learn7");
