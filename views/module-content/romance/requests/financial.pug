@@ -2,19 +2,52 @@
     .ui.container#financial-read
         .limit#learn-target(style="padding: 0;")
             .ui.stackable.grid
-                .ten.wide.column
-                    h1.ui.header.large#learn-title
-                        .content
-                            i.book.icon
-                            | Financial Impact
-                    p The Federal Trade Commission (FTC) reports that in 2022 nearly 70,000 people reported a Romance Scams. 
-                        strong Reported losses hit $1.3 billion. 
-                        | The median reported loss was $4,400. Romance Scams increased during the pandemic while people struggled emotionally.
-                    p “I’ve seen elders mortgage their houses, borrow large sums of money from their neighbors, empty out their retirement accounts,” said Michael Delaney, a Chicago-based lawyer who specializes in elder law. 
-                    i.source Sources: 
-                        a(href='https://www.nytimes.com/2023/02/03/business/retiree-romance-scams.html' target='_blank')  New York Times 
-                        | &
-                        a(href=' https://www.ftc.gov/news-events/data-visualizations/data-spotlight/2023/02/romance-scammers-favorite-lies-exposed' target='_blank')  Federal Trade Commission
+                h1.ui.header.large#learn-title
+                    .content
+                        i.book.icon
+                        | Request Types
+                p When scammers believe they have built a trust and close bond with you, they take advantage of your preexisting trust, love, and attachment in order to request money or criminal help.
+            
+                .ui.icon.mini.message(style="padding: 5px; z-index: 99;")
+                    i.info.circle.blue.icon(style="color: #0C2746; font-size: 1.5rem;")
+                    .content
+                        p Click the arrow to learn more.
 
-                .six.wide.column.middle.aligned
-                    img.ui.image(src='/images/losing-money.svg' style='margin-left: auto; margin-right: auto')
+
+            .ui.stackable.middle.aligned.grid#double-slider(style="margin-top: -20px;")
+                .column.six.wide.computer.only.sixteen.wide.tablet.only
+                    #image-slider(style="margin: 0 auto; max-height: 300px; overflow: hidden;")
+                        img(src='/images/romance/scam_request/giftcard.svg' alt='Shoulder Surfing' class="image-fill")
+                        img(src='/images/romance/scam_request/investment-cryptocurrency.svg' alt='Shoulder Surfing' class="image-fill")
+                        img(src='/images/romance/scam_request/money-mule.svg' alt='Fake Social Security Administration (SSA) employee' class="image-fill")
+                        img(src='/images/romance/scam_request/catfish.svg' alt='Shoulder Surfing' class="image-fill")
+
+                .column.ten.wide.computer.only.sixteen.wide.tablet.only
+                    #steps-slider
+                        //- Card 1
+                        .ui.basic.card
+                            .content
+                                h2 Gift Card Request
+                                p Scammers request gift cards, claiming they need them for emergency expenses, to fund travel to meet in person, or as a simple favor to prove love or friendship. They convince victims to buy these cards and share the codes, pitching it as a quick and simple way to send money.  This method leaves little trace and makes fund recovery nearly impossible.
+                                
+                        //- Card 2 
+                        .ui.basic.card
+                            .content
+                                h2 Investment / Cryptocurrency
+                                P Instead of asking you for money, a scammer might offer to help you make money. They will offer investment advice, often involving cryptocurrency. The scammers may have you open a cryptocurrency account and then provide you with a link to deposit your funds. This account will show high levels of returns to encourage you to deposit even more money. However, once you try to withdraw your money, you will be asked to either pay a hefty tax bill or the site will shut down, taking your money with it. 
+                                    //- a(href='https://www.justice.gov/criminal/criminal-fraud/identity-theft/identity-theft-and-identity-fraud.' target='_blank')
+                                    //-     sup [11]
+                        //- Card 3
+                        .ui.basic.card
+                            .content
+                                h2 Money Mule
+                                p Scammers manipulate you into moving illegal money, in a scheme reminiscent of how a mule carries heavy loads. After building a relationship, they will ask you to do them a favor. They will send you money to purchase gift cards or cryptocurrency, then ask you to open a bank account or to send/receive packages. While these may seem like innocent favors, you are actually helping them launder money which could result in you being charged with a crime. 
+                        //- Card 4
+                        .ui.basic.card
+                            .content
+                                h2 Catfishing
+                                p Scammers use a fake online profile to trick you into believing they are someone else. By presenting themselves as an ideal partner, scammers can manipulate emotions and gain trust, making it easier to exploit victims for financial or emotional gain. The aim is to create a compelling but entirely fictional identity to attract victims, playing on their desires and vulnerabilities.
+                                    //- a(href='https://www.aarp.org/money/scams-fraud/info-2019/social-security.html' target='_blank')
+                                    //-     sup [2]
+                i.source *Sources: 11. 
+                    a(href='https://www.cybercrimejournal.com/pdf/Koppetal2015vol9issue2.pdf' target='_blank') The Role of Love stories in Romance Scams: A Qualitative Analysis of Fraudulent Profiles &nbsp
