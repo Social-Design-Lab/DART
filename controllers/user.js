@@ -169,10 +169,38 @@ exports.postSignup = async (req, res, next) => {
  * Profile page.
  */
 exports.getAccount = (req, res) => {
+  console.log("GetAccount")
+  console.log( req.user.badges )
+  const originalData = req.user.badges;
+  const groupedData = [];
+  for (const item of originalData) {
+    let existingGroup = groupedData.find(group => group.module === item.module);
+  
+    if (!existingGroup) {
+      existingGroup = {
+        module: item.module,
+        badges: []
+      };
+      groupedData.push(existingGroup);
+    }
+  
+    existingGroup.badges.push({
+      module: item.module,
+      section: item.section,
+      type: item.type,
+      name: item.name,
+      imageUrl: item.imageUrl,
+      _id: item._id,
+      earnedAt: item.earnedAt
+    });
+  }
+  console.log(groupedData)
   res.render('account/profile', {
     title: 'Account Management',
-    badges: req.user.badges 
+    badges: req.user.badges ,
+    groupBadges:  groupedData
   });
+
 };
 
 /**
@@ -1156,7 +1184,7 @@ exports.getBadges = async (req, res, next) => {
     });
 
     if (existingUser) {
-      // console.log("the badges are " + JSON.stringify(existingUser.badges));
+      console.log("the badges are " + JSON.stringify(existingUser.badges));
 
       // Send back the badges of the existing user
       res.status(200).json(existingUser.badges);
