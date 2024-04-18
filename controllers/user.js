@@ -169,39 +169,72 @@ exports.postSignup = async (req, res, next) => {
  * Profile page.
  */
 exports.getAccount = (req, res) => {
-  console.log("GetAccount")
-  console.log( req.user.badges )
-  const originalData = req.user.badges;
-  const groupedData = [];
-  for (const item of originalData) {
-    let existingGroup = groupedData.find(group => group.module === item.module);
+  console.log("GetAccount");
+  console.log(req.user.badges);
+
+  const badges = req.user.badges;
+  const moduleStatus = req.user.moduleStatus;
+
+  const totalBadgesPerModule = getTotalBadgesPerModule(moduleStatus);
+  const groupedBadges = groupBadgesByModule(badges, totalBadgesPerModule);
+
+  console.log(groupedBadges);
   
-    if (!existingGroup) {
-      existingGroup = {
-        module: item.module,
-        badges: []
-      };
-      groupedData.push(existingGroup);
-    }
-  
-    existingGroup.badges.push({
-      module: item.module,
-      section: item.section,
-      type: item.type,
-      name: item.name,
-      imageUrl: item.imageUrl,
-      _id: item._id,
-      earnedAt: item.earnedAt
-    });
-  }
-  console.log(groupedData)
   res.render('account/profile', {
     title: 'Account Management',
-    badges: req.user.badges ,
-    groupBadges:  groupedData
+    badges: badges,
+    groupBadges: groupedBadges,
+  });
+};
+
+// Function to count total number of badges for each module and store in an array
+function getTotalBadgesPerModule(moduleStatus) {
+  const totalBadgesPerModule = [];
+  for (const key in moduleStatus) {
+    if (Object.hasOwnProperty.call(moduleStatus, key)) {
+      totalBadgesPerModule.push({ module: key, count: Object.keys(moduleStatus[key]).length });
+    }
+  }
+  console.log("Total badges for each category:");
+  console.log(totalBadgesPerModule);
+  return totalBadgesPerModule;
+}
+
+// Function to group badges by module
+function groupBadgesByModule(badges, totalBadgesPerModule) {
+  const groupedBadges = [];
+
+  badges.forEach((badge, index) => {
+    const numBadgesForModule = totalBadgesPerModule[index].count;
+
+    let existingGroup = groupedBadges.find(group => group.module === badge.module);
+
+    if (!existingGroup) {
+      existingGroup = {
+        module: badge.module,
+        totalBadges: numBadgesForModule,
+        badges: [],
+      };
+      groupedBadges.push(existingGroup);
+    }
+
+    existingGroup.badges.push({
+      module: badge.module,
+      section: badge.section,
+      type: badge.type,
+      name: badge.name,
+      imageUrl: badge.imageUrl,
+      _id: badge._id,
+      earnedAt: badge.earnedAt,
+    });
   });
 
-};
+  return groupedBadges;
+}
+
+
+
+
 
 /**
  * POST /account/profile

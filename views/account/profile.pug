@@ -50,12 +50,18 @@ block content
         p No badges to display.
 
     .ui.segment.padded#badges
-      h3 Badges  
+      h3 Badges
       if groupBadges
-        h3 User Badges
-          each group in groupBadges
-            h3=group.module
-            each badge in group.badges
+        each group in groupBadges
+          .ui.accordion
+            .title(onclick="toggleAccordion('" + group.module + "')")
+              | #{group.module}
+              | #{group.badges.length}
+              | /
+              | #{group.totalBadges}
+              i.caret.down.icon
+            .content(id=group.module)
+              each badge in group.badges
                 .ui.small.card
                   .image
                     img.ui.small.centered.image(src=badge.imageUrl alt=badge.name)
@@ -64,6 +70,13 @@ block content
       else
         p No badges to display.
 
+    script.
+      function toggleAccordion(contentId) {
+        const content = document.getElementById(contentId);
+        if (content) {
+          content.classList.toggle('active');
+        }
+      }
 
       
       //- each badge in badges
