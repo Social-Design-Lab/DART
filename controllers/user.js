@@ -5,7 +5,7 @@ const passport = require('passport');
 const _ = require('lodash');
 const validator = require('validator');
 const mailChecker = require('mailchecker');
-const User = require('../sequelize/models/User');
+// const User = require('../sequelize/models/User');
 
 const randomBytesAsync = promisify(crypto.randomBytes);
 

@@ -1,4 +1,4 @@
-const Lesson = require('../sequelize/models/lesson.model.js');
+// const Lesson = require('../sequelize/models/lesson.model.js');
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');

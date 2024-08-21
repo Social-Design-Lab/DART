@@ -28,7 +28,7 @@
     "make-choices-model": "npx sequelize-cli model:generate --name Choices --attributes question_id:integer,choice_key:string,text:text,explanation:text --underscored",
     "make-scores-model": "npx sequelize-cli model:generate --name Scores --attributes user_id:integer,quiz_id:integer,score_total:float,correct_answers:integer,timestamp:date --underscored",
     "make-user-activity-model": "npx sequelize-cli model:generate --name UserActivity --attributes user_id:integer,activity_type:string,activity_date:date,page_accessed:string,module_name:string,ip_address:string,geo_location:string,browser:string,os:string,current_streak:integer,longest_streak:integer,last_access_date:date --underscored",
-    "migrate": "npx sequelize-cli db:migrate --config sequelize/config/config.js --migrations-path sequelize/migrations"
+    "migrate": "npx sequelize-cli db:migrate --config sequelize/config/config.js"
   },
   "dependencies": {
     "@node-rs/bcrypt": "^1.7.3",

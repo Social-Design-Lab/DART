@@ -1,7 +1,7 @@
 // for json file reading
 const fs = require('fs');
 const util = require('util');
-const User = require('../sequelize/models/User');
+// const User = require('../sequelize/models/User');
 
 // Promisify the readFile method
 fs.readFileAsync = util.promisify(fs.readFile);

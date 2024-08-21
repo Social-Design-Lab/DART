@@ -15,7 +15,7 @@ const { OAuth2Strategy } = require('passport-oauth');
 const _ = require('lodash');
 const moment = require('moment');
 
-const User = require('../sequelize/models/User');
+// const User = require('../sequelize/models/User');
 
 passport.serializeUser((user, done) => {
   done(null, user.id);

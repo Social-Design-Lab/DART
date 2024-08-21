@@ -1,7 +1,7 @@
 // for json file reading
 const fs = require('fs');
 const util = require('util');
-const User = require('../sequelize/models/User');
+// const User = require('../sequelize/models/User');
   
 /**
  * GET /about/:page?/:modId
