@@ -9,7 +9,7 @@
   "author": "Dominic DiFranzo",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon app.js",
+    "dev": "cross-env NODE_ENV=development nodemon app.js",
     "start": "node app.js",
     "test": "mocha --reporter spec",
     "make-all-models": "npx sequelize-cli model:generate --name Users --attributes name:string,email:string,avatar:string,avatar_img:string,role_play:string,password:string,password_reset_token:string,password_reset_expires:date,email_verification_token:string,email_verified:boolean,google:string,account_type:string,created_at:date,updated_at:date --underscored && npx sequelize-cli model:generate --name NarrationSettings --attributes user_id:integer,mute:boolean,speed:float,word_highlighting:boolean,sentence_highlighting:boolean --underscored && npx sequelize-cli model:generate --name Badges --attributes user_id:integer,module:string,section:string,type:string,name:string,image_url:string,earned_at:date --underscored && npx sequelize-cli model:generate --name Courses --attributes title:string,description:text,level:string,keywords:ARRAY:string,duration:integer,created_at:date,updated_at:date --underscored && npx sequelize-cli model:generate --name Enrollments --attributes user_id:integer,course_id:integer,enrollment_date:date --underscored && npx sequelize-cli model:generate --name Lessons --attributes course_id:integer,title:string,subtitle:string,duration:float,image:string,link:string,imagelink:string,keywords:ARRAY:string,created_at:date,updated_at:date --underscored && npx sequelize-cli model:generate --name Tags --attributes name:string --underscored && npx sequelize-cli model:generate --name CourseTags --attributes course_id:integer,tag_id:integer --underscored && npx sequelize-cli model:generate --name Quizzes --attributes lesson_id:integer,title:string,description:text --underscored && npx sequelize-cli model:generate --name Questions --attributes quiz_id:integer,progress:float,type:string,partial:string,prompt:text,explanation:text --underscored && npx sequelize-cli model:generate --name Answers --attributes question_id:integer,correct_answer:text --underscored && npx sequelize-cli model:generate --name Choices --attributes question_id:integer,choice_key:string,text:text,explanation:text --underscored && npx sequelize-cli model:generate --name Scores --attributes user_id:integer,quiz_id:integer,score_total:float,correct_answers:integer,timestamp:date --underscored && npx sequelize-cli model:generate --name UserActivity --attributes user_id:integer,activity_type:string,activity_date:date,page_accessed:string,module_name:string,ip_address:string,geo_location:string,browser:string,os:string,current_streak:integer,longest_streak:integer,last_access_date:date --underscored",
@@ -82,10 +82,12 @@
     "twit": "^1.1.20",
     "ua-parser-js": "^1.0.36",
     "useragent": "^2.3.0",
-    "validator": "^13.11.0"
+    "validator": "^13.11.0",
+    "winston": "^3.14.2"
   },
   "devDependencies": {
     "chai": "^4.3.8",
+    "cross-env": "^7.0.3",
     "mocha": "^10.2.0",
     "nodemon": "^3.0.1",
     "sequelize-cli": "^6.6.2",
