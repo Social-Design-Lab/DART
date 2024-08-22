@@ -1,7 +1,5 @@
-require('dotenv').config();
-
-const { json } = require('body-parser');
-const { createLogger, format, transports } = require('winston');
+import 'dotenv/config';
+import { createLogger, format, transports } from 'winston';
 const { combine, timestamp, errors } = format;
 
 function buildProdLogger() {
@@ -12,11 +10,10 @@ function buildProdLogger() {
             errors({ stack: true }),
             format.json()
         ),
-        defaultMeta:({ service: 'user-service' }),
+        defaultMeta: { service: 'user-service' },
         transports: [new transports.Console()],
-
     });
 }
 
+export default buildProdLogger;
 
-module.exports = buildProdLogger;

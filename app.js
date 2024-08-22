@@ -1,17 +1,10 @@
-require('dotenv').config();
-
-const express = require('express');
-const bodyParser = require("body-parser");
-const path = require('path');
-const logger = require('./config/logger');
-const db = require('./config/database');
-
-
-
-// logger.info('Starting server...', {meta1:'meta1'});
-// logger.warn('This is a warning!');
-// logger.error(new Error('This is an error!'));
-// logger.debug('This is a debug message!');
+import 'dotenv/config';
+import express from 'express';
+import bodyParser from 'body-parser';
+import path from 'path';
+import logger from './config/logger/index.js';
+import morgan from 'morgan';
+import db from './config/database.js';
 
 // Test the connection
 db.authenticate()

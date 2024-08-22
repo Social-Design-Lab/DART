@@ -1,8 +1,10 @@
-const { Sequelize } = require('sequelize');
-const logger = require('./logger/dev-logger');
+import { Sequelize } from 'sequelize';
+import logger from './logger/index.js';
 
-module.exports = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
   host: 'localhost',
   dialect: 'postgres',
-  logging: msg => logger.debug(msg)
+  logging: msg => logger.debug(msg),
 });
+
+export default sequelize;
