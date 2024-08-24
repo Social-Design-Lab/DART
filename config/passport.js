@@ -1,21 +1,10 @@
-const passport = require('passport');
-const refresh = require('passport-oauth2-refresh');
-// const axios = require('axios');
-const { Strategy: LocalStrategy } = require('passport-local');
-// const { Strategy: FacebookStrategy } = require('passport-facebook');
-// const { Strategy: SnapchatStrategy } = require('passport-snapchat');
-// const { Strategy: TwitterStrategy } = require('@passport-js/passport-twitter');
-// const { Strategy: TwitchStrategy } = require('twitch-passport');
-// const { Strategy: GitHubStrategy } = require('passport-github2');
-const { OAuth2Strategy: GoogleStrategy } = require('passport-google-oauth');
-// const { Strategy: LinkedInStrategy } = require('passport-linkedin-oauth2');
-// const { SteamOpenIdStrategy } = require('passport-steam-openid');
-const { OAuthStrategy } = require('passport-oauth');
-const { OAuth2Strategy } = require('passport-oauth');
-const _ = require('lodash');
-const moment = require('moment');
-
-// const User = require('../sequelize/models/User');
+import passport from 'passport';
+import refresh from 'passport-oauth2-refresh';
+import { Strategy as LocalStrategy } from 'passport-local';
+import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
+import { OAuthStrategy, OAuth2Strategy } from 'passport-oauth';
+import moment from 'moment';
+// import User from '../sequelize/models/user.js'; // Adjust the import path as needed
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -23,7 +12,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
   try {
-    return done(null, await User.findById(id));
+    return done(null, await User.findByPk(id)); // Sequelize method for primary key lookup
   } catch (error) {
     return done(error);
   }
@@ -32,55 +21,35 @@ passport.deserializeUser(async (id, done) => {
 /**
  * Sign in using Email and Password.
  */
-passport.use(new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
-  User.findOne({ email: email.toLowerCase() })
-    .then((user) => {
-      if (!user) {
-        return done(null, false, { msg: `Email ${email} not found.` });
-      }
-      if (!user.password) {
-        return done(null, false, { msg: 'Your account was registered using a sign-in provider. To enable password login, sign in using a provider, and then set a password under your user profile.' });
-      }
-      user.comparePassword(password, (err, isMatch) => {
-        if (err) { return done(err); }
-        if (isMatch) {
-          return done(null, user);
-        }
-        return done(null, false, { msg: 'Invalid email or password.' });
-      });
-    })
-    .catch((err) => done(err));
+passport.use(new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
+  try {
+    const user = await User.findOne({ where: { email: email.toLowerCase() } });
+    if (!user) {
+      return done(null, false, { msg: `Email ${email} not found.` });
+    }
+    if (!user.password) {
+      return done(null, false, { msg: 'Your account was registered using a sign-in provider. To enable password login, sign in using a provider, and then set a password under your user profile.' });
+    }
+    const isMatch = await user.comparePassword(password); // Ensure this method is defined in your Sequelize model
+    if (isMatch) {
+      return done(null, user);
+    }
+    return done(null, false, { msg: 'Invalid email or password.' });
+  } catch (err) {
+    return done(err);
+  }
 }));
-
-/**
- * OAuth Strategy Overview
- *
- * - User is already logged in.
- *   - Check if there is an existing account with a provider id.
- *     - If there is, return an error message. (Account merging not supported)
- *     - Else link new OAuth account with currently logged-in user.
- * - User is not logged in.
- *   - Check if it's a returning user.
- *     - If returning user, sign in and we are done.
- *     - Else check if there is an existing account with user's email.
- *       - If there is, return an error message.
- *       - Else create a new account.
- */
 
 /**
  * Sign in with Google.
  */
 const googleStrategyConfig = new GoogleStrategy({
-  clientID: process.env.GOOGLE_ID,           // Client ID from Google Developer Console
-  clientSecret: process.env.GOOGLE_SECRET,   // Client Secret from Google Developer Console
-  callbackURL: '/auth/google/callback',      // URL to which Google will redirect the user after granting/denying permission
-  passReqToCallback: true                    // Passes the request to the callback, making `req` the first argument
+  clientID: process.env.GOOGLE_ID,
+  clientSecret: process.env.GOOGLE_SECRET,
+  callbackURL: '/auth/google/callback',
+  passReqToCallback: true
 }, async (req, accessToken, refreshToken, params, profile, done) => {
   try {
-    /**
-     * Helper function to log in the user and update the session.
-     * @param {Object} user - The user object
-     */
     const loginUserAndUpdateSession = async (user) => {
       req.login(user, (err) => {
         if (err) {
@@ -90,21 +59,13 @@ const googleStrategyConfig = new GoogleStrategy({
       });
     };
 
-    // If the user is already logged into our application
     if (req.user) {
-      // Search for a user in our database with the Google ID from the profile
-      const existingGoogleUser = await User.findOne({ google: profile.id });
-      
-      // If a user with the same Google ID is found and it's not the currently logged in user
+      const existingGoogleUser = await User.findOne({ where: { google: profile.id } });
       if (existingGoogleUser && (existingGoogleUser.id !== req.user.id)) {
-        req.flash('errors', { msg: 'This google email is is not linked to an account.' });
+        req.flash('errors', { msg: 'This google email is not linked to an account.' });
         return done(null, existingGoogleUser);
       }
-
-      // Fetch the current user from the database
-      const user = await User.findOne({ email: req.user.email });
-
-      // Update user's Google ID and save tokens
+      const user = await User.findOne({ where: { email: req.user.email } });
       user.google = profile.id;
       user.tokens.push({
         kind: 'google',
@@ -114,75 +75,59 @@ const googleStrategyConfig = new GoogleStrategy({
       });
       user.name = user.name || profile.name.givenName;
       await user.save();
-      
       req.flash('info', { msg: 'Google account has been linked.' });
       return loginUserAndUpdateSession(user);
     }
 
-    // Search for a user with either matching Google ID or email address
-    let user = await User.findOne({ $or: [{ google: profile.id }, { email: profile.emails[0].value }] });
-
-    if (user) {
-      // If a user with matching Google ID is found
-      if (user.google === profile.id) {
-        return done(null, user);
-      } 
-      // If a user with matching email address is found, but not linked with Google
-      else if (user.email === profile.emails[0].value && !user.google) {
-        req.flash('errors', { msg: 'Your account was registered using email and password. To enable Google login, sign in with that account then navigate to the profile page and press the "Link your Google Account" button.' });
-        return done(null, false); // False means authentication failed
-      }
+    let user = await User.findOne({ where: { google: profile.id } });
+    if (!user) {
+      user = await User.findOne({ where: { email: profile.emails[0].value } });
     }
 
-    // If no user is found, create a new user with the provided Google profile information
-    user = new User();
-    user.email = profile.emails[0].value;
-    user.google = profile.id;
-    user.tokens.push({
-      kind: 'google',
-      accessToken,
-      accessTokenExpires: moment().add(params.expires_in, 'seconds').format(),
-      refreshToken,
-    });
-    user.name = profile.name.givenName;
-    await user.save();
-    return loginUserAndUpdateSession(user);
-
+    if (user) {
+      if (user.google === profile.id) {
+        return done(null, user);
+      } else if (user.email === profile.emails[0].value && !user.google) {
+        req.flash('errors', { msg: 'Your account was registered using email and password. To enable Google login, sign in with that account then navigate to the profile page and press the "Link your Google Account" button.' });
+        return done(null, false);
+      }
+    } else {
+      user = await User.create({
+        email: profile.emails[0].value,
+        google: profile.id,
+        tokens: [{
+          kind: 'google',
+          accessToken,
+          accessTokenExpires: moment().add(params.expires_in, 'seconds').format(),
+          refreshToken,
+        }],
+        name: profile.name.givenName
+      });
+      return loginUserAndUpdateSession(user);
+    }
   } catch (err) {
-    // Handle any errors that occurred during the authentication process
     return done(err);
   }
 });
 
-// Register the Google strategy with Passport
 passport.use('google', googleStrategyConfig);
-
-// Register the Google strategy with the refresh-token library (to handle refreshing tokens)
 refresh.use('google', googleStrategyConfig);
 
-
-/**
- * Login Required middleware.
- */
-exports.isAuthenticated = (req, res, next) => {
+export const isAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
   }
   res.redirect('/login');
 };
 
-/**
- * Authorization Required middleware.
- */
-exports.isAuthorized = async (req, res, next) => {
+export const isAuthorized = async (req, res, next) => {
   const provider = req.path.split('/')[2];
   const token = req.user.tokens.find((token) => token.kind === provider);
   if (token) {
     if (token.accessTokenExpires && moment(token.accessTokenExpires).isBefore(moment().subtract(1, 'minutes'))) {
       if (token.refreshToken) {
         if (token.refreshTokenExpires && moment(token.refreshTokenExpires).isBefore(moment().subtract(1, 'minutes'))) {
-          // return res.redirect(`/auth/${provider}`);
-          return req.session.save( function(){ res.redirect(`/auth/${provider}`); });
+          return req.session.save(() => res.redirect(`/auth/${provider}`));
         }
         try {
           const newTokens = await new Promise((resolve, reject) => {
@@ -191,29 +136,27 @@ exports.isAuthorized = async (req, res, next) => {
               resolve({ accessToken, refreshToken, params });
             });
           });
-
           req.user.tokens.forEach((tokenObject) => {
             if (tokenObject.kind === provider) {
               tokenObject.accessToken = newTokens.accessToken;
               if (newTokens.params.expires_in) tokenObject.accessTokenExpires = moment().add(newTokens.params.expires_in, 'seconds').format();
             }
           });
-
           await req.user.save();
           return next();
         } catch (err) {
-          console.log(err);
+          logger.error('Token refresh error:', err);  // Use logger for error tracking
           return next();
         }
       } else {
-        // return res.redirect(`/auth/${provider}`);
-        return req.session.save( function(){ res.redirect(`/auth/${provider}`); });
+        return req.session.save(() => res.redirect(`/auth/${provider}`));
       }
     } else {
       return next();
     }
   } else {
-    // return res.redirect(`/auth/${provider}`);
-    return req.session.save( function(){ res.redirect(`/auth/${provider}`); });
+    return req.session.save(() => res.redirect(`/auth/${provider}`));
   }
 };
+
+export default passport;

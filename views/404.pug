@@ -1,0 +1,28 @@
+extends ui_layout
+
+block content
+
+  .ui.text.container
+    br
+    h1 404 - Page Not Found
+    p It looks like you've tried to access a page that isn't available on DART Academy. This may be because: 
+    .ui.bulleted.list 
+      .item you've entered the URL incorrectly
+      .item what you're looking for has been moved or deleted
+      .item you've tried to access something which you need to 
+        a(href='/login') log in 
+        | to access
+    p If you're not registered you can 
+      a(href='/signup') sign up to DART Academy 
+      | for access to our courses and resources.
+    
+    h2 What can I do now?
+    p Please try the following:
+    .ui.bulleted.list
+        .item
+            a(href='/') Go to the DART Academy home page
+        .item
+            a(href='/courses') Explore our courses
+        .item
+            a(href='/report') Report a problem
+    //- a(href='/') Return to Home
