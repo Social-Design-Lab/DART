@@ -1,4 +1,5 @@
 import passport from 'passport';
+import validator from 'validator';
 
 export const getLogin = (req, res) => {
     res.render('login'); // Replace with your login view

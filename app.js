@@ -85,9 +85,6 @@ app.get('/logout', userController.logout);
 app.get('/auth/google', userController.googleAuth);
 app.get('/auth/google/callback', userController.googleCallback);
 
-app.get('/test', (req, res) => {
-    res.render('test');  // Renders the 'test.pug' file
-});
 
 // Error handler
 // Error handler for 404 - Page Not Found
