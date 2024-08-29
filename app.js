@@ -82,6 +82,8 @@ app.get('/', (req, res) => {
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);
+app.get("/signup", userController.getSignup);
+app.post("/signup", userController.postSignup);
 app.get('/auth/google', userController.googleAuth);
 app.get('/auth/google/callback', userController.googleCallback);
 

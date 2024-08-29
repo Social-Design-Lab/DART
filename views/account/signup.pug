@@ -8,7 +8,7 @@ block content
                 h2#welcome Create an account
                 p#details Please enter your details.
                 form.ui.form#signup-form(method='POST' novalidate)
-                    //- input(type='hidden', name='_csrf', value=_csrf)
+                    input(type='hidden', name='_csrf', value=_csrf)
                     .field
                         .help-container
                             i.icon.large.info.circle.blue.link(data-content="Your name lets us create a profile for you and personalize your experience on our platform." data-position="left center")
