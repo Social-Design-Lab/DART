@@ -2,27 +2,36 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Scores', {
+    await queryInterface.createTable('Lessons', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      user_id: {
+      course_id: {
         type: Sequelize.INTEGER
       },
-      quiz_id: {
-        type: Sequelize.INTEGER
+      title: {
+        type: Sequelize.STRING
       },
-      score_total: {
+      subtitle: {
+        type: Sequelize.STRING
+      },
+      duration: {
         type: Sequelize.FLOAT
       },
-      correct_answers: {
-        type: Sequelize.INTEGER
+      image: {
+        type: Sequelize.STRING
       },
-      timestamp: {
-        type: Sequelize.DATE
+      link: {
+        type: Sequelize.STRING
+      },
+      imagelink: {
+        type: Sequelize.STRING
+      },
+      keywords: {
+        type: Sequelize.ARRAY(Sequelize.STRING)
       },
       created_at: {
         allowNull: false,
@@ -35,6 +44,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Scores');
+    await queryInterface.dropTable('Lessons');
   }
 };

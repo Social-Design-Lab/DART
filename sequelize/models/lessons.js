@@ -21,9 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     image: DataTypes.STRING,
     link: DataTypes.STRING,
     imagelink: DataTypes.STRING,
-    keywords: DataTypes.ARRAY(DataTypes.STRING),
-    created_at: DataTypes.DATE,
-    updated_at: DataTypes.DATE
+    keywords: DataTypes.ARRAY(DataTypes.STRING)
   }, {
     sequelize,
     modelName: 'Lessons',

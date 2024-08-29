@@ -6,6 +6,9 @@ import logger from './config/logger/index.js';
 import morgan from 'morgan';
 import session from 'express-session';
 import passport from './config/passport.js';
+import { isAuthenticated, isAuthorized } from './config/passport.js';
+
+
 import flash from 'express-flash';
 import compression from 'compression';
 import lusca from 'lusca';
@@ -31,6 +34,14 @@ const sessionStore = new SequelizeSessionStore({
 db.authenticate()
   .then(() => logger.info('Database connected...'))
   .catch(err => logger.error('Error: ' + err));
+
+
+try {
+    await db.sync();
+    console.log('Database & tables created!');
+} catch (err) {
+    console.error('Unable to sync the database:', err);
+}
 
 const app = express();
 
@@ -87,6 +98,34 @@ app.post("/signup", userController.postSignup);
 app.get('/auth/google', userController.googleAuth);
 app.get('/auth/google/callback', userController.googleCallback);
 
+// Render selection
+app.get("/selection", function (req, res) {
+    res.render("account/selection", {
+        title: "Selection",
+    });
+});
+  
+// Render character intro
+app.get("/character", function (req, res) {
+    res.render("account/character_intro", {
+        title: "Hello",
+    });
+});
+
+
+// // Render selection
+// app.get("/selection", passportConfig.isAuthenticated, function (req, res) {
+//     res.render("account/selection", {
+//         title: "Selection",
+//     });
+// });
+  
+// // Render character intro
+// app.get("/character", passportConfig.isAuthenticated, function (req, res) {
+//     res.render("account/character_intro", {
+//         title: "Hello",
+//     });
+// });
 
 // Error handler
 // Error handler for 404 - Page Not Found

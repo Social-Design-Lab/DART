@@ -18,9 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT,
     level: DataTypes.STRING,
     keywords: DataTypes.ARRAY(DataTypes.STRING),
-    duration: DataTypes.INTEGER,
-    created_at: DataTypes.DATE,
-    updated_at: DataTypes.DATE
+    duration: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Courses',
