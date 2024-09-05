@@ -59,7 +59,7 @@ else numberOfProxies = 0;
 const homeController = require("./controllers/home");
 const moduleController = require("./controllers/modules");
 const coursesController = require("./controllers/courses");
-const userController = require("./controllers/user");
+const userController = require("./controllers/userController");
 const contactController = require("./controllers/contact");
 const newapiController = require("./controllers/newsapi");
 

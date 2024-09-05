@@ -2,19 +2,13 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../../config/database.js';
 
-// If the table Users does not exist in the database, make sure it is created by syncing your models:
-
-// sequelize.sync({ force: true }).then(() => {
-//     console.log('Database & tables created!');
-// });
-
-class Users extends Model {
+class User extends Model {
   static associate(models) {
     // define association here
   }
 }
 
-Users.init({
+User.init({
   name: DataTypes.STRING,
   email: DataTypes.STRING,
   avatar: {
@@ -35,9 +29,9 @@ Users.init({
   account_type: DataTypes.STRING
 }, {
   sequelize,
-  modelName: 'Users',
-  tableName: 'Users',
+  modelName: 'User',  // Singular model name
+  tableName: 'Users', // Plural table name
   underscored: true,
 });
 
-export default Users;
+export default User;

@@ -1,6 +1,6 @@
 import passport from 'passport';
 import validator from 'validator';
-import Users from '../sequelize/models/users.js';  // Ensure the Users model is correctly imported
+import User from '../sequelize/models/user.js';  // Ensure the Users model is correctly imported
 
 // Render the login page
 export const getLogin = (req, res) => {
@@ -98,6 +98,46 @@ export const postSignup = async (req, res, next) => {
         });
     }
 };
+
+export const postAvatar = async (req, res, next) => {
+    const { avatar, avatarImg } = req.body;
+  
+    try {
+      // Find the user by email using Sequelize
+      const existingUser = await User.findOne({ where: { email: req.user.email } });
+  
+      if (existingUser) {
+        // Update the user's avatar fields
+        existingUser.avatar = avatar;
+        existingUser.avatar_img = avatarImg; // Use avatar_img if that's how the field is named
+  
+        // Save to PostgreSQL database via Sequelize
+        await existingUser.save();
+  
+        // Manually update the user object in the session
+        // req.session.passport.user.avatar = avatar;
+        // req.session.passport.user.avatar_img = avatarImg;
+  
+        // Save the session to persist the changes
+        req.session.save((err) => {
+          if (err) {
+            return next(err);
+          }
+  
+          // Send a success response or redirect
+          res.status(200).send('Avatar updated successfully');
+        });
+  
+      } else {
+        // Handle the case where the user is not found
+        res.status(404).send('User not found while updating avatar');
+      }
+    } catch (err) {
+      // Handle any errors during the process
+      next(err);
+    }
+  };
+  
 
 // export const postSignup = async (req, res, next) => {
 //     console.log("Req body: " + JSON.stringify(req.body));
