@@ -1,6 +1,6 @@
 import passport from 'passport';
 import validator from 'validator';
-import User from '../sequelize/models/user.js';  // Ensure the Users model is correctly imported
+import User from '../sequelize/models/user.js';  // Ensure the User model is correctly imported
 
 // Render the login page
 export const getLogin = (req, res) => {
@@ -59,7 +59,7 @@ export const postSignup = async (req, res, next) => {
 
     try {
         // Check if the user already exists
-        const existingUser = await Users.findOne({ where: { email: req.body.email } });
+        const existingUser = await User.findOne({ where: { email: req.body.email } });
         if (existingUser) {
             req.session.destroy((err) => {
                 if (err) {
@@ -75,7 +75,7 @@ export const postSignup = async (req, res, next) => {
         const tempConsent = req.body.newsletterConsent === 'on';
 
         // Create the new user
-        const user = await Users.create({
+        const user = await User.create({
             name: req.body.name,
             email: req.body.email,
             password: req.body.password,
@@ -157,7 +157,7 @@ export const postAvatar = async (req, res, next) => {
   
 //     try {
 //         // Check if the user already exists
-//         const existingUser = await Users.findOne({ where: { email: req.body.email } });
+//         const existingUser = await User.findOne({ where: { email: req.body.email } });
 //         if (existingUser) {
 //             req.flash('errors', { msg: 'Account with that email address already exists.' });
 //             return res.redirect('/signup');
@@ -167,7 +167,7 @@ export const postAvatar = async (req, res, next) => {
 //         const tempConsent = req.body.newsletterConsent === 'on';
   
 //         // Create the new user
-//         const user = await Users.create({
+//         const user = await User.create({
 //             name: req.body.name,
 //             email: req.body.email,
 //             password: req.body.password,
