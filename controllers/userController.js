@@ -29,14 +29,42 @@ export const getSignup = (req, res) => {
     if (req.user) {
         return res.redirect('/');
     }
+
+    // Ensure CSRF token is generated and available
+    // const csrfToken = req.csrfToken();
+    // console.log("Generated CSRF Token: ", csrfToken);
+
+    // Pass CSRF token to the view template
     res.render('account/signup', {
-        title: 'Create Account'
+        title: 'Create Account',
+        // csrfToken  // Pass to Pug template for hidden form field
     });
 };
 
+// // Render the signup page
+// export const getSignup = (req, res) => {
+//     if (req.user) {
+//         return res.redirect('/');
+//     }
+
+//     res.render('account/signup', {
+//         title: 'Create Account',
+//         csrfToken: req.csrfToken() // You should have CSRF token in locals from middleware
+
+//         // csrfToken: res.locals.csrfToken // You should have CSRF token in locals from middleware
+//     });
+// };
+
 // Handle signup requests
 export const postSignup = async (req, res, next) => {
-    console.log("Req body: " + JSON.stringify(req.body));
+    // logger.debug("Req body: " + JSON.stringify(req.body));
+    // logger.debug("CSRF Token in body: ", req.body._csrf);
+    // logger.debug("CSRF Token in headers: ", req.headers['x-csrf-token']);
+    // console.log("Req body: " + JSON.stringify(req.body));
+    // console.log("CSRF Token in body: ", req.body._csrf);  // Log token sent in form
+    // console.log("CSRF Token in headers: ", req.headers['x-csrf-token']);  // Log token from headers (if any)
+    
+
     const validationErrors = [];
 
     // Validate input
@@ -100,6 +128,9 @@ export const postSignup = async (req, res, next) => {
 };
 
 export const postAvatar = async (req, res, next) => {
+    console.log("IN POST AVATAR***************")
+    console.log("CSRF token from headers: ", req.headers['csrf-token']);  // Check if the token is received
+
     const { avatar, avatarImg } = req.body;
   
     try {

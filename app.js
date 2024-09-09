@@ -7,12 +7,18 @@ import morgan from 'morgan';
 import session from 'express-session';
 import passport from './config/passport.js';
 import { isAuthenticated, isAuthorized } from './config/passport.js';
+// import { generateToken, doubleCsrfProtection } from './config/csrf.js';
 import errorHandler from 'errorhandler';
+// import nocache from 'nocache';
 
 
 import flash from 'express-flash';
 import compression from 'compression';
-import lusca from 'lusca';
+import rateLimit from 'express-rate-limit';
+import cors from 'cors';
+
+
+
 import SequelizeStore from 'connect-session-sequelize';
 import db from './config/database.js';
 // import passportConfig from './config/passport.js';
@@ -54,11 +60,7 @@ app.set("port", process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 3000);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
-// make user object available in all views
-app.use((req, res, next) => {
-    res.locals.user = req.user;
-    next();
-});
+
 
 // Middleware
 // Serve static files from the "public" directory
@@ -68,8 +70,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(flash());
 app.use(compression());
-app.use(lusca.xframe('SAMEORIGIN'));
-app.use(lusca.xssProtection(true));
+// app.use(lusca.xframe('SAMEORIGIN'));
+// app.use(lusca.xssProtection(true));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -83,6 +85,8 @@ app.use(
       cookie: {
         maxAge: 1209600000, // Two weeks in milliseconds
         secure: process.env.NODE_ENV === 'production', // Secure cookies in production
+        httpOnly: true, // Prevent client-side JS access
+        sameSite: 'strict', // Prevent CSRF attacks
       },
     })
 );
@@ -97,17 +101,109 @@ app.use(morgan('combined', { stream: { write: msg => logger.http(msg) } }));
 // Sync the session store with the database
 sessionStore.sync();
 
+// ***Security stuff
+
+// csrf-csrf configuation
+// app.use(cookieParser());
+// app.use(cookieParser(process.env.COOKIE_SECRET));
+// const { generateToken, doubleCsrfProtection } = doubleCsrf({
+//   getSecret: () => process.env.CSRF_SECRET || 'defaultSecret',  // Secret to sign CSRF tokens
+//   cookieName: 'csrf-token',     // Name of the CSRF cookie
+//   cookieOptions: {              // Options for the CSRF cookie
+//     httpOnly: true,             // Prevent JavaScript access to the cookie
+//     sameSite: 'Lax',            // Controls cross-site behavior (use Strict or Lax)
+//     secure: false,              // Set true in production (HTTPS required)
+//   },
+//   getTokenFromRequest: (req) => req.headers['x-csrf-token'],  // Extract CSRF token from header
+// });
+
+// Route to provide CSRF token to the client. For when we need to dynamically request a CSRF token from the server without reloading the page (like during modules which are SPA single page apps).
+// app.get('/csrf-token', (req, res) => {
+//   const csrfToken = generateToken(req, res);
+//   res.json({ csrfToken });
+// });
+
+
+
+
+// Hide "X-Powered-By" header to avoid revealing Express.js
+// Prevents attackers from identifying the framework and targeting known vulnerabilities
+app.disable("x-powered-by");
+
+// Apply rate limiting to all requests (100 requests per 15 minutes)
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per window
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
+app.use(limiter);
+
+
+const allowedOrigins = process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',') : [
+  'http://localhost:3000', 
+  'https://dart.socialsandbox.xyz', 
+  'https://dart-test.socialsandbox.xyz', 
+  'https://dartacademy.net'
+];
+
+// Add CORS to secure cross-origin requests within our eLearning platform
+// This ensures that only trusted domains can interact with our backend, enhancing security
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin or from trusted origins in the environment variable
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow these HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Restrict allowed headers
+  credentials: true, // Allow credentials such as cookies
+}; 
+
+app.use(cors(corsOptions));
+
+
+// make user object available in all views
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  // res.locals.csrfToken = req.csrfToken ? req.csrfToken() : null;  // Automatically set the token in locals
+  // console.log("!!!!!!!!!!!!!!!!!!!the local csrf " + res.locals.csrfToken)
+  // res.locals._csrf = req.csrfToken();  // Pass CSRF token to Pug templates
+  next();
+});
+
+
 // Routes
 app.get('/', (req, res) => {
     logger.info('Home page accessed');  
     res.render('home'); 
 });
 
+
+
+// Apply CSRF protection to all non-GET routes
+// app.use(doubleCsrfProtection);
+
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);
-app.get("/signup", userController.getSignup);
+app.get("/signup", userController.getSignup)
 app.post("/signup", userController.postSignup);
+
+// app.post("/signup", (req, res, next) => {
+//   const tokenInBody = req.body._csrf;
+//   const tokenInHeader = req.headers['x-csrf-token'];
+  
+//   logger.debug("***Token in Body: ", tokenInBody);
+//   logger.debug("***Token in Header: ", tokenInHeader);
+  
+//   next();  // Proceed to doubleCsrfProtection middleware
+// }, userController.postSignup);
+
+// app.post("/signup", doubleCsrfProtection, userController.postSignup);
 app.get('/auth/google', userController.googleAuth);
 app.get('/auth/google/callback', userController.googleCallback);
 app.post("/postAvatar", userController.postAvatar);
@@ -188,6 +284,9 @@ app.use((req, res, next) => {
 if (process.env.NODE_ENV === "development") {
     // Detailed error stack trace for development
     app.use(errorHandler());
+
+    // disable caching in development
+    // app.use(nocache());
 }
 
 // General error handler for all environments

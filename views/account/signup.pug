@@ -5,23 +5,24 @@ block content
         .column.left.aligned
             br
             .ui.stacked.segment
+                h2=csrfToken
                 h2#welcome Create an account
                 p#details Please enter your details.
                 form.ui.form#signup-form(method='POST' novalidate)
-                    input(type='hidden', name='_csrf', value=_csrf)
+                    input(type='hidden', name='_csrf', value=csrfToken)
                     .field
                         .help-container
-                            i.icon.large.info.circle.blue.link(data-content="Your name lets us create a profile for you and personalize your experience on our platform." data-position="left center")
+                            i.icon.large.info.circle.blue.link(aria-label="Get information about name field", data-content="Your name lets us create a profile for you and personalize your experience on our platform." data-position="left center")
                         label Name: 
                         input#name(type='text', name='name', placeholder='Enter your name', autofocus, autocomplete='name', required)
                     .field
                         .help-container
-                            i.icon.large.info.circle.blue.link(data-content="Your email will be used for communication, password recovery, and platform notifications." data-position="left center")
+                            i.icon.large.info.circle.blue.link(aria-label="Get information about email field", data-content="Your email will be used for communication, password recovery, and platform notifications." data-position="left center")
                         label Email: 
                         input#email(type='email', name='email', placeholder='Enter your email', autocomplete='email', required)
                     .field 
                         .help-container
-                            i.icon.large.info.circle.blue.link(data-content="Create a password with a minimum of 8 characters. Consider including uppercase, lowercase, numbers, and special symbols for added security." data-position="left center")
+                            i.icon.large.info.circle.blue.link(aria-label="Get information about password field", data-content="Create a password with a minimum of 8 characters. Consider including uppercase, lowercase, numbers, and special symbols for added security." data-position="left center")
                         label Password:
                         .password-container 
                             input#password(type='password', name='password', placeholder='Create a password', autocomplete='new-password', minlength='8', required)

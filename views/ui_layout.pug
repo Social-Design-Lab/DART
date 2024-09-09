@@ -66,9 +66,11 @@ html(lang='en')
 
     
     //- allows us to pug interpolate the user info 
-    if (user)
-      script.
-        var user = !{JSON.stringify(user)};
+    //- if (user)
+    //-   script.
+    //-     var user = !{JSON.stringify(user)};
+
+    
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js')
     //- script(src=cdn+'/js/lib/intro.min.js')
     script(src="/semantic/dist/semantic.min.js")
@@ -78,7 +80,6 @@ html(lang='en')
     script(src="/js/endTime.js")  
     script(src='/video-js/video.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js')
-    script(src='/js/header-transition.js')
     script(src='/js/home.js')
 
 

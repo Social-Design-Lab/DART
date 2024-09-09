@@ -38,6 +38,7 @@ block content
           //- img(src="/images/dart-bullet.svg", alt="Bullet Point")
           //- p Choose from Valiant, Daring, Intrepid, and Dartie — skilled agents ready to assist in this operation.
         br
+        meta(type='hidden', name='_csrf', value=_csrf)
         h1 Choose Your Guide:
         .ui.stackable.three.column.grid
             .column
@@ -86,6 +87,11 @@ block content
 block scripts
   script.
     function updateAvatar(avatarName, avatarImg) {
+      console.log("in update avatar.")
+      // Get CSRF token from the meta tag
+      const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('value');
+      console.log("the csrf token:" + csrfToken);
+
       var userData = {
         avatar: avatarName,
         avatarImg: avatarImg
@@ -95,7 +101,7 @@ block scripts
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          // Include other headers as needed
+          'CSRF-Token': csrfToken // Add the CSRF token to the headers
         },
         body: JSON.stringify(userData)
       })

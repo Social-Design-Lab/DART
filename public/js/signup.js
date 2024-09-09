@@ -1,4 +1,11 @@
 $(document).ready(function() {
+  const form = document.querySelector('#signup-form');
+  form.addEventListener('submit', (event) => {
+    const csrfToken = document.querySelector('input[name="_csrf"]').value;
+    console.log('Submitting CSRF Token:', csrfToken);  // Ensure token is present
+  });
+  
+
   $(document).ready(function() {
     $('.icon.info.circle.link').popup({
         hoverable: true

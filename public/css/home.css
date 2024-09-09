@@ -3,6 +3,9 @@ html {
   scroll-behavior: smooth;
 }
 
+body {
+  background: #0b2645 !important;
+}
 
 #page-header {
   min-height: 0px;
@@ -124,11 +127,12 @@ html {
 }
 
 #white-lower {
-  background-color: transparent;
+  background-color: white;
   /* background-color: #e9e9de; */
   color: black;
   z-index: 0;
   padding-top: 75px;
+  padding-bottom: 90px;
 }
 
 .about-card-header {
