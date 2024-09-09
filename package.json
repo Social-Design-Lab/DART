@@ -42,19 +42,16 @@
     "dart": "file:",
     "dotenv": "^16.3.1",
     "errorhandler": "^1.5.1",
-    "express": "^4.18.2",
+    "express": "^4.19.2",
     "express-flash": "^0.0.2",
     "express-rate-limit": "^7.4.0",
     "express-session": "^1.17.3",
-    "lusca": "^1.7.0",
-    "mailchecker": "^5.0.9",
     "moment": "^2.29.4",
-    "mongoose": "^7.5.2",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "nocache": "^4.0.0",
     "nodemailer": "^6.9.5",
-    "passport": "^0.6.0",
+    "passport": "^0.7.0",
     "passport-google-oauth": "^2.0.0",
     "passport-local": "^1.0.0",
     "passport-oauth": "^1.0.0",
@@ -67,13 +64,11 @@
     "winston": "^3.14.2"
   },
   "devDependencies": {
-    "chai": "^4.3.8",
+    "chai": "^5.1.1",
     "cross-env": "^7.0.3",
     "mocha": "^10.2.0",
     "nodemon": "^3.0.1",
-    "sequelize-cli": "^6.6.2",
-    "sinon": "^16.0.0",
-    "supertest": "^6.3.3"
+    "sequelize-cli": "^6.6.2"
   },
   "engines": {
     "node": ">=18",
