@@ -7,7 +7,7 @@ import morgan from 'morgan';
 import session from 'express-session';
 import passport from './config/passport.js';
 import { isAuthenticated, isAuthorized } from './config/passport.js';
-// import { generateToken, doubleCsrfProtection } from './config/csrf.js';
+import { generateToken, csrfSynchronisedProtection } from './config/csrf.js';
 import errorHandler from 'errorhandler';
 // import nocache from 'nocache';
 
@@ -166,12 +166,14 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 
+
+// Apply CSRF protection
+app.use(csrfSynchronisedProtection); 
+
+
 // make user object available in all views
 app.use((req, res, next) => {
   res.locals.user = req.user;
-  // res.locals.csrfToken = req.csrfToken ? req.csrfToken() : null;  // Automatically set the token in locals
-  // console.log("!!!!!!!!!!!!!!!!!!!the local csrf " + res.locals.csrfToken)
-  // res.locals._csrf = req.csrfToken();  // Pass CSRF token to Pug templates
   next();
 });
 
@@ -184,8 +186,6 @@ app.get('/', (req, res) => {
 
 
 
-// Apply CSRF protection to all non-GET routes
-// app.use(doubleCsrfProtection);
 
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
@@ -234,6 +234,7 @@ app.get("/privacy", function (req, res) {
   app.get("/selection", isAuthenticated, function (req, res) {
     res.render("account/selection", {
       title: "Selection",
+      csrfToken: req.csrfToken()
     });
   });
   

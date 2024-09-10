@@ -1,6 +1,7 @@
 import passport from 'passport';
 import validator from 'validator';
 import User from '../sequelize/models/user.js';  // Ensure the User model is correctly imported
+import logger from '../config/logger/index.js';
 
 // Render the login page
 export const getLogin = (req, res) => {
@@ -30,40 +31,20 @@ export const getSignup = (req, res) => {
         return res.redirect('/');
     }
 
-    // Ensure CSRF token is generated and available
-    // const csrfToken = req.csrfToken();
-    // console.log("Generated CSRF Token: ", csrfToken);
-
     // Pass CSRF token to the view template
     res.render('account/signup', {
         title: 'Create Account',
-        // csrfToken  // Pass to Pug template for hidden form field
+        csrfToken: req.csrfToken()
     });
 };
 
-// // Render the signup page
-// export const getSignup = (req, res) => {
-//     if (req.user) {
-//         return res.redirect('/');
-//     }
-
-//     res.render('account/signup', {
-//         title: 'Create Account',
-//         csrfToken: req.csrfToken() // You should have CSRF token in locals from middleware
-
-//         // csrfToken: res.locals.csrfToken // You should have CSRF token in locals from middleware
-//     });
-// };
-
 // Handle signup requests
 export const postSignup = async (req, res, next) => {
-    // logger.debug("Req body: " + JSON.stringify(req.body));
-    // logger.debug("CSRF Token in body: ", req.body._csrf);
-    // logger.debug("CSRF Token in headers: ", req.headers['x-csrf-token']);
-    // console.log("Req body: " + JSON.stringify(req.body));
-    // console.log("CSRF Token in body: ", req.body._csrf);  // Log token sent in form
-    // console.log("CSRF Token in headers: ", req.headers['x-csrf-token']);  // Log token from headers (if any)
+    const csrfTokenInBody = req.body._csrf || 'none';
+    const csrfTokenInSession = req.session.csrfToken || 'none';
     
+    logger.debug(`CSRF Token in body: ${csrfTokenInBody}`);
+    logger.debug(`CSRF Token in session: ${csrfTokenInSession}`);
 
     const validationErrors = [];
 
@@ -128,9 +109,12 @@ export const postSignup = async (req, res, next) => {
 };
 
 export const postAvatar = async (req, res, next) => {
-    console.log("IN POST AVATAR***************")
-    console.log("CSRF token from headers: ", req.headers['csrf-token']);  // Check if the token is received
-
+    const csrfTokenInHeader = req.headers['csrf-token'] || 'none';  // Get CSRF token from headers
+    const csrfTokenInSession = req.session.csrfToken || 'none';
+    
+    logger.debug(`CSRF Token in header: ${csrfTokenInHeader}`);
+    logger.debug(`CSRF Token in session: ${csrfTokenInSession}`);
+    
     const { avatar, avatarImg } = req.body;
   
     try {

@@ -4,6 +4,7 @@ block content
   .ui.container#raised-container
     .ui.basic.segment#avatarContainer
       #raised-content
+        meta(type='hidden', name='_csrf', value=csrfToken)
         h1.ui.header.large#mod-title(style="margin-top: -20px;")
           i.secret.user.icon
           .content
@@ -88,9 +89,12 @@ block scripts
   script.
     function updateAvatar(avatarName, avatarImg) {
       console.log("in update avatar.")
-      // Get CSRF token from the meta tag
       const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('value');
-      console.log("the csrf token:" + csrfToken);
+
+      // Get CSRF token from the meta tag
+      console.log("!! this one is: " + csrfToken)
+      //- const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('value');
+      //- console.log("!!here the csrf token:" + csrfToken);
 
       var userData = {
         avatar: avatarName,
