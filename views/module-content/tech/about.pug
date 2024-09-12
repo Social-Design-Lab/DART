@@ -191,7 +191,7 @@ block content
               else if user.moduleProgress && user.moduleProgress.tech
                 button.ui.massive.blue.button(onclick=`window.location='${user.moduleProgress.tech.link}'`) Continue Mission
 
-            img.dart_image.ui.medium.image(src=user.avatarImg)
+            img.dart_image.ui.medium.image(src=user.avatar_img)
 
             .ui.large.label.blue-pointing#speechBubble
               if user.moduleProgress && user.moduleProgress.tech && user.moduleProgress.tech.link === "/course-player?module=tech&section=challenge&page=intro" 

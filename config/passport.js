@@ -4,7 +4,7 @@ import { Strategy as LocalStrategy } from 'passport-local';
 import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
 import { OAuthStrategy, OAuth2Strategy } from 'passport-oauth';
 import moment from 'moment';
-import User from '../sequelize/models/user.js'; // Adjust the import path as needed
+import User from '../sequelize/models/users.js'; // Adjust the import path as needed
 
 passport.serializeUser((user, done) => {
   done(null, user.id);

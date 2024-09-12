@@ -1,36 +1,71 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
-  class Users extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-    }
+import { Model, DataTypes } from 'sequelize';
+import bcrypt from '@node-rs/bcrypt';
+import sequelize from '../../config/database.js';
+
+class User extends Model {
+  static associate(models) {
+    // define association here
   }
-  Users.init({
-    name: DataTypes.STRING,
-    email: DataTypes.STRING,
-    avatar: DataTypes.STRING,
-    avatar_img: DataTypes.STRING,
-    role_play: DataTypes.STRING,
-    password: DataTypes.STRING,
-    password_reset_token: DataTypes.STRING,
-    password_reset_expires: DataTypes.DATE,
-    email_verification_token: DataTypes.STRING,
-    email_verified: DataTypes.BOOLEAN,
-    google: DataTypes.STRING,
-    account_type: DataTypes.STRING,
-    newsletter_consent: DataTypes.BOOLEAN
-  }, {
-    sequelize,
-    modelName: 'Users',
-    underscored: true,
-  });
-  return Users;
-};
+
+  // Method to compare the candidate password with the hashed password
+  async comparePassword(candidatePassword) {
+    return bcrypt.verify(candidatePassword, this.password);
+  }
+}
+
+User.init({
+  name: DataTypes.STRING,
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  avatar: {
+    type: DataTypes.STRING,
+    defaultValue: "Daring",
+  },
+  avatar_img: {
+    type: DataTypes.STRING,
+    defaultValue: "/images/agent-daring.png",
+  },
+  role_play: DataTypes.STRING,
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  password_reset_token: DataTypes.STRING,
+  password_reset_expires: DataTypes.DATE,
+  email_verification_token: DataTypes.STRING,
+  email_verified: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
+  google: DataTypes.STRING,
+  account_type: DataTypes.STRING,
+  newsletter_consent: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false, // Default value if the user hasn't opted in
+  }
+}, {
+  sequelize,
+  modelName: 'User',  // Singular model name
+  tableName: 'Users', // Plural table name
+  underscored: true,
+
+  // Lifecycle hooks for password hashing
+  hooks: {
+    beforeCreate: async (user) => {
+      if (user.password) {
+        user.password = await bcrypt.hash(user.password, 10);
+      }
+    },
+    beforeUpdate: async (user) => {
+      if (user.changed('password')) {
+        user.password = await bcrypt.hash(user.password, 10);
+      }
+    },
+  },
+});
+
+// Export the User model
+export default User;

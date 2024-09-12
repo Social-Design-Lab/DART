@@ -1,7 +1,8 @@
 import passport from 'passport';
 import validator from 'validator';
-import User from '../sequelize/models/user.js';  // Ensure the User model is correctly imported
+// app.get("/courses", coursesController.index);
 import logger from '../config/logger/index.js';
+import User from '../sequelize/models/users.js'; // Adjust path to the correct location of the Sequelize User model
 
 /**
  * GET /login

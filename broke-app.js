@@ -96,6 +96,8 @@ app.use(
     })
 );
 
+
+
 // Initialize Passport and restore authentication state, if any, from the session
 app.use(passport.initialize());
 app.use(passport.session());
@@ -182,6 +184,32 @@ app.use((req, res, next) => {
   next();
 });
 
+// Error handler
+// Error handler for 404 - Page Not Found
+app.use((req, res, next) => {
+  res.status(404);
+  res.render('404', { title: 'Page Not Found' });
+});
+
+if (process.env.NODE_ENV === "development") {
+  // Detailed error stack trace for development
+  app.use(errorHandler());
+
+  // disable caching in development
+  // app.use(nocache());
+}
+
+// General error handler for all environments
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(err.status || 500);
+  res.render('error', {
+      message: err.message,
+      error: process.env.NODE_ENV === 'development' ? err : {},  // Show error details only in dev
+      title: 'Server Error'
+  });
+});
+
 app.use((req, res, next) => {
   // After successful login, redirect back to the intended page
   if (
@@ -201,6 +229,17 @@ app.use((req, res, next) => {
   next();
 });
 
+// function isValidModId(req, res, next) {
+//   const modIds = ["identity", "romance", "grandparent", "tech"];
+//   if (modIds.includes(req.params.modId)) {
+//     next();
+//   } else {
+//     // Forward a 404 error to the next middleware (your existing 404 handler)
+//     const err = new Error("Page Not Found.");
+//     err.status = 404;
+//     next(err); // Pass the error to the 404 route handler
+//   }
+// }
 
 
 // Routes
@@ -273,21 +312,23 @@ app.get("/privacy", function (req, res) {
   });
 
    // Render courses
-   app.get("/courses", async function (req, res) {
-    try {
-      const courses = await Courses.findAll();
-      logger.debug("***Courses: ", courses);
+   app.get("/courses", courseController.getCourses);
+
+  //  app.get("/courses", async function (req, res) {
+  //   try {
+  //     const courses = await Courses.findAll();
+  //     logger.debug("***Courses: ", courses);
   
-      // Render the Pug template and pass the courses to the template
-      res.render('courses', {
-        title: 'Courses',
-        courses: courses  // Passing courses data to the Pug template
-      });
-    } catch (error) {
-      console.error('Error fetching courses:', error);
-      res.status(500).send('Error fetching courses');
-    }
-  });
+  //     // Render the Pug template and pass the courses to the template
+  //     res.render('courses', {
+  //       title: 'Courses',
+  //       courses: courses  // Passing courses data to the Pug template
+  //     });
+  //   } catch (error) {
+  //     console.error('Error fetching courses:', error);
+  //     res.status(500).send('Error fetching courses');
+  //   }
+  // });
   
   //  app.get("/courses", function (req, res) {
   //   res.render('courses', {
@@ -309,48 +350,23 @@ app.get("/privacy", function (req, res) {
     });
   });
 
-  function isValidModId(req, res, next) {
-    const modIds = ["identity", "romance", "grandparent", "tech"];
-    if (modIds.includes(req.params.modId)) {
-      next();
-    } else {
-      var err = new Error("Page Not Found.");
-      err.status = 404;
-  
-      console.log(err);
-  
-      // set locals, only providing error stack in development
-      err.stack = req.app.get("env") === "development" ? err.stack : "";
-  
-      res.locals.message =
-        err.message + " Oops! We can't seem to find the page you're looking for.";
-      res.locals.error = err;
-  
-      // render the error page
-      res.status(err.status);
-      res.render("error");
-    }
-  }
-  
-  app.get("/about/:modId", isValidModId, moduleController.getAbout);
-  app.get("/course-player", moduleController.getModule);
-  app.get("/references/:modId", isValidModId, moduleController.getReferences);
-
+  app.get("/about/:modId", moduleController.getAbout);
+  app.get("/references/:modId", moduleController.getReferences);
 
   /**
    * Module Routes
    */
-  app.get("/intro/:page?/:modId", isValidModId, courseController.getIntro);
-  app.get(
-    "/challenge/:page?/:modId",
-    isValidModId,
-    courseController.getChallenge
-  );
-  app.get(
-    "/learn/:submod(submod|submod2|submod3)/:page?/:modId",
-    isValidModId,
-    courseController.getLearn
-  );
+  // app.get("/intro/:page?/:modId", isValidModId, courseController.getIntro);
+  // app.get(
+  //   "/challenge/:page?/:modId",
+  //   isValidModId,
+  //   courseController.getChallenge
+  // );
+  // app.get(
+  //   "/learn/:submod(submod|submod2|submod3)/:page?/:modId",
+  //   isValidModId,
+  //   courseController.getLearn
+  // );
   // app.get("/explore/:page?/:modId", isValidModId, courseController.getExplore);
   // app.get(
   //   "/evaluation/:page?/:modId",
@@ -375,45 +391,6 @@ app.get("/privacy", function (req, res) {
 // });
 
 
-// // Render selection
-// app.get("/selection", function (req, res) {
-//     res.render("account/selection", {
-//         title: "Selection",
-//     });
-// });
-  
-// // Render character intro
-// app.get("/character", passportConfig.isAuthenticated, function (req, res) {
-//     res.render("account/character_intro", {
-//         title: "Hello",
-//     });
-// });
-
-// Error handler
-// Error handler for 404 - Page Not Found
-app.use((req, res, next) => {
-    res.status(404);
-    res.render('404', { title: 'Page Not Found' });
-});
-
-if (process.env.NODE_ENV === "development") {
-    // Detailed error stack trace for development
-    app.use(errorHandler());
-
-    // disable caching in development
-    // app.use(nocache());
-}
-
-// General error handler for all environments
-app.use((err, req, res, next) => {
-    console.error(err);
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: process.env.NODE_ENV === 'development' ? err : {},  // Show error details only in dev
-        title: 'Server Error'
-    });
-});
 
 // const PORT = process.env.PORT || 3000;
 
