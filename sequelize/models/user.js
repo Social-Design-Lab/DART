@@ -41,7 +41,11 @@ User.init({
     defaultValue: false,
   },
   google: DataTypes.STRING,
-  account_type: DataTypes.STRING
+  account_type: DataTypes.STRING,
+  newsletter_consent: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false, // Default value if the user hasn't opted in
+  }
 }, {
   sequelize,
   modelName: 'User',  // Singular model name

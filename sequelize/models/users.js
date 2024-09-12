@@ -25,7 +25,8 @@ module.exports = (sequelize, DataTypes) => {
     email_verification_token: DataTypes.STRING,
     email_verified: DataTypes.BOOLEAN,
     google: DataTypes.STRING,
-    account_type: DataTypes.STRING
+    account_type: DataTypes.STRING,
+    newsletter_consent: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'Users',

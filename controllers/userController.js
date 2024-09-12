@@ -45,22 +45,6 @@ export const postLogin = (req, res, next) => {
     })(req, res, next);
   };
 
-  export const postGuestLogin = (req, res, next) => {
-    passport.authenticate(['basic', 'anonymous'], { session: false }, (err, user, info) => {
-      if (err) {
-        return next(err);
-      }
-      
-      let userEmail = 'anonymous'; // Default value if no user is authenticated
-      if (user) {
-        userEmail = user.email; // Assuming 'email' is part of the user object
-      }
-  
-      // Return the result (adjust depending on what you want to return)
-      res.json({ user: userEmail });
-    })(req, res, next);
-  };
-  
   export const getGuest = async (req, res, next) => {
     try {
       if (req.params.modId === "delete") {
@@ -70,28 +54,25 @@ export const postLogin = (req, res, next) => {
         });
       }
   
-      // Create a new guest user object with random credentials
-      const user = await User.create({
-        password: "thinkblue", // Default guest password
-        name: "guest" + makeid(10),
-        email: makeid(10) + "@gmail.com",
-        is_guest: true, // Assuming 'is_guest' is a field in your Sequelize User model
-        last_notify_visit: Date.now(),
-      });
+      // Generate a random guest name
+      const guestName = "guest" + makeid(10);
   
-      // Set the user name to "Guest"
-      user.name = "Guest";
-  
-      // Check if a guest with the same name already exists
-      const existingUser = await User.findOne({ where: { name: req.body.name } });
+      // Check if a guest with the same generated name already exists
+      const existingUser = await User.findOne({ where: { name: guestName } });
   
       if (existingUser) {
         req.flash('errors', { msg: 'Error: Account with that guest name already exists.' });
         return res.redirect('/');
       }
   
-      // Save the new guest user in the database
-      await user.save();
+      // If no existing user found, create a new guest user object
+      const user = await User.create({
+        password: "thinkblue", // Default guest password
+        name: guestName,
+        email: makeid(10) + "@gmail.com",
+        account_type: "guest", 
+        last_notify_visit: Date.now(),
+      });
   
       // Log the user in using Passport.js
       req.logIn(user, async (err) => {
@@ -120,7 +101,7 @@ export const postLogin = (req, res, next) => {
       return next(err);
     }
   };
-// Handle logout requests
+  // Handle logout requests
 export const logout = (req, res, next) => {
     req.logout((err) => {
         if (err) { return next(err); }
@@ -191,7 +172,8 @@ export const postSignup = async (req, res, next) => {
             name: req.body.name,
             email: req.body.email,
             password: req.body.password,
-            newsletterConsent: tempConsent
+            account_type: 'full',
+            newsletter_consent: tempConsent
         });
 
         // Log the user in
@@ -255,6 +237,18 @@ export const postAvatar = async (req, res, next) => {
       next(err);
     }
   };
+  
+  //create random id for guest accounts
+function makeid(length) {
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  }
+  
   
 
 // export const postSignup = async (req, res, next) => {

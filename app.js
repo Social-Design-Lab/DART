@@ -26,6 +26,8 @@ import db from './config/database.js';
 
 // Import user routes from the controllers folder
 import * as userController from './controllers/userController.js';
+// import lessonRoutes from './routes/lesson.routes';
+
 
 // For Node.js 20.2 and later we need to explicitly set __dirname and __filename
 import { fileURLToPath } from 'url';
