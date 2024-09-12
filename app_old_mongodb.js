@@ -12,7 +12,7 @@ const lusca = require("lusca");
 const dotenv = require("dotenv");
 const MongoStore = require("connect-mongo");
 const flash = require("express-flash");
-const mongoose = require("mongoose"); jy888888
+const mongoose = require("mongoose");
 const passport = require("passport");
 const lessonRoutes = require('./routes/lesson.routes');
 

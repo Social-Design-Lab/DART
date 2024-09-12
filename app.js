@@ -177,6 +177,26 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use((req, res, next) => {
+  // After successful login, redirect back to the intended page
+  if (
+    !req.user &&
+    req.path !== "/login" &&
+    req.path !== "/signup" &&
+    !req.path.match(/^\/auth/) &&
+    !req.path.match(/\./)
+  ) {
+    req.session.returnTo = req.originalUrl;
+  } else if (
+    req.user &&
+    (req.path === "/account" || req.path.match(/^\/api/))
+  ) {
+    req.session.returnTo = req.originalUrl;
+  }
+  next();
+});
+
+
 
 // Routes
 app.get('/', (req, res) => {
@@ -189,6 +209,8 @@ app.get('/', (req, res) => {
 
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
+// app.post("/guestLogin", userController.postGuestLogin);
+app.get("/getGuest", userController.getGuest);
 app.get('/logout', userController.logout);
 app.get("/signup", userController.getSignup)
 app.post("/signup", userController.postSignup);
@@ -242,6 +264,13 @@ app.get("/privacy", function (req, res) {
   app.get("/character", function (req, res) {
     res.render("account/character_intro", {
       title: "Hello",
+    });
+  });
+
+   // Render courses intro
+   app.get("/courses", function (req, res) {
+    res.render('courses', {
+      title: 'Courses'
     });
   });
   

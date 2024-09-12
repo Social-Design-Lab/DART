@@ -3,20 +3,123 @@ import validator from 'validator';
 import User from '../sequelize/models/user.js';  // Ensure the User model is correctly imported
 import logger from '../config/logger/index.js';
 
-// Render the login page
+/**
+ * GET /login
+ * Login page.
+ */
 export const getLogin = (req, res) => {
-    res.render('login'); // Replace with your login view
-};
+    if (req.user) {
+      return res.redirect('/courses');
+    }
+    res.render('account/login', {
+      title: 'Login',
+      csrfToken: req.csrfToken()
+    });
+  };
+  
 
 // Handle login requests
 export const postLogin = (req, res, next) => {
-    passport.authenticate('local', {
-        successRedirect: '/',
-        failureRedirect: '/login',
-        failureFlash: true
+    const validationErrors = [];
+    if (!validator.isEmail(req.body.email)) validationErrors.push({ msg: 'Please enter a valid email address.' });
+    if (validator.isEmpty(req.body.password)) validationErrors.push({ msg: 'Password cannot be blank.' });
+  
+    if (validationErrors.length) {
+      req.flash('errors', validationErrors);
+      return res.redirect('/login');
+    }
+  
+    req.body.email = validator.normalizeEmail(req.body.email, { gmail_remove_dots: false });
+  
+    passport.authenticate('local', (err, user, info) => {
+      if (err) { return next(err); }
+      if (!user) {
+        req.flash('errors', info);
+        return res.redirect('/login');
+      }
+      
+      req.logIn(user, (err) => {
+        if (err) { return next(err); }
+        res.redirect(req.session.returnTo || '/courses');
+      });
     })(req, res, next);
-};
+  };
 
+  export const postGuestLogin = (req, res, next) => {
+    passport.authenticate(['basic', 'anonymous'], { session: false }, (err, user, info) => {
+      if (err) {
+        return next(err);
+      }
+      
+      let userEmail = 'anonymous'; // Default value if no user is authenticated
+      if (user) {
+        userEmail = user.email; // Assuming 'email' is part of the user object
+      }
+  
+      // Return the result (adjust depending on what you want to return)
+      res.json({ user: userEmail });
+    })(req, res, next);
+  };
+  
+  export const getGuest = async (req, res, next) => {
+    try {
+      if (req.params.modId === "delete") {
+        // Avoiding a specific user behavior that causes 500 errors
+        return res.send({
+          result: "failure"
+        });
+      }
+  
+      // Create a new guest user object with random credentials
+      const user = await User.create({
+        password: "thinkblue", // Default guest password
+        name: "guest" + makeid(10),
+        email: makeid(10) + "@gmail.com",
+        is_guest: true, // Assuming 'is_guest' is a field in your Sequelize User model
+        last_notify_visit: Date.now(),
+      });
+  
+      // Set the user name to "Guest"
+      user.name = "Guest";
+  
+      // Check if a guest with the same name already exists
+      const existingUser = await User.findOne({ where: { name: req.body.name } });
+  
+      if (existingUser) {
+        req.flash('errors', { msg: 'Error: Account with that guest name already exists.' });
+        return res.redirect('/');
+      }
+  
+      // Save the new guest user in the database
+      await user.save();
+  
+      // Log the user in using Passport.js
+      req.logIn(user, async (err) => {
+        if (err) {
+          return next(err);
+        }
+  
+        const temp = req.session.passport;
+  
+        // Regenerate session and save the updated session
+        await new Promise((resolve, reject) => {
+          req.session.regenerate(err => {
+            if (err) reject(err);
+            req.session.passport = temp;
+            req.session.save(err => {
+              if (err) reject(err);
+              resolve();
+            });
+          });
+        });
+  
+        // Redirect the guest user to the selection page
+        return res.redirect('/selection');
+      });
+    } catch (err) {
+      return next(err);
+    }
+  };
 // Handle logout requests
 export const logout = (req, res, next) => {
     req.logout((err) => {
