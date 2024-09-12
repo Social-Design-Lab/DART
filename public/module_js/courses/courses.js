@@ -1,6 +1,32 @@
 var courses = [];
 
+
+$(document).ready(function () {
+  console.log("Document is ready. Courses are passed from the server.");
+  // console.log("*Courses: ", courses)
+
+  // Render courses that were passed in the template
+  renderCourses(courses);  // `courses` comes passed from route and server side pug template
+
+  // Add search functionality
+  $('#course-search').on('input', filterCourses);
+
+  // Initialize accordion
+  $('.ui.accordion').accordion();
+
+  // Add sorting functionality
+  $('#ascend').on('click', function() {
+    sortCourses('ascend');
+  });
+
+  $('#descend').on('click', function() {
+    sortCourses('descend');
+  });
+});
+
 function renderCourses(data) {
+  console.log("Courses data passed to renderCourses:", data); // Check the structure of the data
+
   var container = $('#courses-container');
   container.empty();
   if (data.length === 0) {
@@ -10,7 +36,7 @@ function renderCourses(data) {
       var courseHtml = `
         <div class="card">
           <div class="image">
-            <img src="${item.imagelink}" alt="${item.title} Banner Image" style="width: 100%; height: 125px; object-fit: cover;">
+            <img src="${item.image_link}" alt="${item.title} Banner Image" style="width: 100%; height: 125px; object-fit: cover;">
           </div>
           <div class="content">
             <div class="meta" style="text-align: end;">
@@ -18,7 +44,7 @@ function renderCourses(data) {
             </div>
             <div class="header">${item.title}</div>
             <div class="description">
-              ${item.subtitle}
+              ${item.description}
             </div>
           </div>
           <div class="extra content">
@@ -53,28 +79,28 @@ function sortCourses(order) {
   renderCourses(courses);
 }
 
-$(document).ready(function () {
-  console.log("Document is ready, making API call.");
-  $.get("/api/lesson", function (data) {
-    console.log("API response received.");
-    console.log("Response table info:");
-    console.log(data);
-    courses = data;
-    renderCourses(courses);
+// $(document).ready(function () {
+//   console.log("Document is ready, making API call.");
+//   $.get("/api/courses", function (data) {
+//     console.log("API response received.");
+//     console.log("Response table info:");
+//     console.log(data);
+//     courses = data;
+//     renderCourses(courses);
 
-    $('#course-search').on('input', filterCourses);
-  }).fail(function() {
-    console.log("API call failed.");
-    $('#courses-container').append('<p>Failed to load courses. Please try again later.</p>');
-  });
+//     $('#course-search').on('input', filterCourses);
+//   }).fail(function() {
+//     console.log("API call failed.");
+//     $('#courses-container').append('<p>Failed to load courses. Please try again later.</p>');
+//   });
 
-  $('.ui.accordion').accordion();
+//   $('.ui.accordion').accordion();
 
-  $('#ascend').on('click', function() {
-    sortCourses('ascend');
-  });
+//   $('#ascend').on('click', function() {
+//     sortCourses('ascend');
+//   });
 
-  $('#descend').on('click', function() {
-    sortCourses('descend');
-  });
-});
+//   $('#descend').on('click', function() {
+//     sortCourses('descend');
+//   });
+// });

@@ -26,7 +26,7 @@ import db from './config/database.js';
 
 // Import user routes from the controllers folder
 import * as userController from './controllers/userController.js';
-// import lessonRoutes from './routes/lesson.routes';
+import Courses from './sequelize/models/courses.js';
 
 
 // For Node.js 20.2 and later we need to explicitly set __dirname and __filename
@@ -269,12 +269,28 @@ app.get("/privacy", function (req, res) {
     });
   });
 
-   // Render courses intro
-   app.get("/courses", function (req, res) {
-    res.render('courses', {
-      title: 'Courses'
-    });
+   // Render courses
+   app.get("/courses", async function (req, res) {
+    try {
+      const courses = await Courses.findAll();
+      logger.debug("***Courses: ", courses);
+  
+      // Render the Pug template and pass the courses to the template
+      res.render('courses', {
+        title: 'Courses',
+        courses: courses  // Passing courses data to the Pug template
+      });
+    } catch (error) {
+      console.error('Error fetching courses:', error);
+      res.status(500).send('Error fetching courses');
+    }
   });
+  
+  //  app.get("/courses", function (req, res) {
+  //   res.render('courses', {
+  //     title: 'Courses'
+  //   });
+  // });
   
   // Render accessibility page
   app.get("/accessibility", function (req, res) {

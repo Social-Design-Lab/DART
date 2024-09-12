@@ -81,11 +81,29 @@ block content
     .fourteen.wide.column
       div 
         .ui.four.stackable.cards#courses-container
+        //- each course in courses
+        //-   .card
+        //-     .image
+        //-       img(src=course.image_link alt=course.title style="width: 100%; height: 125px; object-fit: cover;")
+        //-     .content
+        //-       .meta(style="text-align: end;")
+        //-         | #{course.duration} min
+        //-       .header
+        //-         | #{course.title}
+        //-       .description
+        //-         | #{course.description}
+        //-     .extra.content
+        //-       a(href=course.link)
+        //-         button.ui.blue.button Learn Now 
+        //-         i.arrow.right.icon
 
 block styles
   link(rel='stylesheet', href='/css/mods.css')
   link(rel='stylesheet', href='/css/courses/courses.css')
 
 block scripts  
-  script(src="/module_js/courses/test.js")
   script(src="/module_js/courses/courses.js")
+
+  script.
+    var courses = !{JSON.stringify(courses)};  // Pass courses as a JavaScript object
+    //- console.log("THE COURSES: ", courses)
