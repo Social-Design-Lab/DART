@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('Courses', [
+    return queryInterface.bulkInsert('courses', [
       {
         title: 'Identity Theft',
         description: 'Learn how to protect yourself from identity theft and what steps to take if your identity is stolen.',
@@ -62,6 +62,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('Courses', null, {});
+    return queryInterface.bulkDelete('courses', null, {});
   }
 };

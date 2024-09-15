@@ -29,7 +29,7 @@ import * as userController from './controllers/userController.js';
 import * as moduleController from './controllers/moduleController.js';
 import * as courseController from './controllers/courseController.js';
 
-import Courses from './sequelize/models/courses.js';
+import Courses from './sequelize/models/Course.js';
 
 
 // For Node.js 20.2 and later we need to explicitly set __dirname and __filename
@@ -51,6 +51,7 @@ db.authenticate()
 
 
 try {
+    // dont use in production, use migrations instead for version control and to avoid data loss
     await db.sync();
     console.log('Database & tables created!');
 } catch (err) {

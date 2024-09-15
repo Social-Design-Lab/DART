@@ -2,7 +2,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import User from '../sequelize/models/users.js'; // Adjust path to the correct location of the Sequelize User model
+import User from '../sequelize/models/User.js'; // Adjust path to the correct location of the Sequelize User model
 
 // Helper functions for time calculations
 const __filename = fileURLToPath(import.meta.url);

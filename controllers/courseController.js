@@ -1,5 +1,5 @@
 import fs from 'fs/promises'; // Replaces fs and util
-import User from '../sequelize/models/users.js';
+import User from '../sequelize/models/User.js';
 
 /**
  * GET /

@@ -48,8 +48,8 @@ User.init({
   }
 }, {
   sequelize,
-  modelName: 'User',  // Singular model name
-  tableName: 'Users', // Plural table name
+  modelName: 'User',  // Singular model name pascalcase
+  tableName: 'users', // Plural table name snakecase
   underscored: true,
 
   // Lifecycle hooks for password hashing

@@ -2,7 +2,10 @@ import passport from 'passport';
 import validator from 'validator';
 // app.get("/courses", coursesController.index);
 import logger from '../config/logger/index.js';
-import User from '../sequelize/models/users.js'; // Adjust path to the correct location of the Sequelize User model
+import User from '../sequelize/models/User.js'; // Adjust path to the correct location of the Sequelize User model
+
+import UserAccessLog from '../sequelize/models/UserAccessLog.js'; // Adjust path to the correct location of the Sequelize User model
+import UAParser from 'ua-parser-js';
 
 /**
  * GET /login
@@ -177,6 +180,47 @@ export const postSignup = async (req, res, next) => {
             newsletter_consent: tempConsent
         });
 
+        logger.info(`User created: ID: ${user.id}, email: ${user.email}, name: ${user.name}, accountType: ${user.account_type}`);
+        const createdUserId = user.id;
+        // Ensure user creation was successful before logging access
+        if (!user || !user.id) {
+          logger.error('User creation failed: User object or ID is null, cannot log access');
+          return next(new Error('User creation failed, cannot log access'));
+        }
+
+        // Add to the user access log
+        const ip_address = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        const user_agent = req.headers['user-agent'];
+        const parser = new UAParser(user_agent);
+        const parsedData = parser.getResult();
+        const { browser, os, device, cpu, engine } = parsedData;
+        
+        try {
+          await UserAccessLog.create({
+              user_id: createdUserId,
+              ip_address: ip_address,
+              user_agent: user_agent,
+              browser_name: browser.name,
+              browser_version: browser.version,
+              os_name: os.name,
+              os_version: os.version,
+              device_model: device.model,
+              device_type: device.type,
+              device_vendor: device.vendor,
+              cpu_architecture: cpu.architecture,
+              engine_name: engine.name,
+              engine_version: engine.version
+          });
+              
+          logger.info(`User access log created successfully for user ID: ${createdUserId} from IP: ${ip_address}`);
+        } catch (error) {
+            logger.error(`Failed to create user access log for user ID: ${createdUserId}. Error: ${error.message}`);
+            return next(error); // If necessary, pass the error to the next middleware
+        }
+
+        
+        
+
         // Log the user in
         req.logIn(user, (err) => {
             if (err) {
@@ -185,13 +229,15 @@ export const postSignup = async (req, res, next) => {
             res.redirect('/selection');
         });
     } catch (err) {
-        req.session.destroy((sessionErr) => {
-            if (sessionErr) {
-                return next(sessionErr);
-            }
-            next(err);
-        });
-    }
+      req.session.destroy((sessionErr) => {
+        if (sessionErr) {
+            logger.error(`Error destroying session: ${sessionErr}`);
+            return next(sessionErr);
+        }
+        logger.error(`Error during signup process: ${err}`);
+        next(err);
+    });
+}
 };
 
 export const postAvatar = async (req, res, next) => {
