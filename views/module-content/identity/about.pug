@@ -26,10 +26,12 @@ block content
           .twelve.wide.column
             p The Johnsons need your help! They've been targeted by SCAMM, falling victim to a sneaky identity theft scheme.
             p Uncover how scammers steal personal information to impersonate their targets. You'll learn how these scams work, how to spot them, and how to protect yourself and others.
-            if user.moduleProgress.identity.link === "/course-player?module=identity&section=challenge&page=intro" 
-              button.ui.huge.blue.button(onclick="window.location=user.moduleProgress.identity.link") Start Mission
-            else 
-              button.ui.huge.blue.button(onclick="window.location=user.moduleProgress.identity.link") Continue Mission
+            button.ui.huge.blue.button(onclick="window.location=user.moduleProgress.identity.link") Start Mission
+
+            //- if user.moduleProgress.identity.link === "/course-player?module=identity&section=challenge&page=intro" 
+            //-   button.ui.huge.blue.button(onclick="window.location=user.moduleProgress.identity.link") Start Mission
+            //- else 
+            //-   button.ui.huge.blue.button(onclick="window.location=user.moduleProgress.identity.link") Continue Mission
 
           .four.wide.column 
             img(src="/images/johnson.png" alt="family looking at phone")
@@ -46,10 +48,11 @@ block content
           .ui.grid
             .row
               .two.wide.centered.column
-                if(user.moduleStatus.identity.challenge === 100)
-                  span.fake-checkbox.completed
-                else
-                  span.fake-checkbox
+                span.fake-checkbox
+                //- if(user.moduleStatus.identity.challenge === 100)
+                //-   span.fake-checkbox.completed
+                //- else
+                //-   span.fake-checkbox
               .nine.wide.column
                 h3 Challenge
               .five.wide.right.aligned.column
@@ -59,10 +62,11 @@ block content
           .ui.grid
             .row
               .two.wide.centered.column
-                if(user.moduleStatus.identity.concepts === 100)
-                  span.fake-checkbox.completed
-                else
-                  span.fake-checkbox
+                span.fake-checkbox
+                //- if(user.moduleStatus.identity.concepts === 100)
+                //-   span.fake-checkbox.completed
+                //- else
+                //-   span.fake-checkbox
               .nine.wide.column
                 h3 Concepts
               .five.wide.right.aligned.column
@@ -72,10 +76,11 @@ block content
           .ui.grid
             .row
               .two.wide.centered.column
-                if(user.moduleStatus.identity.consequences === 100)
-                  span.fake-checkbox.completed
-                else
-                  span.fake-checkbox
+                span.fake-checkbox
+                //- if(user.moduleStatus.identity.consequences === 100)
+                //-   span.fake-checkbox.completed
+                //- else
+                //-   span.fake-checkbox
               .nine.wide.column
                 h3 Consequences
               .five.wide.right.aligned.column
@@ -85,10 +90,11 @@ block content
           .ui.grid
             .row
               .two.wide.centered.column
-                if(user.moduleStatus.identity.techniques === 100)
-                  span.fake-checkbox.completed
-                else
-                  span.fake-checkbox
+                span.fake-checkbox
+                //- if(user.moduleStatus.identity.techniques === 100)
+                //-   span.fake-checkbox.completed
+                //- else
+                //-   span.fake-checkbox
               .nine.wide.column
                 h3 Recognize Techniques
               .five.wide.right.aligned.column
@@ -98,10 +104,11 @@ block content
           .ui.grid
             .row
               .two.wide.centered.column
-                if(user.moduleStatus.identity.protection === 100)
-                  span.fake-checkbox.completed
-                else
-                  span.fake-checkbox
+                span.fake-checkbox
+                //- if(user.moduleStatus.identity.protection === 100)
+                //-   span.fake-checkbox.completed
+                //- else
+                //-   span.fake-checkbox
               .nine.wide.column
                 h3 Methods of Protection
               .five.wide.right.aligned.column
@@ -111,10 +118,11 @@ block content
           .ui.grid
             .row
               .two.wide.centered.column
-                if(user.moduleStatus.identity.reporting === 100)
-                  span.fake-checkbox.completed
-                else
-                  span.fake-checkbox
+                span.fake-checkbox
+                //- if(user.moduleStatus.identity.reporting === 100)
+                //-   span.fake-checkbox.completed
+                //- else
+                //-   span.fake-checkbox
               .nine.wide.column
                 h3 Reporting
               .five.wide.right.aligned.column
@@ -124,10 +132,11 @@ block content
           .ui.grid
             .row
               .two.wide.centered.column
-                if(user.moduleStatus.identity.practice === 100)
-                  span.fake-checkbox.completed
-                else
-                  span.fake-checkbox
+                span.fake-checkbox
+                //- if(user.moduleStatus.identity.practice === 100)
+                //-   span.fake-checkbox.completed
+                //- else
+                //-   span.fake-checkbox
               .nine.wide.column
                 h3 Practice
               .five.wide.right.aligned.column
@@ -137,10 +146,11 @@ block content
           .ui.grid
             .row
               .two.wide.centered.column
-                if(user.moduleStatus.identity.evaluation === 100)
-                  span.fake-checkbox.completed
-                else
-                  span.fake-checkbox
+                span.fake-checkbox
+                //- if(user.moduleStatus.identity.evaluation === 100)
+                //-   span.fake-checkbox.completed
+                //- else
+                //-   span.fake-checkbox
               .nine.wide.column
                 h3 Evaluation
               .five.wide.right.aligned.column
@@ -186,25 +196,32 @@ block content
         .sixteen.wide.column
           .speech-div
             .centerme
-              if user.moduleProgress.identity.link === "/course-player?module=identity&section=challenge&page=intro" 
                 button.ui.massive.blue.button(onclick="window.location=user.moduleProgress.identity.link") Start Mission
-              else 
-                button.ui.massive.blue.button(onclick="window.location=user.moduleProgress.identity.link") Continue Mission
+
+            //-   if user.moduleProgress.identity.link === "/course-player?module=identity&section=challenge&page=intro" 
+            //-     button.ui.massive.blue.button(onclick="window.location=user.moduleProgress.identity.link") Start Mission
+            //-   else 
+            //-     button.ui.massive.blue.button(onclick="window.location=user.moduleProgress.identity.link") Continue Mission
 
             img.dart_image.ui.medium.image(src=user.avatarImg alt="image of your avatar")
 
             .ui.large.label.blue-pointing#speechBubble
-              if user.moduleProgress.identity.link === "/course-player?module=identity&section=challenge&page=intro" 
                 p#speechText
                   | The Johnsons are counting on you! Click 'Start Mission' to begin. 
-              else 
-                p#speechText
-                  | Welcome back! Click 'Continue Mission' to pick up where you left off.
+
+            //-   if user.moduleProgress.identity.link === "/course-player?module=identity&section=challenge&page=intro" 
+            //-     p#speechText
+            //-       | The Johnsons are counting on you! Click 'Start Mission' to begin. 
+            //-   else 
+            //-     p#speechText
+            //-       | Welcome back! Click 'Continue Mission' to pick up where you left off.
     .ui.centered.grid.mobile.only
-      if user.moduleProgress.identity.link === "/course-player?module=identity&section=challenge&page=intro" 
         button.ui.massive.blue.button(onclick="window.location=user.moduleProgress.identity.link" style="margin-top: 0px; margin-bottom: 60px;") Start Mission
-      else 
-        button.ui.massive.blue.button(onclick="window.location=user.moduleProgress.identity.link" style="margin-top: 0px;  margin-bottom: 60px;") Continue Mission
+
+    //-   if user.moduleProgress.identity.link === "/course-player?module=identity&section=challenge&page=intro" 
+    //-     button.ui.massive.blue.button(onclick="window.location=user.moduleProgress.identity.link" style="margin-top: 0px; margin-bottom: 60px;") Start Mission
+    //-   else 
+    //-     button.ui.massive.blue.button(onclick="window.location=user.moduleProgress.identity.link" style="margin-top: 0px;  margin-bottom: 60px;") Continue Mission
 
     br
     br

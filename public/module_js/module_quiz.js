@@ -69,107 +69,69 @@ $(document).ready(function() {
     // console.log("sectionAttempts: " + sectionAttempts);
     // console.log("mod id:  " + modID);
 
+    document.dispatchEvent(new CustomEvent('QuizDataLoaded', { detail: { pastAttempts: false }}));
 
-    fetch(`/getLatestQuizScore?modID=${modID}&currentSection=${currentSection}`)
-        .then(response => response.json())
-        .then(userDBAttempts => {
-            // Handle the received data (the latest quiz attempt)
-            // console.log("**the fetch quiz score data is:")
-            // console.log(userDBAttempts);
+    // Display the first question
+    displayCurrentQuestion();
 
-            if(userDBAttempts.length != 0) { // attempted before so show restults page
+    if (currentSection === "challenge" || currentSection === 'techniques') {
+        $("#detail-instruct").show();
+    }
+    $(".viewAnswers").hide();
+    $(".quizMessage").hide();
 
-                // inform identity-theft.js that we have previous attempts so it can display the results page
-                document.dispatchEvent(new CustomEvent('QuizDataLoaded', { detail: { pastAttempts: true }}));
+    // fetch(`/getLatestQuizScore?modID=${modID}&currentSection=${currentSection}`)
+    // .then(response => response.json())
+    // .then(userDBAttempts => {
+    //     console.log('**The fetched quiz score data:', userDBAttempts);
 
-                $(".choiceList").empty();
-                $(".fourChoices").empty();
-                $(".checkboxChoices").empty();
-                $(".question span").empty();
-                $(".explanationCorrectMulti").hide();
-                $(".explanationIncorrectMulti").hide();
-                $(".explanationCorrectYesNo").hide();
-                $(".explanationIncorrectYesNo").hide();
-                $(".quizMessage").hide();
-                $(".htmlImage").hide();
+    //     if (userDBAttempts.length !== 0) { // Attempted before, so show results page
+    //         document.dispatchEvent(new CustomEvent('QuizDataLoaded', { detail: { pastAttempts: true }}));
 
-                if(currentSection === 'challenge' || currentSection === 'techniques') {
-                    $("#detail-instruct").hide();
-                }
-                // $(".preButton").css('visibility', 'hidden');
-                $(".nextButton").css('visibility', 'hidden');
-        
-                // console.log("We have previous attempts!");
-                pastAttempts = true;
+    //         // Reset quiz UI
+    //         $(".choiceList").empty();
+    //         $(".fourChoices").empty();
+    //         $(".checkboxChoices").empty();
+    //         $(".question span").empty();
+    //         $(".explanationCorrectMulti").hide();
+    //         $(".explanationIncorrectMulti").hide();
+    //         $(".explanationCorrectYesNo").hide();
+    //         $(".explanationIncorrectYesNo").hide();
+    //         $(".quizMessage").hide();
+    //         $(".htmlImage").hide();
 
-                // fix url to show results page
-                // const urlParams = new URLSearchParams(window.location.search);
-                // let nextPage = "quiz-results";
-                // urlParams.set('question', nextPage); 
-                // const newUrl = window.location.pathname + '?' + urlParams.toString();
-                // history.pushState({path: newUrl}, '', newUrl);
+    //         if (currentSection === 'challenge' || currentSection === 'techniques') {
+    //             $("#detail-instruct").hide();
+    //         }
+    //         $(".nextButton").css('visibility', 'hidden');
 
+    //         pastAttempts = true;
 
-                // $('.bar').css('width', '100%');
-                // $('.bar').css('background', '#3757A7');
+    //         cleanScore = userDBAttempts.correctAnswers;
+    //         correctAnswers = userDBAttempts.correctAnswers;
+    //         selectedAnswer = userDBAttempts.questionChoices;
+    //         questionScores = userDBAttempts.questionScores;
 
-                revisitShowFooter = true;
-                // hideTryAgainNext = true;
-    
-        
-                cleanScore = userDBAttempts.correctAnswers;
-                correctAnswers = userDBAttempts.correctAnswers;
-                selectedAnswer = userDBAttempts.questionChoices;
-                questionScores = userDBAttempts.questionScores;
-        
-        
-        
-                displayScore();
-                $(".preButton").text("Try Again");
-                $(".nextButton").text("Next");
-                // $(".nextButton").text("Complete");
+    //         displayScore();
+    //         $(".preButton").text("Try Again");
+    //         $(".nextButton").text("Next");
+    //         quizOver = true;
+    //     } else {
+    //         document.dispatchEvent(new CustomEvent('QuizDataLoaded', { detail: { pastAttempts: false }}));
 
-        
-                // $(".nextButton").text("View Answers");
-                quizOver = true;
-        
-            } else {
-                document.dispatchEvent(new CustomEvent('QuizDataLoaded', { detail: { pastAttempts: false }}));
+    //         // Display the first question
+    //         displayCurrentQuestion();
 
-                // Display the first question
-                displayCurrentQuestion();
-
-                if(currentSection === "challenge" || currentSection === 'techniques') {
-                    $("#detail-instruct").show();
-                }
-        
-                // hide warning and next nav button and disable previous quiz nav button
-
-                
-                $(".viewAnswers").hide();
-                $(".quizMessage").hide();
-                $(".explanationCorrectMulti").hide();
-                $(".explanationIncorrectMulti").hide();
-                $(".explanationCorrectYesNo").hide();
-                $(".explanationIncorrectYesNo").hide();
-                
-                $(".result").hide();
-                $(".avatar-container").hide();
-                if(page === 'quiz') {
-                    $("#nextButton").hide();
-                    $("#backButton").hide();
-                    $("#module-footer").hide();
-                }
-            }
-        
-
-
-        })
-        .catch(error => {
-        console.error('Error:', error);
-        });
-
-
+    //         if (currentSection === "challenge" || currentSection === 'techniques') {
+    //             $("#detail-instruct").show();
+    //         }
+    //         $(".viewAnswers").hide();
+    //         $(".quizMessage").hide();
+    //     }
+    // })
+    // .catch(error => {
+    //     console.error('Error fetching quiz score:', error);
+    // });
 
 
 	$(this).find(".preButton").on("click", function () {

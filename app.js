@@ -28,6 +28,7 @@ import db from './config/database.js';
 import * as userController from './controllers/userController.js';
 import * as moduleController from './controllers/moduleController.js';
 import * as courseController from './controllers/courseController.js';
+import * as quizController from './controllers/quizController.js';
 
 import Courses from './sequelize/models/Course.js';
 
@@ -350,6 +351,9 @@ app.get("/privacy", function (req, res) {
     isValidModId,
     courseController.getLearn
   );
+  // Route to get the latest quiz score
+  app.get("/getLatestQuizScore", quizController.getLatestQuizScore);
+
   // app.get("/explore/:page?/:modId", isValidModId, courseController.getExplore);
   // app.get(
   //   "/evaluation/:page?/:modId",
