@@ -9,6 +9,33 @@ block content
                 p#details Log in to your account
                 form.ui.form(method='POST')
                     input(type='hidden', name='_csrf', value=csrfToken)
+                    input#screen_width(type='hidden', name='screen_width')
+                    input#screen_height(type='hidden', name='screen_height')
+                    input#screen_orientation(type='hidden', name='screen_orientation')
+                    input#viewport_width(type='hidden', name='viewport_width')
+                    input#viewport_height(type='hidden', name='viewport_height')
+                    input#device_memory(type='hidden', name='device_memory')
+                    input#cpu_cores(type='hidden', name='cpu_cores')
+                    input#connection_type(type='hidden', name='connection_type')
+                    input#downlink(type='hidden', name='downlink')
+                    input#time_zone(type='hidden', name='time_zone')
+                    input#language(type='hidden', name='language')
+                    input#referrer(type='hidden', name='referrer')
+                    input#cookies_enabled(type='hidden', name='cookies_enabled')
+                    input#is_touch_device(type='hidden', name='is_touch_device')
+                    input#zoom_level(type='hidden', name='zoom_level')
+
+                    input#battery_level(type='hidden', name='battery_level')
+                    input#battery_is_charging(type='hidden', name='battery_is_charging')
+                    input#storage_quota_estimate(type='hidden', name='storage_quota_estimate')
+                    input#storage_usage_estimate(type='hidden', name='storage_usage_estimate')
+                    input#device_pixel_ratio(type='hidden', name='device_pixel_ratio')
+                    input#prefers_color_scheme(type='hidden', name='prefers_color_scheme')
+                    input#prefers_reduced_data(type='hidden', name='prefers_reduced_data')
+                    input#prefers_reduced_motion(type='hidden', name='prefers_reduced_motion')
+                    input#prefers_high_contrast(type='hidden', name='prefers_high_contrast')
+                    input#prefers_contrast(type='hidden', name='prefers_contrast')
+                    
                     .field
                         a.ui.big.fluid.button(href='/auth/google')   
                             span
@@ -53,5 +80,5 @@ block scripts
             ;
         })
     ;
-  script(src='/js/password-toggle.js')
+//-   script(src='/js/password-toggle.js')
 

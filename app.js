@@ -276,9 +276,7 @@ app.get("/privacy", function (req, res) {
    // Render courses
    app.get("/courses", async function (req, res) {
     try {
-      const courses = await Courses.findAll();
-      logger.debug("***Courses: ", courses);
-  
+      const courses = await Courses.findAll();  
       // Render the Pug template and pass the courses to the template
       res.render('courses', {
         title: 'Courses',

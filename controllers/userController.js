@@ -13,11 +13,11 @@ import UAParser from 'ua-parser-js';
  */
 export const getLogin = (req, res) => {
     if (req.user) {
-      return res.redirect('/courses');
+        return res.redirect('/courses');
     }
     res.render('account/login', {
-      title: 'Login',
-      csrfToken: req.csrfToken()
+        title: 'Login',
+        csrfToken: req.csrfToken()
     });
   };
   
@@ -29,25 +29,28 @@ export const postLogin = (req, res, next) => {
     if (validator.isEmpty(req.body.password)) validationErrors.push({ msg: 'Password cannot be blank.' });
   
     if (validationErrors.length) {
-      req.flash('errors', validationErrors);
-      return res.redirect('/login');
+        req.flash('errors', validationErrors);
+        return res.redirect('/login');
     }
   
     req.body.email = validator.normalizeEmail(req.body.email, { gmail_remove_dots: false });
   
-    passport.authenticate('local', (err, user, info) => {
-      if (err) { return next(err); }
-      if (!user) {
-        req.flash('errors', info);
-        return res.redirect('/login');
-      }
-      
-      req.logIn(user, (err) => {
+    passport.authenticate('local', async (err, user, info) => {
         if (err) { return next(err); }
-        res.redirect(req.session.returnTo || '/courses');
-      });
+        if (!user) {
+            req.flash('errors', info);
+            await logUserAccess('login-failure', req, null);
+            return res.redirect('/login');
+        }
+        
+        // passport adds the authenticated user object to the request object as req.user
+        req.logIn(user, async (err) => {
+            if (err) { return next(err); }
+            await logUserAccess('login', req, user.id);
+            res.redirect(req.session.returnTo || '/courses');
+        });
     })(req, res, next);
-  };
+};
 
   export const getGuest = async (req, res, next) => {
     try {
@@ -77,7 +80,10 @@ export const postLogin = (req, res, next) => {
         account_type: "guest", 
         last_notify_visit: Date.now(),
       });
-  
+
+      logger.info(`Guest User Created: ID: ${user.id}, email: ${user.email}, name: ${user.name}, accountType: ${user.account_type}`);
+
+
       // Log the user in using Passport.js
       req.logIn(user, async (err) => {
         if (err) {
@@ -97,12 +103,19 @@ export const postLogin = (req, res, next) => {
             });
           });
         });
+
+
+        // Add to the user access log
+        await logUserAccess("signup-guest", req, user.id);
+
   
         // Redirect the guest user to the selection page
         return res.redirect('/selection');
       });
     } catch (err) {
-      return next(err);
+
+        await logUserAccess('signup-guest-failure', req, null);
+        return next(err);
     }
   };
   // Handle logout requests
@@ -130,9 +143,12 @@ export const getSignup = (req, res) => {
 export const postSignup = async (req, res, next) => {
     const csrfTokenInBody = req.body._csrf || 'none';
     const csrfTokenInSession = req.session.csrfToken || 'none';
-    
+
+    logger.debug('In postSignup function');
+
     logger.debug(`CSRF Token in body: ${csrfTokenInBody}`);
     logger.debug(`CSRF Token in session: ${csrfTokenInSession}`);
+    logger.debug(`Request body: ${JSON.stringify(req.body)}`);
 
     const validationErrors = [];
 
@@ -181,60 +197,32 @@ export const postSignup = async (req, res, next) => {
         });
 
         logger.info(`User created: ID: ${user.id}, email: ${user.email}, name: ${user.name}, accountType: ${user.account_type}`);
-        const createdUserId = user.id;
         // Ensure user creation was successful before logging access
         if (!user || !user.id) {
           logger.error('User creation failed: User object or ID is null, cannot log access');
           return next(new Error('User creation failed, cannot log access'));
         }
 
-        // Add to the user access log
-        const ip_address = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-        const user_agent = req.headers['user-agent'];
-        const parser = new UAParser(user_agent);
-        const parsedData = parser.getResult();
-        const { browser, os, device, cpu, engine } = parsedData;
-        
-        try {
-          await UserAccessLog.create({
-              user_id: createdUserId,
-              ip_address: ip_address,
-              user_agent: user_agent,
-              browser_name: browser.name,
-              browser_version: browser.version,
-              os_name: os.name,
-              os_version: os.version,
-              device_model: device.model,
-              device_type: device.type,
-              device_vendor: device.vendor,
-              cpu_architecture: cpu.architecture,
-              engine_name: engine.name,
-              engine_version: engine.version
-          });
-              
-          logger.info(`User access log created successfully for user ID: ${createdUserId} from IP: ${ip_address}`);
-        } catch (error) {
-            logger.error(`Failed to create user access log for user ID: ${createdUserId}. Error: ${error.message}`);
-            return next(error); // If necessary, pass the error to the next middleware
-        }
-
-        
-        
-
         // Log the user in
-        req.logIn(user, (err) => {
+        req.logIn(user, async (err) => {
             if (err) {
                 return next(err);
             }
+
+            // Add to the user access log
+            await logUserAccess('signup', req, user.id);
+
             res.redirect('/selection');
         });
     } catch (err) {
-      req.session.destroy((sessionErr) => {
+      req.session.destroy(async (sessionErr) => {
         if (sessionErr) {
             logger.error(`Error destroying session: ${sessionErr}`);
+            await logUserAccess('signup-failure-destroying-session', req, null);
             return next(sessionErr);
         }
         logger.error(`Error during signup process: ${err}`);
+        await logUserAccess('signup-failure', req, null);
         next(err);
     });
 }
@@ -355,4 +343,99 @@ export const googleCallback = (req, res, next) => {
     })(req, res, () => {
         res.redirect('/');
     });
+};
+
+// logUserAccess function
+const logUserAccess = async (action, req, createdUserId) => {
+    // log action
+    logger.info(`Logging user access log action: ${action}`);
+
+    // Capture additional client-side data
+    const { 
+        screen_width, 
+        screen_height, 
+        viewport_width, 
+        viewport_height, 
+        device_memory, 
+        cpu_cores, 
+        connection_type, 
+        downlink, 
+        time_zone, 
+        language, 
+        referrer, 
+        cookies_enabled, 
+        is_touch_device, 
+        zoom_level, 
+        device_pixel_ratio, 
+        screen_orientation,
+        prefers_color_scheme,
+        prefers_reduced_data,
+        prefers_reduced_motion,
+        prefers_high_contrast,
+        prefers_contrast
+    } = req.body;
+
+    // Get IP address
+    const ip_address = req.headers['x-forwarded-for'] 
+              ? req.headers['x-forwarded-for'].split(',')[0] 
+              : req.connection.remoteAddress;
+
+    // Get User-Agent details
+    const user_agent = req.headers['user-agent'];
+    const parser = new UAParser(user_agent);
+    const page_accessed = req.originalUrl || 'Unknown';
+
+    // Parse browser, OS, device, engine, and CPU info
+    const { name: browser_name, version: browser_version } = parser.getBrowser();
+    const { name: os_name, version: os_version } = parser.getOS();
+    const { model: device_model, type: device_type, vendor: device_vendor } = parser.getDevice();
+    const { name: engine_name, version: engine_version } = parser.getEngine();
+    const { architecture: cpu_architecture } = parser.getCPU();
+
+    try {
+        // Create User Access Log
+        await UserAccessLog.create({
+            user_id: createdUserId,
+            action: action,
+            page_accessed: page_accessed,
+            ip_address: ip_address,
+            user_agent: user_agent,
+            browser_name: browser_name || 'Unknown',
+            browser_version: browser_version || 'Unknown',
+            os_name: os_name || 'Unknown',
+            os_version: os_version || 'Unknown',
+            device_model: device_model || 'Unknown',
+            device_type: device_type || 'Desktop',
+            device_vendor: device_vendor || 'Unknown',
+            cpu_architecture: cpu_architecture || 'Unknown',
+            engine_name: engine_name || 'Unknown',
+            engine_version: engine_version || 'Unknown',
+            screen_width: screen_width,
+            screen_height: screen_height,
+            viewport_width: viewport_width,
+            viewport_height: viewport_height,
+            device_memory: device_memory,
+            cpu_cores: cpu_cores,
+            connection_type: connection_type,
+            downlink: downlink,
+            time_zone: time_zone,
+            language: language,
+            referrer: referrer,
+            cookies_enabled: cookies_enabled,
+            is_touch_device: is_touch_device,
+            zoom_level: zoom_level,
+            device_pixel_ratio: device_pixel_ratio,
+            screen_orientation: screen_orientation,
+            prefers_color_scheme: prefers_color_scheme,
+            prefers_reduced_data: prefers_reduced_data,
+            prefers_reduced_motion: prefers_reduced_motion,
+            prefers_high_contrast: prefers_high_contrast,
+            prefers_contrast: prefers_contrast
+        });
+
+        logger.info(`User access log created successfully for user ID: ${createdUserId} from IP: ${ip_address}`);
+    } catch (error) {
+        logger.error(`Failed to create user access log for user ID: ${createdUserId}. Error: ${error.message}`);
+        throw error; // Rethrow error for handling in the calling function
+    }
 };

@@ -2,7 +2,7 @@ var courses = [];
 
 
 $(document).ready(function () {
-  console.log("Document is ready. Courses are passed from the server.");
+//   console.log("Document is ready. Courses are passed from the server.");
   // console.log("*Courses: ", courses)
 
   // Render courses that were passed in the template
@@ -25,8 +25,6 @@ $(document).ready(function () {
 });
 
 function renderCourses(data) {
-  console.log("Courses data passed to renderCourses:", data); // Check the structure of the data
-
   var container = $('#courses-container');
   container.empty();
   if (data.length === 0) {
