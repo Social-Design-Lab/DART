@@ -27,6 +27,10 @@ import * as moduleController from './controllers/moduleController.js';
 import * as courseController from './controllers/courseController.js';
 import * as quizController from './controllers/quizController.js';
 
+// Need this to load the models associations!!
+import models from './sequelize/models/index.js';
+
+
 // import Courses from './sequelize/models/Course.js';
 
 // For Node.js 20.2 and later we need to explicitly set __dirname and __filename
@@ -275,18 +279,34 @@ app.get("/dashboard", function (req, res) {
 });
 
 function isValidModId(req, res, next) {
-    const modIds = ["identity", "romance", "grandparent", "tech"];
+    const modIds = ["identity", "romance", "grandparent", "tech", "medication"]; // Fix typo from "mediication"
+    
     if (modIds.includes(req.params.modId)) {
-        next();
+        next(); // Valid modId, proceed to the next middleware or route handler
     } else {
-        var err = new Error("Page Not Found.");
-
-        logger.error(err);
-
-        res.status(404);
-        res.render('404', { title: 'Page Not Found' });
+        // Create a 404 error and pass it to the next middleware
+        const err = new Error("Page Not Found.");
+        err.status = 404;
+        
+        logger.error(err.message); // Log the error message
+        
+        next(err); // Pass the error to the next error-handling middleware
     }
 }
+
+// function isValidModId(req, res, next) {
+//     const modIds = ["identity", "romance", "grandparent", "tech", "mediication"];
+//     if (modIds.includes(req.params.modId)) {
+//         next();
+//     } else {
+//         var err = new Error("Page Not Found.");
+
+//         logger.error(err);
+
+//         res.status(404);
+//         res.render('404', { title: 'Page Not Found' });
+//     }
+// }
 
 app.get("/courses", courseController.getCourses);
 app.get("/about/:modId", isValidModId, courseController.getAbout);
@@ -364,14 +384,35 @@ if (process.env.NODE_ENV === "development") {
 }
 
 // General error handler for all environments
+// app.use((err, req, res, next) => {
+//     console.error(err);
+//     res.status(err.status || 500);
+//     res.render('error', {
+//         message: err.message,
+//         error: process.env.NODE_ENV === 'development' ? err : {},  // Show error details only in dev
+//         title: 'Server Error'
+//     });
+// });
+// Global error handler middleware
 app.use((err, req, res, next) => {
     console.error(err);
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: process.env.NODE_ENV === 'development' ? err : {},  // Show error details only in dev
-        title: 'Server Error'
-    });
+
+    // Check if it's a 404 error
+    if (err.status === 404) {
+        res.status(404);
+        res.render('404', {
+            title: 'Page Not Found',
+            message: err.message || 'The page you are looking for does not exist.',
+        });
+    } else {
+        // Handle other errors (500, etc.)
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: process.env.NODE_ENV === 'development' ? err : {},  // Show error details only in dev
+            title: 'Server Error'
+        });
+    }
 });
 
 // const PORT = process.env.PORT || 3000;

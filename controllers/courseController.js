@@ -19,20 +19,6 @@ export const getCourses = async function (req, res) {
     }
 };
 
-const getCourseWithLessons = async (courseId) => {
-    try {
-        const course = await Course.findOne({
-            where: { id: courseId },
-            include: [{
-                model: Lesson,
-                as: 'lessons', // Use the alias defined in the association
-            }],
-        });
-        return course;
-    } catch (err) {
-        console.error(err);
-    }
-};
 
 // GET /about/:modId
 export const getAbout = async (req, res) => {
@@ -42,49 +28,29 @@ export const getAbout = async (req, res) => {
     try {
         // Fetch the course based on modId (courseId)
         logger.debug(`Fetching course for modId slug: ${modId}`);
-        // const course = await Course.findByPk(modId);
 
-        // // Fetch the course by slug
-        // const course = await Course.findOne({
-        //     where: { slug: modId },  // Assuming you have a slug field in your database
-        // });
+        const course = await Course.findOne({
+            where: { slug: modId },  // Assuming you have a slug field in your database
+            include: [
+                {
+                    model: Lesson,
+                    as: 'lessons',  // Assuming 'lessons' is the alias
+                }
+            ]
+        });
 
-        // logger.debug(`Course found: ${JSON.stringify(course, null, 2)}`);
-        // logger.info(`Course found: ${course.id}`);
 
-        // // Fetch the lessons associated with the course
-        // const lessons = await Lesson.findAll({
-        //     where: { course_id: course.id },
-        //     attributes: ['id', 'title'],  // Fetch only necessary fields (id, title)
-        // });
 
-        const course = await getCourseWithLessons(modId);
         // log courses and lessons
-        logger.info(`Course found: ${course.id} - ${course.title} - ${course.slug}  lessons: ${course.lessons.length}`);
+        // logger.info(`Course found: ${course.id} - ${course.title} - ${course.slug}  lessons: ${course.lessons.length}`);
+        logger.debug(`Course found: ${JSON.stringify(course, null, 2)}`);
 
 
 
-
-
-
-        // // Render the generic "about" page, passing course data
-        // res.render('about', {
-        //     title: `About ${course.title}`, // Dynamic page title
-        //     course, // Pass course object to the template
-        // });
-
-
-
-        // Fetch the course based on modId (courseId)
-        // const course = await Course.findByPk(modId);
-
-        // logger.info('*In get about Course: ', course);
-
-        // if (!course) {
-        // return res.status(404).render('error', { message: 'Course not found' });
-        // }
-
-        res.render(introPage, { title });
+        res.render(introPage, {
+            title: `About ${course.title}`, // Dynamic page title
+            course // Pass the course object to the template
+        });
     }  catch (err) {  // Corrected: err should be used instead of error
         logger.error('Error fetching course details:', err);
         res.status(500).render('error', {
