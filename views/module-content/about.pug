@@ -1,0 +1,81 @@
+extends ../ui_layout.pug
+
+block content
+  .ui.container
+    br
+    .ui.breadcrumb
+      a.section(href="/") Home
+      i.right.angle.icon.divider
+      a.section(href="/courses") Missions
+      i.right.angle.icon.divider
+      .active.section= course.title  // Dynamically set the course title
+    br
+    h1.ui.header.red#mod-title(style="font-weight: bold !important;")= course.title  // Course title
+    .ui.top.attached.fluid.segment
+      .ui.grid 
+        .row
+          .eight.wide.column#classification
+            strong CLASSIFICATION: 
+            | TOP SECRET 
+          .eight.wide.column#classified-by 
+            strong CLASSIFIED BY: 
+            | DART HQ
+    .ui.attached.segment#middle-section-outline
+      .ui.grid 
+        .row 
+          .twelve.wide.column
+            p= course.description  // Course description
+            if enrollment
+              button.ui.huge.blue.button(onclick=`window.location='/course-player?courseId=${course.id}'`) Continue Mission
+            else
+              button.ui.huge.blue.button(onclick=`window.location='/enroll?courseId=${course.id}'`) Start Mission
+
+          .four.wide.column 
+            img(src=course.image_link, alt="course image")  // Course image
+      br
+
+      hr
+      
+      h2.ui.header.centered#learn-title(style="font-weight: 500 !important;")  
+        .content
+          i.search.icon
+          | Activities
+
+      .ui.vertical.basic.segments#course-outline
+        each lesson in lessons
+          .ui.basic.segment
+            .ui.grid
+              .row
+                .two.wide.centered.column
+                  span.fake-checkbox
+                  //- You can add logic to check lesson completion status based on user progress
+                .nine.wide.column
+                  h3= lesson.title  // Lesson title
+                  p Duration: #{lesson.duration} minutes  // Lesson duration
+                .five.wide.right.aligned.column
+                  .ui.blue.inverted.button.small(onclick=`window.location='/course-player?lessonId=${lesson.id}'`) Start
+
+          .ui.divider
+
+      h2.ui.header.centered(style="margin-top: 40px; margin-bottom: 40px;") 
+        .content(style="position: relative;")  
+          | Complete all activities to earn a certificate
+          img(src="/images/certificate-icon.png" style="width: 50px; height: 50px; position: absolute; left: -55px; top: -5px" alt="certificate icon")
+
+    .ui.bottom.attached.segment
+      h2(style="color: #285362; font-weight: 500 !important;") Learning Materials 
+      p If you would like to learn the material offline, you can download the content below:
+      div.ui.two.column.stackable.grid#downloadGrid
+        .column
+          h3.glossary.pdf #{course.title} Course PDF
+          a.ui.inline.fluid.labeled.icon.button(href=`/pdf/${course.title.toLowerCase()}-guide.pdf`, download=`${course.title.toLowerCase()}_guide.pdf`)
+            i.download.icon.graySquare
+            .inline
+              p Download Course PDF
+
+        .column
+          h3.glossary.pdf #{course.title} Glossary PDF
+          a.ui.inline.fluid.labeled.icon.button(href=`/pdf/${course.title.toLowerCase()}-glossary.pdf`, download=`${course.title.toLowerCase()}_glossary.pdf`)
+            i.download.icon.graySquare
+            .inline
+              p Download Glossary PDF

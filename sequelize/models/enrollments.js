@@ -1,26 +1,50 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
-  class Enrollments extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-    }
+import { Model, DataTypes } from 'sequelize';
+import sequelize from '../../config/database.js';
+
+class Enrollment extends Model {
+  static associate(models) {
+    // Define the associations here
+    Enrollment.belongsTo(models.User, { foreignKey: 'user_id' });
+    Enrollment.belongsTo(models.Course, { foreignKey: 'course_id' });
   }
-  Enrollments.init({
-    user_id: DataTypes.INTEGER,
-    course_id: DataTypes.INTEGER,
-    enrollment_date: DataTypes.DATE
-  }, {
-    sequelize,
-    modelName: 'Enrollments',
-    underscored: true,
-  });
-  return Enrollments;
-};
+}
+
+Enrollment.init({
+  user_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'users',
+      key: 'id',
+    },
+    onDelete: 'CASCADE',
+  },
+  course_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'courses',
+      key: 'id',
+    },
+    onDelete: 'CASCADE',
+  },
+  percent_progress: {
+    type: DataTypes.FLOAT,
+    defaultValue: 0,
+    validate: {
+      min: 0,
+      max: 100,
+    },
+  },
+  last_page: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+}, {
+  sequelize,
+  modelName: 'Enrollment',
+  tableName: 'enrollments',
+  underscored: true,
+});
+
+export default Enrollment;

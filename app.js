@@ -30,7 +30,7 @@ import * as moduleController from './controllers/moduleController.js';
 import * as courseController from './controllers/courseController.js';
 import * as quizController from './controllers/quizController.js';
 
-import Courses from './sequelize/models/Course.js';
+// import Courses from './sequelize/models/Course.js';
 
 
 // For Node.js 20.2 and later we need to explicitly set __dirname and __filename
@@ -274,20 +274,7 @@ app.get("/privacy", function (req, res) {
     });
   });
 
-   // Render courses
-   app.get("/courses", async function (req, res) {
-    try {
-      const courses = await Courses.findAll();  
-      // Render the Pug template and pass the courses to the template
-      res.render('courses', {
-        title: 'Courses',
-        courses: courses  // Passing courses data to the Pug template
-      });
-    } catch (error) {
-      console.error('Error fetching courses:', error);
-      res.status(500).send('Error fetching courses');
-    }
-  });
+
   
   //  app.get("/courses", function (req, res) {
   //   res.render('courses', {
@@ -332,7 +319,10 @@ app.get("/privacy", function (req, res) {
     }
   }
   
-  app.get("/about/:modId", isValidModId, moduleController.getAbout);
+    app.get("/courses", courseController.getCourses);
+    app.get("/about/:modId", isValidModId, courseController.getAbout);
+
+
   app.get("/course-player", moduleController.getModule);
   app.get("/references/:modId", isValidModId, moduleController.getReferences);
 

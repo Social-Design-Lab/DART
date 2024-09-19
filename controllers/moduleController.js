@@ -3,6 +3,8 @@ import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import User from '../sequelize/models/User.js'; // Adjust path to the correct location of the Sequelize User model
+// import Course from '../sequelize/models/Course.js'; // Adjust path to the correct location of the Sequelize Course model
+// import Lesson from '../sequelize/models/Lesson.js'; // Adjust path to the correct location of the Sequelize Lesson model
 
 // Helper functions for time calculations
 const __filename = fileURLToPath(import.meta.url);
@@ -36,12 +38,12 @@ function formatDate(date) {
 }
 
 // GET /about/:page?/:modId
-export const getAbout = (req, res) => {
-  const modId = req.params.modId;
-  const introPage = `module-content/${modId}/about.pug`;
-  const title = 'About';
-  res.render(introPage, { title });
-};
+// export const getAbout = (req, res) => {
+//   const modId = req.params.modId;
+//   const introPage = `module-content/${modId}/about.pug`;
+//   const title = 'About';
+//   res.render(introPage, { title });
+// };
 
 // GET /about/:page?/:modId - References
 export const getReferences = (req, res) => {

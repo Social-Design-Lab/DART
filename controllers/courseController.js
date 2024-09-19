@@ -1,5 +1,22 @@
 import fs from 'fs/promises'; // Replaces fs and util
 import User from '../sequelize/models/User.js';
+import Course from '../sequelize/models/Course.js';
+
+// GET Courses
+export const getCourses = async function (req, res) {
+    try {
+        const courses = await Course.findAll();  
+        // Render the Pug template and pass the courses to the template
+        res.render('courses', {
+            title: 'Courses',
+            courses: courses  // Passing courses data to the Pug template
+        });
+    } catch (error) {
+        console.error('Error fetching courses:', error);
+        res.status(500).send('Error fetching courses');
+    }
+};
+
 
 /**
  * GET /
@@ -26,16 +43,43 @@ import User from '../sequelize/models/User.js';
 //   });
 // };
 
-/**
- * GET /about/:modId
- * Render the about pages for the module.
- */
-export const getAbout = (req, res) => {
-  const modId = req.params.modId;
-  const introPage = `${modId}/${modId}_about`;
-  const title = 'About';
-  res.render(introPage, { title });
-};
+// /**
+//  * GET /about/:modId
+export const getAbout = async (req, res) => {
+    const { modId } = req.params;
+  
+    try {
+      // Fetch the course based on modId (courseId)
+      const course = await Course.findByPk(modId);
+  
+      if (!course) {
+        return res.status(404).render('error', { message: 'Course not found' });
+      }
+  
+      // Fetch lessons related to the course (optional if you want to display them here)
+      const lessons = await course.getLessons(); // Assuming you've set up the Course -> Lesson relationship
+  
+      // Render the generic "about" page, passing course data
+      res.render('about', {
+        title: `About ${course.title}`, // Dynamic page title
+        course, // Pass course object to the template
+        lessons // Pass lessons array if needed
+      });
+    } catch (error) {
+      res.status(500).render('error', { message: 'Failed to load course details' });
+    }
+  };
+  
+
+
+//  * Render the about pages for the module.
+//  */
+// export const getAbout = (req, res) => {
+//   const modId = req.params.modId;
+//   const introPage = `${modId}/${modId}_about`;
+//   const title = 'About';
+//   res.render(introPage, { title });
+// };
 
 /**
  * GET /intro/:page?/:modId
