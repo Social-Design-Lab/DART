@@ -5,6 +5,7 @@ module.exports = {
     return queryInterface.bulkInsert('courses', [
       {
         title: 'Identity Theft',
+        slug: 'identity',
         description: 'Learn how to protect yourself from identity theft and what steps to take if your identity is stolen.',
         level: 'Beginner',
         keywords: ['Identity Theft', 'Fraud'],
@@ -16,6 +17,7 @@ module.exports = {
       },
       {
         title: 'Romance & Friendship Scams',
+        slug: 'romance',
         description: 'Recognize the warning signs of romance and friendship scams and how to avoid falling victim.',
         level: 'Beginner',
         keywords: ['Romance Scams', 'Fraud'],
@@ -27,6 +29,7 @@ module.exports = {
       },
       {
         title: 'Tech Support Scams',
+        slug: 'tech',
         description: 'Identify tech support scams and learn what to do when a scammer pretends to be tech support.',
         level: 'Beginner',
         keywords: ['Tech Support Scams', 'Fraud'],
@@ -37,24 +40,26 @@ module.exports = {
         updated_at: new Date()
       },
       {
-        title: 'Medication Scams',
-        description: 'Understand common medication scams and how to safeguard yourself against fraudulent medication offers.',
-        level: 'Beginner',
-        keywords: ['Medication Scams', 'Fraud'],
-        duration: 60,
-        link: '/about/medication',
-        image_link: '/images/courses/medication-scams-banner.jpg',
-        created_at: new Date(),
-        updated_at: new Date()
-      },
-      {
         title: 'Grandparent Scams',
+        slug: 'grandparent',
         description: 'Learn how scammers exploit emotional manipulation to target grandparents and how to protect yourself.',
         level: 'Beginner',
         keywords: ['Grandparent Scams', 'Fraud'],
         duration: 60,
         link: '/about/grandparent',
         image_link: '/images/courses/grandparent-scams-banner.jpg',
+        created_at: new Date(),
+        updated_at: new Date()
+      },
+      {
+        title: 'Medication Scams',
+        slug: 'medication',
+        description: 'Understand common medication scams and how to safeguard yourself against fraudulent medication offers.',
+        level: 'Beginner',
+        keywords: ['Medication Scams', 'Fraud'],
+        duration: 60,
+        link: '/about/medication',
+        image_link: '/images/courses/medication-scams-banner.jpg',
         created_at: new Date(),
         updated_at: new Date()
       }

@@ -11,13 +11,10 @@ import { generateToken, csrfSynchronisedProtection } from './config/csrf.js';
 import errorHandler from 'errorhandler';
 // import nocache from 'nocache';
 
-
 import flash from 'express-flash';
 import compression from 'compression';
 import rateLimit from 'express-rate-limit';
 import cors from 'cors';
-
-
 
 import SequelizeStore from 'connect-session-sequelize';
 import db from './config/database.js';
@@ -32,7 +29,6 @@ import * as quizController from './controllers/quizController.js';
 
 // import Courses from './sequelize/models/Course.js';
 
-
 // For Node.js 20.2 and later we need to explicitly set __dirname and __filename
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
@@ -42,14 +38,13 @@ const __dirname = dirname(__filename);
 // Initialize Sequelize session store
 const SequelizeSessionStore = SequelizeStore(session.Store);
 const sessionStore = new SequelizeSessionStore({
-  db: db,
+    db: db,
 });
 
 // Test the connection
 db.authenticate()
-  .then(() => logger.info('Database connected...'))
-  .catch(err => logger.error('Error: ' + err));
-
+    .then(() => logger.info('Database connected...'))
+    .catch(err => logger.error('Error: ' + err));
 
 try {
     // dont use in production, use migrations instead for version control and to avoid data loss
@@ -67,8 +62,6 @@ app.set("port", process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 3000);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
-
-
 // Middleware
 // Serve static files from the "public" directory
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: '1d' }));
@@ -85,16 +78,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Session management
 app.use(
     session({
-      secret: process.env.SESSION_SECRET || 'your-secret-key',
-      store: sessionStore,
-      resave: false,
-      saveUninitialized: false,
-      cookie: {
-        maxAge: 1209600000, // Two weeks in milliseconds
-        secure: process.env.NODE_ENV === 'production', // Secure cookies in production
-        httpOnly: true, // Prevent client-side JS access
-        sameSite: 'strict', // Prevent CSRF attacks
-      },
+        secret: process.env.SESSION_SECRET || 'your-secret-key',
+        store: sessionStore,
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            maxAge: 1209600000, // Two weeks in milliseconds
+            secure: process.env.NODE_ENV === 'production', // Secure cookies in production
+            httpOnly: true, // Prevent client-side JS access
+            sameSite: 'strict', // Prevent CSRF attacks
+        },
     })
 );
 
@@ -130,89 +123,77 @@ sessionStore.sync();
 //   res.json({ csrfToken });
 // });
 
-
-
-
 // Hide "X-Powered-By" header to avoid revealing Express.js
 // Prevents attackers from identifying the framework and targeting known vulnerabilities
 app.disable("x-powered-by");
 
 // Apply rate limiting to all requests (100 requests per 15 minutes)
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per window
-  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // Limit each IP to 100 requests per window
+    standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
 app.use(limiter);
 
-
 const allowedOrigins = process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',') : [
-  'http://localhost:3000', 
-  'https://dart.socialsandbox.xyz', 
-  'https://dart-test.socialsandbox.xyz', 
-  'https://dartacademy.net'
+    'http://localhost:3000', 
+    'https://dart.socialsandbox.xyz', 
+    'https://dart-test.socialsandbox.xyz', 
+    'https://dartacademy.net'
 ];
 
 // Add CORS to secure cross-origin requests within our eLearning platform
 // This ensures that only trusted domains can interact with our backend, enhancing security
 const corsOptions = {
-  origin: function (origin, callback) {
-    // Allow requests with no origin or from trusted origins in the environment variable
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow these HTTP methods
-  allowedHeaders: ['Content-Type', 'Authorization'], // Restrict allowed headers
-  credentials: true, // Allow credentials such as cookies
+    origin: function (origin, callback) {
+        // Allow requests with no origin or from trusted origins in the environment variable
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow these HTTP methods
+    allowedHeaders: ['Content-Type', 'Authorization'], // Restrict allowed headers
+    credentials: true, // Allow credentials such as cookies
 }; 
 
 app.use(cors(corsOptions));
 
-
-
 // Apply CSRF protection
 app.use(csrfSynchronisedProtection); 
 
-
 // make user object available in all views
 app.use((req, res, next) => {
-  res.locals.user = req.user;
-  next();
+    res.locals.user = req.user;
+    next();
 });
 
 app.use((req, res, next) => {
-  // After successful login, redirect back to the intended page
-  if (
-    !req.user &&
-    req.path !== "/login" &&
-    req.path !== "/signup" &&
-    !req.path.match(/^\/auth/) &&
-    !req.path.match(/\./)
-  ) {
-    req.session.returnTo = req.originalUrl;
-  } else if (
-    req.user &&
-    (req.path === "/account" || req.path.match(/^\/api/))
-  ) {
-    req.session.returnTo = req.originalUrl;
-  }
-  next();
+    // After successful login, redirect back to the intended page
+    if (
+        !req.user &&
+        req.path !== "/login" &&
+        req.path !== "/signup" &&
+        !req.path.match(/^\/auth/) &&
+        !req.path.match(/\./)
+    ) {
+        req.session.returnTo = req.originalUrl;
+    } else if (
+        req.user &&
+        (req.path === "/account" || req.path.match(/^\/api/))
+    ) {
+        req.session.returnTo = req.originalUrl;
+    }
+    next();
 });
-
-
 
 // Routes
 app.get('/', (req, res) => {
     logger.info('Home page accessed');  
     res.render('home'); 
 });
-
-
-
 
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
@@ -237,121 +218,107 @@ app.get('/auth/google', userController.googleAuth);
 app.get('/auth/google/callback', userController.googleCallback);
 app.post("/postAvatar", userController.postAvatar);
 
-
 // Render privacy policy page.
 app.get("/privacy", function (req, res) {
     res.render("privacy_policy", {
-      title: "Privacy Policy",
+        title: "Privacy Policy",
     });
-  });
-  
-  // Render terms and conditions page.
-  app.get("/terms", function (req, res) {
+});
+
+// Render terms and conditions page.
+app.get("/terms", function (req, res) {
     res.render("terms", {
-      title: "Terms",
+        title: "Terms",
     });
-  });
-  
-  // Render cookie policy page.
-  app.get("/cookies", function (req, res) {
+});
+
+// Render cookie policy page.
+app.get("/cookies", function (req, res) {
     res.render("cookies", {
-      title: "Cookies",
+        title: "Cookies",
     });
-  });
-  
-  // Render selection
-  app.get("/selection", isAuthenticated, function (req, res) {
+});
+
+// Render selection
+app.get("/selection", isAuthenticated, function (req, res) {
     res.render("account/selection", {
-      title: "Selection",
-      csrfToken: req.csrfToken()
+        title: "Selection",
+        csrfToken: req.csrfToken()
     });
-  });
-  
-  // Render character intro
-  app.get("/character", function (req, res) {
+});
+
+// Render character intro
+app.get("/character", function (req, res) {
     res.render("account/character_intro", {
-      title: "Hello",
+        title: "Hello",
     });
-  });
+});
 
+//  app.get("/courses", function (req, res) {
+//   res.render('courses', {
+//     title: 'Courses'
+//   });
+// });
 
-  
-  //  app.get("/courses", function (req, res) {
-  //   res.render('courses', {
-  //     title: 'Courses'
-  //   });
-  // });
-  
-  // Render accessibility page
-  app.get("/accessibility", function (req, res) {
+// Render accessibility page
+app.get("/accessibility", function (req, res) {
     res.render("accessibility.pug", {
-      title: "Accessibility",
+        title: "Accessibility",
     });
-  });
-  
-  // Render dashboard
-  app.get("/dashboard", function (req, res) {
-    res.render("dashboard", {
-      title: "Dashboard",
-    });
-  });
+});
 
-  function isValidModId(req, res, next) {
+// Render dashboard
+app.get("/dashboard", function (req, res) {
+    res.render("dashboard", {
+        title: "Dashboard",
+    });
+});
+
+function isValidModId(req, res, next) {
     const modIds = ["identity", "romance", "grandparent", "tech"];
     if (modIds.includes(req.params.modId)) {
-      next();
+        next();
     } else {
-      var err = new Error("Page Not Found.");
-      err.status = 404;
-  
-      console.log(err);
-  
-      // set locals, only providing error stack in development
-      err.stack = req.app.get("env") === "development" ? err.stack : "";
-  
-      res.locals.message =
-        err.message + " Oops! We can't seem to find the page you're looking for.";
-      res.locals.error = err;
-  
-      // render the error page
-      res.status(err.status);
-      res.render("error");
+        var err = new Error("Page Not Found.");
+
+        logger.error(err);
+
+        res.status(404);
+        res.render('404', { title: 'Page Not Found' });
     }
-  }
-  
-    app.get("/courses", courseController.getCourses);
-    app.get("/about/:modId", isValidModId, courseController.getAbout);
+}
 
+app.get("/courses", courseController.getCourses);
+app.get("/about/:modId", isValidModId, courseController.getAbout);
 
-  app.get("/course-player", moduleController.getModule);
-  app.get("/references/:modId", isValidModId, moduleController.getReferences);
+app.get("/course-player", moduleController.getModule);
+app.get("/references/:modId", isValidModId, moduleController.getReferences);
 
-
-  /**
-   * Module Routes
-   */
-  app.get("/intro/:page?/:modId", isValidModId, courseController.getIntro);
-  app.get(
+/**
+ * Module Routes
+ */
+app.get("/intro/:page?/:modId", isValidModId, courseController.getIntro);
+app.get(
     "/challenge/:page?/:modId",
     isValidModId,
     courseController.getChallenge
-  );
-  app.get(
+);
+app.get(
     "/learn/:submod(submod|submod2|submod3)/:page?/:modId",
     isValidModId,
     courseController.getLearn
-  );
-  // Route to get the latest quiz score
-  app.get("/getLatestQuizScore", quizController.getLatestQuizScore);
+);
+// Route to get the latest quiz score
+app.get("/getLatestQuizScore", quizController.getLatestQuizScore);
 
-  // app.get("/explore/:page?/:modId", isValidModId, courseController.getExplore);
-  // app.get(
-  //   "/evaluation/:page?/:modId",
-  //   isValidModId,
-  //   courseController.getEvaluation
-  // );
-  // app.get("/reflect/:page?/:modId", isValidModId, courseController.getReflect);
-  // app.get("/certificate/:modId", isValidModId, courseController.getCertificate);
+// app.get("/explore/:page?/:modId", isValidModId, courseController.getExplore);
+// app.get(
+//   "/evaluation/:page?/:modId",
+//   isValidModId,
+//   courseController.getEvaluation
+// );
+// app.get("/reflect/:page?/:modId", isValidModId, courseController.getReflect);
+// app.get("/certificate/:modId", isValidModId, courseController.getCertificate);
 
 // // Render selection
 // app.get("/selection", function (req, res) {
@@ -359,7 +326,7 @@ app.get("/privacy", function (req, res) {
 //         title: "Selection",
 //     });
 // });
-  
+
 // // Render character intro
 // app.get("/character", passportConfig.isAuthenticated, function (req, res) {
 //     res.render("account/character_intro", {
@@ -367,14 +334,13 @@ app.get("/privacy", function (req, res) {
 //     });
 // });
 
-
 // // Render selection
 // app.get("/selection", function (req, res) {
 //     res.render("account/selection", {
 //         title: "Selection",
 //     });
 // });
-  
+
 // // Render character intro
 // app.get("/character", passportConfig.isAuthenticated, function (req, res) {
 //     res.render("account/character_intro", {
@@ -412,7 +378,6 @@ app.use((err, req, res, next) => {
 
 // app.listen(PORT, () => logger.info(`Server started on port ${PORT}`));
 
-
 /**
  * Start Express server.
  */
@@ -420,24 +385,23 @@ app.listen(app.get("port"), () => {
     const { BASE_URL } = process.env;
     const colonIndex = BASE_URL.lastIndexOf(":");
     const port = parseInt(BASE_URL.slice(colonIndex + 1), 10);
-  
+
     if (!BASE_URL.startsWith("http://localhost")) {
-      console.log(
-        `The BASE_URL env variable is set to ${BASE_URL}. If you directly test the application through http://localhost:${app.get(
-          "port"
-        )} instead of the BASE_URL, it may cause a CSRF mismatch or an Oauth authentication failur. To avoid the issues, change the BASE_URL or configure your proxy to match it.\n`
-      );
+        console.log(
+            `The BASE_URL env variable is set to ${BASE_URL}. If you directly test the application through http://localhost:${app.get(
+                "port"
+            )} instead of the BASE_URL, it may cause a CSRF mismatch or an Oauth authentication failur. To avoid the issues, change the BASE_URL or configure your proxy to match it.\n`
+        );
     } else if (app.get("port") !== port) {
-      console.warn(
-        `WARNING: The BASE_URL environment variable and the App have a port mismatch. If you plan to view the app in your browser using the localhost address, you may need to adjust one of the ports to make them match. BASE_URL: ${BASE_URL}\n`
-      );
+        console.warn(
+            `WARNING: The BASE_URL environment variable and the App have a port mismatch. If you plan to view the app in your browser using the localhost address, you may need to adjust one of the ports to make them match. BASE_URL: ${BASE_URL}\n`
+        );
     }
-  
+
     console.log(
-      `App is running on http://localhost:${app.get("port")} in ${app.get(
-        "env"
-      )} mode.`
+        `App is running on http://localhost:${app.get("port")} in ${app.get(
+            "env"
+        )} mode.`
     );
     console.log("Press CTRL-C to stop.");
-  });
-  
+});

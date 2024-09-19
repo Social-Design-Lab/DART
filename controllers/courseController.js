@@ -1,8 +1,10 @@
 import fs from 'fs/promises'; // Replaces fs and util
 import User from '../sequelize/models/User.js';
 import Course from '../sequelize/models/Course.js';
+import Lesson from '../sequelize/models/Lesson.js';
+import logger from '../config/logger/index.js';
 
-// GET Courses
+// GET /courses
 export const getCourses = async function (req, res) {
     try {
         const courses = await Course.findAll();  
@@ -17,63 +19,183 @@ export const getCourses = async function (req, res) {
     }
 };
 
+const getCourseWithLessons = async (courseId) => {
+    try {
+        const course = await Course.findOne({
+            where: { id: courseId },
+            include: [{
+                model: Lesson,
+                as: 'lessons', // Use the alias defined in the association
+            }],
+        });
+        return course;
+    } catch (err) {
+        console.error(err);
+    }
+};
 
-/**
- * GET /
- * Courses page.
- */
-  // export const getCourses = async (req, res) => {
-  //   try {
-  //     const courses = await Courses.findAll();
-  //     logger.debug("***Courses: ", courses);
+// GET /about/:modId
+export const getAbout = async (req, res) => {
+    const modId = req.params.modId;
+    const introPage = `module-content/about.pug`;
+    const title = 'About';
+    try {
+        // Fetch the course based on modId (courseId)
+        logger.debug(`Fetching course for modId slug: ${modId}`);
+        // const course = await Course.findByPk(modId);
 
-  //     // Render the Pug template and pass the courses to the template
-  //     res.render('courses', {
-  //       title: 'Courses',
-  //       courses,  // Passing courses data to the Pug template
-  //     });
-  //   } catch (error) {
-  //     console.error('Error fetching courses:', error);
-  //     res.status(500).send('Error fetching courses');
-  //   }
-  // };
-// export const index = (req, res) => {
-//   res.render('courses', {
-//     title: 'Courses'
-//   });
-// };
+        // // Fetch the course by slug
+        // const course = await Course.findOne({
+        //     where: { slug: modId },  // Assuming you have a slug field in your database
+        // });
+
+        // logger.debug(`Course found: ${JSON.stringify(course, null, 2)}`);
+        // logger.info(`Course found: ${course.id}`);
+
+        // // Fetch the lessons associated with the course
+        // const lessons = await Lesson.findAll({
+        //     where: { course_id: course.id },
+        //     attributes: ['id', 'title'],  // Fetch only necessary fields (id, title)
+        // });
+
+        const course = await getCourseWithLessons(modId);
+        // log courses and lessons
+        logger.info(`Course found: ${course.id} - ${course.title} - ${course.slug}  lessons: ${course.lessons.length}`);
+
+
+
+
+
+
+        // // Render the generic "about" page, passing course data
+        // res.render('about', {
+        //     title: `About ${course.title}`, // Dynamic page title
+        //     course, // Pass course object to the template
+        // });
+
+
+
+        // Fetch the course based on modId (courseId)
+        // const course = await Course.findByPk(modId);
+
+        // logger.info('*In get about Course: ', course);
+
+        // if (!course) {
+        // return res.status(404).render('error', { message: 'Course not found' });
+        // }
+
+        res.render(introPage, { title });
+    }  catch (err) {  // Corrected: err should be used instead of error
+        logger.error('Error fetching course details:', err);
+        res.status(500).render('error', {
+            message: 'Failed to load course details',
+            error: {
+                status: 500,
+                stack: err.stack
+            }
+        });
+    }
+
+
+
+
+//     try {
+//       // Fetch the course based on modId (courseId)
+//       const course = await Course.findByPk(modId);
+
+//       logger.info('*In get about Course: ', course);
+  
+//       if (!course) {
+//         return res.status(404).render('error', { message: 'Course not found' });
+//       }
+  
+//       // Fetch lessons related to the course (optional if you want to display them here)
+//       const lessons = await course.getLessons(); // Assuming you've set up the Course -> Lesson relationship
+  
+//       // Render the generic "about" page, passing course data
+//       res.render('module-content/about.pug', {
+//         title: `About ${course.title}`, // Dynamic page title
+//         course, // Pass course object to the template
+//         lessons // Pass lessons array if needed
+//       });
+//     } catch (error) {
+//       res.status(500).render('error', { message: 'Failed to load course details' });
+//     }
+
+
+  };
+
+// Function to get the lessons of a course
+export const getLessons = async (req, res, next) => {
+    try {
+        const courseSlug = req.params.slug;  // Get course slug from URL
+        const course = await Course.findOne({
+            where: { slug: courseSlug },
+            attributes: ['id', 'title', 'slug']  // Only fetch relevant fields
+        });
+
+        if (!course) {
+            return res.status(404).render('404', { title: 'Course Not Found' });
+        }
+
+        // Get all lessons associated with the course
+        const lessons = await Lesson.findAll({
+            where: { course_id: course.id },
+            attributes: ['id', 'title']  // Fetch only necessary fields like title and id
+        });
+
+        // Pass the lessons and course to the template
+        res.render('course-lessons', {
+            title: course.title,
+            course,
+            lessons,
+        });
+
+    } catch (error) {
+        console.error('Error fetching lessons:', error);
+        next(error);  // Pass the error to the error handler
+    }
+};
 
 // /**
 //  * GET /about/:modId
-export const getAbout = async (req, res) => {
-    const { modId } = req.params;
+// export const getAbout = async (req, res) => {
+//     const { modId } = req.params;
   
-    try {
-      // Fetch the course based on modId (courseId)
-      const course = await Course.findByPk(modId);
+//     try {
+//       // Fetch the course based on modId (courseId)
+//       const course = await Course.findByPk(modId);
+
+//       logger.info('*In get about Course: ', course);
   
-      if (!course) {
-        return res.status(404).render('error', { message: 'Course not found' });
-      }
+//       if (!course) {
+//         return res.status(404).render('error', { message: 'Course not found' });
+//       }
   
-      // Fetch lessons related to the course (optional if you want to display them here)
-      const lessons = await course.getLessons(); // Assuming you've set up the Course -> Lesson relationship
+//       // Fetch lessons related to the course (optional if you want to display them here)
+//       const lessons = await course.getLessons(); // Assuming you've set up the Course -> Lesson relationship
   
-      // Render the generic "about" page, passing course data
-      res.render('about', {
-        title: `About ${course.title}`, // Dynamic page title
-        course, // Pass course object to the template
-        lessons // Pass lessons array if needed
-      });
-    } catch (error) {
-      res.status(500).render('error', { message: 'Failed to load course details' });
-    }
-  };
+//       // Render the generic "about" page, passing course data
+//       res.render('module-content/about.pug', {
+//         title: `About ${course.title}`, // Dynamic page title
+//         course, // Pass course object to the template
+//         lessons // Pass lessons array if needed
+//       });
+//     } catch (error) {
+//       res.status(500).render('error', { message: 'Failed to load course details' });
+//     }
+//   };
   
 
 
 //  * Render the about pages for the module.
 //  */
+// export const getAbout = (req, res) => {
+//   const modId = req.params.modId;
+//   const introPage = `module-content/${modId}/about.pug`;
+//   const title = 'About';
+//   res.render(introPage, { title });
+// };
 // export const getAbout = (req, res) => {
 //   const modId = req.params.modId;
 //   const introPage = `${modId}/${modId}_about`;
