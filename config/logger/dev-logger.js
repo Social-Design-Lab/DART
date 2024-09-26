@@ -52,7 +52,7 @@ function buildDevLogger() {
     
     return createLogger({
         levels: customLevels.levels, 
-        level: process.env.LOG_LEVEL || silly, 
+        level: process.env.LOG_LEVEL || 'silly', 
         format: combine(
             colorize(),
             timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),

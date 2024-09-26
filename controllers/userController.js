@@ -405,7 +405,7 @@ const logUserAccess = async (action, req, createdUserId) => {
             os_name: os_name || 'Unknown',
             os_version: os_version || 'Unknown',
             device_model: device_model || 'Unknown',
-            device_type: device_type || 'Desktop',
+            device_type: device_type || 'Unknown',
             device_vendor: device_vendor || 'Unknown',
             cpu_architecture: cpu_architecture || 'Unknown',
             engine_name: engine_name || 'Unknown',

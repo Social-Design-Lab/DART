@@ -49,7 +49,7 @@ addColors(customLevels.colors);
 function buildProdLogger() {
     return createLogger({
         levels: customLevels.levels, 
-        level: process.env.LOG_LEVEL || performance, 
+        level: process.env.LOG_LEVEL || 'performance', 
         format: combine(
             timestamp(),
             errors({ stack: true }),
