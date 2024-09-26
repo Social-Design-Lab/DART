@@ -564,15 +564,15 @@ function setLinks(currentPage) {
             nextlink = baseurl + "pressure";
         } else if (currentPage === "pressure") {
             backlink = baseurl + "callout";
-            nextlink = baseurl + "reflection";
-        } else if (currentPage === "reflection") {
-          backlink = baseurl + "pressure";
-          nextlink = baseurl + "quiz";
+            nextlink = baseurl + "quiz";
         } else if (currentPage === "quiz") {
-          backlink = baseurl + "reflection";
+          backlink = baseurl + "pressure";
+          nextlink = baseurl + "reflection";
+        } else if (currentPage === "reflection") {
+          backlink = baseurl + "quiz";
           nextlink = baseurl + "takeaways";
         } else if (currentPage === "takeaways") {
-          backlink = baseurl + "quiz";
+          backlink = baseurl + "reflection";
           nextlink =
             "/course-player?module=tech&section=signs&page=objectives";
         }
@@ -602,12 +602,14 @@ function setLinks(currentPage) {
           nextlink = baseurl + "sign-7";
         } else if (currentPage === "sign-7") {
           backlink = baseurl + "sign-6";
-          nextlink = baseurl + "activity";
-        } else if (currentPage === "activity") {
-          backlink = baseurl + "sign-7";
           nextlink = baseurl + "quiz";
-        } else if (currentPage === "quiz") {
-          backlink = baseurl + "activity";
+        } 
+        // else if (currentPage === "activity") {
+        //   backlink = baseurl + "sign-7";
+        //   nextlink = baseurl + "quiz";
+        // } 
+        else if (currentPage === "quiz") {
+          backlink = baseurl + "sign-7";
           nextlink = baseurl + "reflection";
         } else if (currentPage === "reflection") {
           backlink = baseurl + "quiz";
@@ -646,12 +648,9 @@ function setLinks(currentPage) {
           nextlink = baseurl + "download";
         } else if (currentPage === "download") {
           backlink = baseurl + "pop-up";
-          nextlink = baseurl + "activity";
-        } else if (currentPage === "activity") {
-          backlink = baseurl + "download";
           nextlink = baseurl + "post-actions";
         }else if (currentPage === "post-actions"){
-          backlink = baseurl + "activity";
+          backlink = baseurl + "download";
           nextlink = baseurl + "reporting";
         }else if (currentPage === "reporting"){
           backlink = baseurl + "post-actions";
@@ -771,30 +770,38 @@ function updateProgressBar() {
             progress = (2 / total) * 100;
         } else if (pageParam === 'personal-info') {
             progress = (3 / total) * 100;
-        } else if (pageParam === 'activity') {
+        } else if (pageParam === 'types') {
             progress = (4 / total) * 100;
-        } else if (pageParam === 'quiz') {
+        } else if (pageParam === 'initial') {
             progress = (5 / total) * 100;
-        } else if (pageParam === 'reflection') {
+        } else if (pageParam === 'communicate') {
             progress = (6 / total) * 100;
+        } else if (pageParam === 'steal') {
+            progress = (7 / total) * 100;
+        } else if (pageParam === 'quiz') {
+            progress = (8 / total) * 100;
+        } else if (pageParam === 'reflection') {
+            progress = (10 / total) * 100;
         } else if (pageParam === 'takeaways') {
             progress = 100;
         }
     } else if(section === 'consequences') {
         if (pageParam === 'objectives') {
             progress = 0;
-        } else if (pageParam === 'intro-video') {
+        } else if (pageParam === 'financial') {
             progress = (1 / total) * 100;
-        }  else if (pageParam === 'general') {
+        }  else if (pageParam === 'identity') {
             progress = (2 / total) * 100;
-        } else if (pageParam === 'types') {
+        } else if (pageParam === 'privacy') {
             progress = (3 / total) * 100;
-        } else if (pageParam === 'activity') {
+        } else if (pageParam === 'emotional') {
             progress = (4 / total) * 100;
-        } else if (pageParam === 'quiz') {
+        } else if (pageParam === 'targeted') {
             progress = (5 / total) * 100;
-        } else if (pageParam === 'reflection') {
+        } else if (pageParam === 'quiz') {
             progress = (6 / total) * 100;
+        } else if (pageParam === 'reflection') {
+            progress = (7 / total) * 100;
         } else if (pageParam === 'takeaways') {
             progress = 100;
         }
@@ -803,40 +810,72 @@ function updateProgressBar() {
             progress = 0;
         } else if (pageParam === 'intro-video') {
             progress = (1 / total) * 100;
-        } else if (pageParam === 'types') {
+        } else if (pageParam === 'spoofing') {
             progress = (2 / total) * 100;
-        } else if (pageParam === 'issue') {
+        } else if (pageParam === 'robocalls') {
             progress = (3 / total) * 100;
-        } else if (pageParam === 'know-you') {
+        } else if (pageParam === 'websites') {
             progress = (4 / total) * 100;
-        } else if (pageParam === 'offer') {
+        } else if (pageParam === 'popups') {
             progress = (5 / total) * 100;
-        } else if (pageParam === 'suspicious') {
+        } else if (pageParam === 'callout') {
             progress = (6 / total) * 100;
-        } else if (pageParam === 'activity') {
+        } else if (pageParam === 'pressure') {
             progress = (7 / total) * 100;
         } else if (pageParam === 'quiz') {
             progress = (8 / total) * 100;
         } else if (pageParam === 'reflection') {
-            progress = (9 / total) * 100;
+            progress = (11 / total) * 100;
         } else if (pageParam === 'takeaways') {
             progress = 100;
         }
-    } else if(section === 'protection') {
+    } else if(section === 'signs') {
         if (pageParam === 'objectives') {
             progress = 0;
-        } else if (pageParam === 'common-measures') {
+        } else if (pageParam === 'sign-1') {
             progress = (1 / total) * 100;
-        } else if (pageParam === 'preventative') {
+        } else if (pageParam === 'sign-2') {
             progress = (2 / total) * 100;
-        } else if (pageParam === 'contacted') {
+        } else if (pageParam === 'sign-3') {
             progress = (3 / total) * 100;
-        } else if (pageParam === 'activity') {
+        } else if (pageParam === 'sign-4') {
             progress = (4 / total) * 100;
-        } else if (pageParam === 'quiz') {
+        } else if (pageParam === 'sign-5') {
             progress = (5 / total) * 100;
-        } else if (pageParam === 'reflection') {
+        } else if (pageParam === 'sign-6') {
             progress = (6 / total) * 100;
+        } else if (pageParam === 'sign-7') {
+            progress = (7 / total) * 100;
+        } else if (pageParam === 'quiz') {
+            progress = (8 / total) * 100;
+        } else if (pageParam === 'reflection') {
+            progress = (14 / total) * 100;
+        } else if (pageParam === 'takeaways') {
+            progress = 100;
+        }
+    }  else if(section === 'protection') {
+        if (pageParam === 'objectives') {
+            progress = 0;
+        } else if (pageParam === 'intro-video') {
+            progress = (1 / total) * 100;
+        } else if (pageParam === 'contact-methods') {
+            progress = (2 / total) * 100;
+        } else if (pageParam === 'fundamental-measures') {
+            progress = (3 / total) * 100;
+        } else if (pageParam === 'contacted') {
+            progress = (4 / total) * 100;
+        } else if (pageParam === 'pop-up') {
+            progress = (5 / total) * 100;
+        } else if (pageParam === 'download') {
+            progress = (6 / total) * 100;
+        } else if (pageParam === 'post-actions') {
+            progress = (7 / total) * 100;
+        } else if (pageParam === 'reporting') {
+            progress = (8 / total) * 100;
+        } else if (pageParam === 'quiz') {
+            progress = (9 / total) * 100;
+        } else if (pageParam === 'reflection') {
+            progress = (17 / total) * 100;
         } else if (pageParam === 'takeaways') {
             progress = 100;
         }
