@@ -73319,7 +73319,7 @@ body.pushable > .pusher {
   content: "";
   /* background: rgba(0, 0, 0, 0.4); */
   /* make background  blue tone */
-  background: rgba(21, 28, 34, 0.02)
+  background: rgba(21, 28, 34, 0.02);
   overflow: hidden;
   opacity: 0;
   transition: all 500ms;
