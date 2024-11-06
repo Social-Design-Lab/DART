@@ -722,7 +722,7 @@ i.big.unlock.icon {
   }
 
   .chat {
-    width: 329px
+    width: 329px;
     /* border: solid 1px #EEE; */
     display: flex;
     flex-direction: column;
@@ -1468,7 +1468,7 @@ blockquote p {
 #avatar-encourage-start .ui.large.label.blue-pointing#speechBubble {
     align-items: normal;
     float: right;
-    margin-top: -80px !important;
+    margin: 2%;
     width: 65%;
 }
 
