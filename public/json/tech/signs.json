@@ -29,7 +29,7 @@
     "progress": 75,
     "type": "abcd",
     "partial": "audio_q3.html",
-    "prompt": "2. In this conversation, what warning signs do you notice that could indicate that the caller is a scammer?",
+    "prompt": "2. In this conversation, what warning sign do you notice that could indicate that the caller is a scammer?",
     "choices": {
       "a": {
         "text": "A. Pre-recorded or Robotic Voices"
