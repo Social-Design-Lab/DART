@@ -1,16 +1,119 @@
+// Pug structure
 #sign-4.hidden
-    .ui.container
-        .limit(style="padding: 0;")
-            h1.ui.header.large#learn-title
-                .content
-                    i.book.icon
-                    | Warning Sign 4: Unsolicited Email Notifications
-            .ui.centered.stackable.grid
-                .eight.wide.column
-                    p If you receive an email allegedly from a reputable antivirus company, stating that you have been charged for their service when you did not initiate or authorize such a purchase, be cautious as this could be a scam attempt. 
-                    p As shown in the example, this email appears harmless, like a receipt, the amount charged can prompt you to call the provided number, leading to potential scams.
-                    h3 Ignore the email and directly check your bank statements for any unauthorized charges. Do not call the provided number on the email. Do not share your personal information.
+  .ui.container
+    .limit(style="padding: 0; margin-top: 1rem;")
+      h1.ui.header.large#learn-title
+        .content
+          i.book.icon
+          | Warning Sign 4: Unsolicited Email Notifications
+
+      .ui.centered.stackable.grid
+        .seven.wide.column
+          p If you receive an email allegedly from a reputable antivirus company, stating that you have been charged for their service when you did not initiate or authorize such a purchase, be cautious as this could be a scam attempt.
+          p As shown in the example, this email appears harmless, like a receipt, the amount charged can prompt you to call the provided number, leading to potential scams.
+          h3 Ignore the email and directly check your bank statements for any unauthorized charges. Do not call the provided number on the email. Do not share your personal information.
+          h3 Example: A fake email from "Norton" ->
+        
+        .nine.wide.column(style="overflow: hidden;")
+          .invoice-container(style="border: 2px solid black; padding: 2%; ")
+            .invoice-header
+              .logo-container(style="height: auto; width: 12rem;")
+                img(src=public_resources + "/images/modules/tech/norton-logo-cropped.svg" alt="Norton Logo" style="height: 100%; width: 100%;")
+              .invoice-details
+                h3 INVOICE #: Support8080
+                div Date: April-01-2021
+
+            .invoice-content
+              div Dear Customer,
+              div
+                | You have received an order on 
+                a(href="https://us.norton.com") https://us.norton.com
+                | .
+
+              div
+                strong Please Note:
+                | The charge will appear on your account statement as 
+                strong 'NortonLifeLock Inc'.
+                
+              div
+                | If you have a question about your order status, please call us on 
+                strong +1-8452288766.
+
+              div(style="border-bottom: 1px solid black; font-size: 1.2rem;") Shipping Details
+              .section.address
+                | Address:
+                h3 LOS ANGELES, CA
+
+              div
+                table
+                  tr
+                    td
+                      strong Payment Method:
+                    td N/A
+                  tr
+                    td
+                      strong Valid Duration:
+                    td #3 Years
+                  tr
+                    td
+                      strong Item:
+                    td Norton Computer Security
+                  tr
+                    td
+                      strong Amount:
+                    td $349.99
+                  tr
+                    td
+                      strong Total:
+                    td $349.99
+
+              div 
+                | If you have a problem with your order, please report it by calling 
+                strong +1-8452288766.
+              
+              div
+                strong Note:
+                | Transaction will appear in your account within 24 hours subject to clearance.
+              
+              div 
+                strong Issues with this transaction?
+              div(style="border-bottom: 1px solid black;") 
+                | You have 24 hours from the date of the transaction to open a dispute.
+              
+              div(style="font-size: 0.9em; color: #888; text-align: center;")
+                div Please do not reply to this email. This mailbox is not monitored and you will not receive a response. For assistance call +1-8452288766.
 
 
-                .eight.wide.column
-                    img(src=public_resources + '/images/modules/tech/norton-invoice.png' alt='fake invoice' style='width: 700px;')
+style.
+    .invoice-header {
+        display: flex;
+        align-items: center;
+    }
+
+    .logo-container {
+        margin-right: 10px; /* Adjust spacing as needed */
+    }
+
+    .invoice-details h3 {
+        margin: 0;
+    }
+
+    .invoice-details div {
+        margin-top: 4px;
+        font-size: 0.9em;
+        color: #666;
+    }
+
+    .invoice-container {
+        max-width: 100%;
+    }
+    .invoice-content div{
+        font-size: 1rem
+    }
+    .invoice-content table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .invoice-content table td {
+        padding: 2px 0;
+    }
