@@ -6423,7 +6423,7 @@
         {"time": 2605,"type": "word","value": "do","element": "narrate-1-quiz"},
         {"time": 2730,"type": "word","value": "scammers","element": "narrate-1-quiz"},
         {"time": 3255,"type": "word","value": "mainly","element": "narrate-1-quiz"},
-        {"time": 3592,"type": "word","value": "use","element": "narrate-1-quiz"},
+        {"time": 3592,"type": "word","value": "use?","element": "narrate-1-quiz"},
         {"time": 4647,"type": "word","value": "Select","element": "narrate-1-quiz"},
         {"time": 5110,"type": "word","value": "all","element": "narrate-1-quiz"},
         {"time": 5335,"type": "word","value": "that","element": "narrate-1-quiz"},
@@ -6453,14 +6453,14 @@
         {"time": 14425,"type": "word","value": "D.","element": "narrate-5-quiz-3"},
         {"time": 14675,"type": "word","value": "Weather","element": "narrate-5-quiz-3"},
         {"time": 15025,"type": "word","value": "Forecasting","element": "narrate-5-quiz-3"},
-        {"time": 16467,"type": "word","value": "Or","element": "narrate-5-quiz-3"},
-        {"time": 16630,"type": "word","value": "E.","element": "narrate-5-quiz-3"},
-        {"time": 16805,"type": "word","value": "Ask","element": "narrate-5-quiz-3"},
-        {"time": 17130,"type": "word","value": "you","element": "narrate-5-quiz-3"},
-        {"time": 17217,"type": "word","value": "to","element": "narrate-5-quiz-3"},
-        {"time": 17342,"type": "word","value": "click","element": "narrate-5-quiz-3"},
-        {"time": 17630,"type": "word","value": "a","element": "narrate-5-quiz-3"},
-        {"time": 17692,"type": "word","value": "link","element": "narrate-5-quiz-3"}
+
+        {"time": 16630,"type": "word","value": "E.","element": "narrate-6-quiz-3"},
+        {"time": 16805,"type": "word","value": "Ask","element": "narrate-6-quiz-3"},
+        {"time": 17130,"type": "word","value": "you","element": "narrate-6-quiz-3"},
+        {"time": 17217,"type": "word","value": "to","element": "narrate-6-quiz-3"},
+        {"time": 17342,"type": "word","value": "click","element": "narrate-6-quiz-3"},
+        {"time": 17630,"type": "word","value": "a","element": "narrate-6-quiz-3"},
+        {"time": 17692,"type": "word","value": "link","element": "narrate-6-quiz-3"}
       ],
       "intrepid": [
         {"time": 137,"type": "word","value": "3.","element": "narrate-1-quiz"},
@@ -6472,7 +6472,7 @@
         {"time": 3105,"type": "word","value": "do","element": "narrate-1-quiz"},
         {"time": 3242,"type": "word","value": "scammers","element": "narrate-1-quiz"},
         {"time": 3792,"type": "word","value": "mainly","element": "narrate-1-quiz"},
-        {"time": 4167,"type": "word","value": "use","element": "narrate-1-quiz"},
+        {"time": 4167,"type": "word","value": "use?","element": "narrate-1-quiz"},
         {"time": 5197,"type": "word","value": "Select","element": "narrate-1-quiz"},
         {"time": 5572,"type": "word","value": "all","element": "narrate-1-quiz"},
         {"time": 5760,"type": "word","value": "that","element": "narrate-1-quiz"},
@@ -6502,14 +6502,14 @@
         {"time": 14825,"type": "word","value": "D.","element": "narrate-5-quiz-3"},
         {"time": 14950,"type": "word","value": "Weather","element": "narrate-5-quiz-3"},
         {"time": 15200,"type": "word","value": "Forecasting","element": "narrate-5-quiz-3"},
-        {"time": 16717,"type": "word","value": "Or","element": "narrate-5-quiz-3"},
-        {"time": 16842,"type": "word","value": "E.","element": "narrate-5-quiz-3"},
-        {"time": 17030,"type": "word","value": "Ask","element": "narrate-5-quiz-3"},
-        {"time": 17342,"type": "word","value": "you","element": "narrate-5-quiz-3"},
-        {"time": 17417,"type": "word","value": "to","element": "narrate-5-quiz-3"},
-        {"time": 17530,"type": "word","value": "click","element": "narrate-5-quiz-3"},
-        {"time": 17780,"type": "word","value": "a","element": "narrate-5-quiz-3"},
-        {"time": 17905,"type": "word","value": "link","element": "narrate-5-quiz-3"}
+
+        {"time": 16842,"type": "word","value": "E.","element": "narrate-6-quiz-3"},
+        {"time": 17030,"type": "word","value": "Ask","element": "narrate-6-quiz-3"},
+        {"time": 17342,"type": "word","value": "you","element": "narrate-6-quiz-3"},
+        {"time": 17417,"type": "word","value": "to","element": "narrate-6-quiz-3"},
+        {"time": 17530,"type": "word","value": "click","element": "narrate-6-quiz-3"},
+        {"time": 17780,"type": "word","value": "a","element": "narrate-6-quiz-3"},
+        {"time": 17905,"type": "word","value": "link","element": "narrate-6-quiz-3"}
       ],
       "valiant": [
         {"time": 25,"type": "word","value": "3.","element": "narrate-1-quiz"},
@@ -6521,7 +6521,7 @@
         {"time": 2630,"type": "word","value": "do","element": "narrate-1-quiz"},
         {"time": 2817,"type": "word","value": "scammers","element": "narrate-1-quiz"},
         {"time": 3280,"type": "word","value": "mainly","element": "narrate-1-quiz"},
-        {"time": 3567,"type": "word","value": "use","element": "narrate-1-quiz"},
+        {"time": 3567,"type": "word","value": "use?","element": "narrate-1-quiz"},
         {"time": 4472,"type": "word","value": "Select","element": "narrate-1-quiz"},
         {"time": 4872,"type": "word","value": "all","element": "narrate-1-quiz"},
         {"time": 5035,"type": "word","value": "that","element": "narrate-1-quiz"},
@@ -6551,14 +6551,14 @@
         {"time": 12950,"type": "word","value": "D.","element": "narrate-5-quiz-3"},
         {"time": 13112,"type": "word","value": "Weather","element": "narrate-5-quiz-3"},
         {"time": 13375,"type": "word","value": "Forecasting","element": "narrate-5-quiz-3"},
-        {"time": 14605,"type": "word","value": "Or","element": "narrate-5-quiz-3"},
-        {"time": 14817,"type": "word","value": "E.","element": "narrate-5-quiz-3"},
-        {"time": 15005,"type": "word","value": "Ask","element": "narrate-5-quiz-3"},
-        {"time": 15217,"type": "word","value": "you","element": "narrate-5-quiz-3"},
-        {"time": 15292,"type": "word","value": "to","element": "narrate-5-quiz-3"},
-        {"time": 15380,"type": "word","value": "click","element": "narrate-5-quiz-3"},
-        {"time": 15617,"type": "word","value": "a","element": "narrate-5-quiz-3"},
-        {"time": 15667,"type": "word","value": "link","element": "narrate-5-quiz-3"}
+        
+        {"time": 14817,"type": "word","value": "E.","element": "narrate-6-quiz-3"},
+        {"time": 15005,"type": "word","value": "Ask","element": "narrate-6-quiz-3"},
+        {"time": 15217,"type": "word","value": "you","element": "narrate-6-quiz-3"},
+        {"time": 15292,"type": "word","value": "to","element": "narrate-6-quiz-3"},
+        {"time": 15380,"type": "word","value": "click","element": "narrate-6-quiz-3"},
+        {"time": 15617,"type": "word","value": "a","element": "narrate-6-quiz-3"},
+        {"time": 15667,"type": "word","value": "link","element": "narrate-6-quiz-3"}
       ]
     },
     "quiz-results": {

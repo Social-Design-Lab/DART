@@ -35,7 +35,7 @@
     "progress": 91.666,
     "type": "multi_select",
     "partial": "none",
-    "prompt": "3. Which of the following techniques do scammers mainly use?",
+    "prompt": "3. Which of the following techniques do scammers mainly use? Select all that apply.",
     "choices": {
         "0": {
             "text": "A. Fear and threats in scam messaging",
