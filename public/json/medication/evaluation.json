@@ -129,7 +129,7 @@
         }
       },
       "explanation": "<h1>The correct answer is False.</h1><p>Dietary supplements are regulated as foods, not drugs, which means they can be sold to the public without FDA approval. It is the responsibility of the manufacturer to ensure their dietary supplement products meet safety and quality standards.</p>",
-      "correctResponse": "false"
+      "correctResponse": "no"
     },
     "7": {
       "progress": 70,
