@@ -2,101 +2,20 @@ const progressBar = document.getElementById('theft-progress');
 let pageReload= false;
 let badgeEarned = false;
 
-$(document).ready(function () {
-  // Update button state
-  function updateButtonState(passPage) {
-    const urlParams = new URLSearchParams(window.location.search);
-    const currentPage = urlParams.get("page");
-    console.log("Current page:", currentPage);
-
-    // Disable or enable buttons based on the current page
-    if (currentPage === "introduction") {
-      $("#nextButton").prop("disabled", true);
-    } else {
-      $("#nextButton").prop("disabled", false);
-    }
-
-    // Update holdPrev based on the current page or passed page
-    if (currentPage === "reflection2") {
-      holdPrev = "reflection2";
-    } else if (currentPage === "reflection") {
-      holdPrev = "reflection";
-    }
-
-    // Update holdPrev from the passed parameter
-    holdPrev = passPage;
-    console.log(holdPrev);
-    
-    // Store holdPrev in sessionStorage for persistence
-    sessionStorage.setItem("holdPrev", holdPrev);
-  }
-
-  // Initial button state check on page load
-  const storedHoldPrev = sessionStorage.getItem("holdPrev");
-  if (storedHoldPrev) {
-    holdPrev = storedHoldPrev; // Retrieve from sessionStorage
-  }
-  updateButtonState(holdPrev);
-
-  // Listen for URL changes to update button states
-  window.addEventListener("popstate", updateButtonState);
-
-  // Click handler for #medBttnNext2 to update holdPrev and navigate
-  $("#medBttnNext2").on("click", function () {
-    // Update holdPrev to reflection2 when this button is clicked
-    holdPrev = "reflection2";
-    console.log("Click med next, holdPrev updated to:", holdPrev);
-
-    // Store holdPrev in sessionStorage
-    sessionStorage.setItem("holdPrev", holdPrev);
-
-    // Navigate to the next section
-    window.location.href =
-      "course-player?module=medication&section=practice&page=takeaways";
-
-    // After navigation, update button states
-    updateButtonState("reflection2");
-  });
-  $("#medBttnNext").on("click", function () {
-    // Update holdPrev to reflection2 when this button is clicked
-    holdPrev = "reflection";
-    console.log("Click med next, holdPrev updated to:", holdPrev);
-
-    // Store holdPrev in sessionStorage
-    sessionStorage.setItem("holdPrev", holdPrev);
-
-    // Navigate to the next section
-    window.location.href =
-      "course-player?module=medication&section=practice&page=takeaways";
-
-    // After navigation, update button states
-    updateButtonState("reflection");
-  });
-});
 
 $(document).ready(function () {
   function updateButtonState() {
     const urlParams = new URLSearchParams(window.location.search);
     const currentPage = urlParams.get("page");
-    console.log("Current page:", currentPage);
+    const currentSection = urlParams.get("section");
 
     // Disable or enable buttons based on the current page
-    if (currentPage === "introduction") {
+    if (currentPage === "activity" && currentSection==="practice") {
       $("#nextButton").prop("disabled", true);
     } else {
       $("#nextButton").prop("disabled", false);
     }
 
-    // if (currentPage === "reflection2" || currentPage === "reflection") {
-    //   $("#backButton").prop("disabled", true);
-    // } else {
-    //   $("#backButton").prop("disabled", false);
-    // }
-    if (currentPage === "reflection2") {
-      holdPrev = 'reflection2';
-    } else if (currentPage === "reflection") {
-      holdPrev = 'reflection';
-    }
   }
 
   // Initial button state check on page load
@@ -227,6 +146,7 @@ $(document).ready(function() {
         // console.log("Back button clicked");
         const urlParams = new URLSearchParams(window.location.search);
         const currentPage = urlParams.get('page');
+        const currentSection = urlParams.get("section");
 
         if(currentPage === 'quiz') {
             // clear quiz-results highlights to catch when user presses button before narration is finished
@@ -236,7 +156,7 @@ $(document).ready(function() {
             $('#narrate-next').removeClass("highlightedButton");
             $('#nextButton').removeClass("highlightedButton");
         }
-
+        
         $('.ui.sidebar').sidebar('hide');
 
         // stop and reset audio and highlighting immediately
@@ -277,11 +197,20 @@ $(document).ready(function() {
                         $('#image-slider').slick("refresh");
                     } 
 
+                    
+
                     if(section === 'techniques' && currentPage === 'activity') {
                         var introDiv = document.getElementsByClassName("introjs-hints")[0];
                         introDiv.parentNode.removeChild(introDiv);
                     }
 
+
+                    if (backPage === "activity" && currentSection==="practice") {
+                      $("#nextButton").prop("disabled", true);
+                    } else {
+                      $("#nextButton").prop("disabled", false);
+                    }
+                
                     $('#' + backPage).transition({
                         animation: 'fade in',
                         duration: 200,
@@ -322,6 +251,8 @@ $(document).ready(function() {
     $('#nextButton').on('click', function() {
         const urlParams = new URLSearchParams(window.location.search);
         const currentPage = urlParams.get('page');
+        const currentSection = urlParams.get("section");
+
         if(currentPage === 'quiz') {
             // clear quiz-results highlights to catch when user presses button before narration is finished
             $('#showResults').removeClass("highlightedResults");
@@ -507,6 +438,14 @@ $(document).ready(function() {
                 if(section === 'practice' && nextPage === 'activity') {
                     setupPractice();
                 }
+
+                // Disable or enable buttons based on the current page
+                if (nextPage === "activity" && currentSection==="practice") {
+                  $("#nextButton").prop("disabled", true);
+                } else {
+                  $("#nextButton").prop("disabled", false);
+                }
+            
 
                 // if(speechData !== "none") {
                 //     if(typeof pastAttempts !== 'undefined') {
