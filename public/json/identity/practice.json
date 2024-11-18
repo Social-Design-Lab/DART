@@ -26,6 +26,6 @@
           }
       },
       "correctResponse": ["0", "1", "3", "4"],
-      "theAnswers": "A, C, E, F"
+      "theAnswers": "A, B, D, E"
   }
 }
