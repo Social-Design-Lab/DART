@@ -1,0 +1,78 @@
+
+<div class="hidden" id="call">
+  <div class="ui container" style="width: 90vw;">
+    <div class="limit" style="padding: 0;">
+      <h1 class="ui header large" id="learn-title">
+        <div class="content"><i class="volume up icon"></i>Tech Support Call: Part 1/3</div>
+      </h1>
+      <div class="ui icon mini message" style="padding: 5px; z-index: 99; margin-bottom: 5px;"><i class="info circle blue icon" style="color: #0C2746; font-size: 1.5rem;"></i>
+        <div class="content"> 
+          <p id="narrate-2-intro-video"> <span>You call the number on the popup. Listen to the conversation by clicking the <i class="play icon" alt="play button"></i><span>button to the left. Then answer the questions that follow on the right based on what you heard.</span></span></p>
+        </div>
+      </div>
+      <div class="ui centered stackable grid">
+        <div class="eight wide column">
+          <div id="audio-container_car">
+            <div class="audio-player">
+              <div class="wrap">
+                <audio class="with-transcript" id="audio" controls="controls">
+                  <source src="https://dart-store.s3.amazonaws.com/tech-audio/practice.WAV" type="audio/mpeg"/>Your browser does not support the audio element.
+                </audio>
+                <ul id="transcript" data-audio-file="https://dart-store.s3.amazonaws.com/tech-audio/practice.WAV" style="max-height: 300px;">
+                  <li class="speaker1 current" id="num1" data-timecode="00:00">Scammer: Thank you for calling tech support. How can I assist you today?</li>
+                  <li class="speaker2" id="num2" data-timecode="00:03">Target: Hi, I received a pop-up on my computer saying it's infected with a virus, and it won't go away. I'm really worried about my personal information being at risk.</li>
+                  <li class="speaker1" id="num3" data-timecode="00:12">Scammer: I understand your concern. This is a serious issue, and we need to take immediate action to protect your computer and data.</li>
+                  <li class="speaker2" id="num4" data-timecode="00:19">Target: Okay, what do I need to do?</li>
+                  <li class="speaker1" id="num5" data-timecode="00:21">Scammer: First, I'll need you to provide me with remote access to your computer so that I can run a diagnostic scan and identify the problem.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="eight wide column" id="content-column">
+          <div class="step1">
+            <p>Click the buttons below to identify the warning signs related to this part of the conversation</p>
+            <div class="ui vertical inverted buttons">
+              <button class="ui button" data-value="contact">Unsolicited Contact</button>
+              <button class="ui button" data-value="pressure">A Sense of Pressure and Urgency</button>
+              <button class="ui button" data-value="secrecy">Request for Secrecy</button>
+              <button class="ui button" data-value="verify">Lack of Verification</button>
+              <button class="ui button" data-value="remote">Requests for Remote Access</button>
+            </div>
+            <button class="ui button primary" id="submit-button">Submit</button>
+          </div>
+          <div class="step2 hidden">
+            <p>Great Job! In this conversation, there are several warning signs to be aware of. First,<strong> unsolicited contact</strong><span>—the target receives a pop-up warning about a virus. Legitimate tech support companies won't contact you out of the blue asking to be called for help. The tech agent then creates a</span><strong> sense of pressure and urgency </strong><span>making you feel like you must act immediately to protect your computer, which is a tactic to make you panic and follow their instructions without thinking. Next there is a </span><strong>lack of verification</strong><span>—the tech agent doesn’t confirm the actual problem or help troubleshoot before resorting to extreme measures of</span><strong> requests for remote access.</strong><span> Once they obtain the remote access to your computer, they would have the ability to go anywhere and do anything on your computer without your knowledge or control.</span></p>
+            <div class="ui icon mini message" style="padding: 5px; z-index: 99;"><i class="info circle blue icon" style="color: #0C2746; font-size: 1.5rem;"></i>
+              <div class="content"> 
+                <p id="narrate-2-intro-video"> <span>Click the "Next" button below to continue the conversation.</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+  
+    const selectedValues = new Set();
+    document.querySelectorAll('.step1 .ui.button').forEach(button => {
+      button.addEventListener('click', function () {
+        const value = this.getAttribute('data-value');
+        if (selectedValues.has(value)) {
+          selectedValues.delete(value);
+          this.classList.remove('active');
+        } else {
+          selectedValues.add(value);
+          this.classList.add('active');
+        }
+      });
+    });
+    document.getElementById('submit-button').addEventListener('click', function () {
+      document.querySelector('.step1').classList.add('hidden');
+      document.querySelector('.step2').classList.remove('hidden');
+    });
+  });
+</script>

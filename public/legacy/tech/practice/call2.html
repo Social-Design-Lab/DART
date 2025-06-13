@@ -1,0 +1,75 @@
+
+<div class="hidden" id="call2">
+  <div class="ui container" style="width: 90vw;">
+    <div class="limit" style="padding: 0;">
+      <h1 class="ui header large" id="learn-title">
+        <div class="content"><i class="volume up icon"></i>Tech Support Call: Part 2/3</div>
+      </h1>
+      <div class="ui centered stackable grid">
+        <div class="eight wide column">
+          <div id="audio-container_car">
+            <div class="audio-player">
+              <div class="wrap">
+                <audio class="with-transcript" id="audio" controls="controls">
+                  <source src="https://dart-store.s3.amazonaws.com/tech-audio/practice-2.WAV" type="audio/mpeg"/>Your browser does not support the audio element.
+                </audio>
+                <ul id="transcript" data-audio-file="https://dart-store.s3.amazonaws.com/tech-audio/practice-2.WAV" style="max-height: 300px;">
+                  <li class="speaker1 current" id="num1" data-timecode="00:00">Scammer: Great, I'm now connected to your computer. I see the pop-up window you mentioned. This is indeed a serious virus. It's a good thing you contacted us. Let me run a quick scan.</li>
+                  <li class="speaker2" id="num2" data-timecode="00:12">Target: okay, wow, oh no...</li>
+                  <li class="speaker1" id="num3" data-timecode="00:15">Scammer: As I suspected, your computer is heavily infected. To remove these threats, we need to install premium security software. The cost for this service is $299.99. Can I have your credit card information to proceed?</li>
+                  <li class="speaker2" id="num4" data-timecode="00:32">Target: Uh, $299.99? That's quite a lot. Is there any other way to fix this?</li>
+                  <li class="speaker1" id="num5" data-timecode="00:39">Scammer: Unfortunately, this is the only way to ensure your computer is fully protected. If you don't act now, you risk losing all your personal data and having your identity stolen. It's a small price to pay for your peace of mind.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="eight wide column" id="content-column">
+          <div class="step1-2">
+            <p>If you give your credit card information to the caller in this conversation, what potential consequences could happen? Select all that apply.</p>
+            <div class="ui vertical inverted buttons">
+              <button class="ui button" data-value="contact">Lose approximately $300</button>
+              <button class="ui button" data-value="pressure">Risk losing more money in the future</button>
+              <button class="ui button" data-value="secrecy">Your identity could be stolen</button>
+              <button class="ui button" data-value="verify">Your computer may become infected</button>
+              <button class="ui button" data-value="remote">Your computer will be protected, as you paid for the services</button>
+            </div>
+            <button class="ui button primary" id="second-submit-button">Submit</button>
+          </div>
+          <div class="step2-2 hidden">
+            <p>If you provide your credit card information to the scammer posing as a "tech support specialist", they could use that information to <strong>commit identity theft and make unauthorized charges or purchases. </strong><span>This puts your personal and financial information at risk. </span></p>
+            <p>As the remote access was granted to the scammer, they could <strong>install malware on your computer, </strong><span>potentially causing a real virus this time. </span></p>
+            <p>As for the option "Your computer will be protected, as you pay for the services", this is highly unlikely to be true. Legitimate companies do not get customers this way. The scammers are not providing any legitimate services, and paying them does not guarantee protection for your computer.</p>
+            <div class="ui icon mini message" style="padding: 5px; z-index: 99;"><i class="info circle blue icon" style="color: #0C2746; font-size: 1.5rem;"></i>
+              <div class="content"> 
+                <p id="narrate-2-intro-video"> <span>Click the "Next" button below to continue the conversation.</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+  
+    const selectedValues = new Set();
+    document.querySelectorAll('.step1-2 .ui.button').forEach(button => {
+      button.addEventListener('click', function () {
+        const value = this.getAttribute('data-value');
+        if (selectedValues.has(value)) {
+          selectedValues.delete(value);
+          this.classList.remove('active');
+        } else {
+          selectedValues.add(value);
+          this.classList.add('active');
+        }
+      });
+    });
+    document.getElementById('second-submit-button').addEventListener('click', function () {
+      document.querySelector('.step1-2').classList.add('hidden');
+      document.querySelector('.step2-2').classList.remove('hidden');
+    });
+  });
+</script>

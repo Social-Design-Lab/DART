@@ -1,0 +1,50 @@
+
+<div class="hidden" id="activity">
+  <div id="scam-simulation">
+    <div class="ui container" style="width: 90vw;">
+      <div class="limit" style="padding: 0;">
+        <!-- Loader screen with inverted dimmer and elastic loader-->
+        <div class="loading-screen-container hidden" id="loadingScreen"> 
+          <div class="ui active inverted dimmer">
+            <div class="ui active blue massive elastic loader"> </div>
+            <h1 id="loader-text">Loading Practice...</h1>
+          </div>
+        </div>
+        <!-- Scam Popup Modal (Initially hidden)-->
+        <div class="ui modal" id="scam-popup">
+          <div class="blue header"><i class="windows icon"></i>Microsoft Windows</div>
+          <div class="center aligned content">
+            <h1 id="warning">WARNING!</h1>
+            <h2 id="infected">YOUR COMPUTER IS INFECTED</h2>
+            <p>System detected <strong>17</strong> potentially malicious viruses. Your personal information is NOT SAFE.<br>To Remove Viruses, Call the Microsoft Tech Support Team now:</p>
+            <h2 class="ui black header fake-phone-number">1-800-123-4567 (TOLL-FREE)</h2>
+            <p>Do not close the window or shut down your computer!</p>
+          </div>
+          <div class="ui icon mini message" style="padding: 5px; z-index: 99;"><i class="info circle blue icon" style="color: #0C2746; font-size: 1.5rem;"></i>
+            <div class="content"> 
+              <p>Select what you would do in this situation:</p>
+            </div>
+          </div>
+          <div class="actions">
+            <div class="ui grid">
+              <div class="four column row">
+                <div class="column">
+                  <div class="ui green button" id="call-number" data-choice="call">Call the number on the pop-up.</div>
+                </div>
+                <div class="column">
+                  <div class="ui red button" id="close-browser" data-choice="close">Close the browser and restart.</div>
+                </div>
+                <div class="column">
+                  <div class="ui orange button" id="call-family" data-choice="friends">Call family or trusted friends.</div>
+                </div>
+                <div class="column">
+                  <div class="ui blue button" id="search-official" data-choice="search">Search for the official site and call the number listed there.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

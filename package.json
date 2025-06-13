@@ -59,7 +59,7 @@
     "passport-local": "^1.0.0",
     "passport-oauth": "^1.0.0",
     "passport-oauth2-refresh": "^2.2.0",
-    "pug": "^3.0.2",
+    "pug": "^3.0.3",
     "twit": "^1.1.20",
     "ua-parser-js": "^1.0.36",
     "useragent": "^2.3.0",
@@ -69,6 +69,7 @@
     "chai": "^4.3.8",
     "mocha": "^10.2.0",
     "nodemon": "^3.0.1",
+    "pug-cli": "^1.0.0-alpha6",
     "sinon": "^16.0.0",
     "supertest": "^6.3.3",
     "video.js": "^8.6.1"
